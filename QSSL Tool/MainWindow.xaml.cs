@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SSLLabsApiWrapper;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QSSL_Tool
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
+        private SSLLabsApiService _service;
         public MainWindow()
         {
             InitializeComponent();
+            _service = new SSLLabsApiService("https://api.ssllabs.com/api/v2");
+            ThreadPool.QueueUserWorkItem(o => analyze());
+        }
+
+        private void analyze()
+        {
+            SSLLabsApiWrapper.Models.Response.Analyze a = _service.AutomaticAnalyze("https://www.google.de", SSLLabsApiService.Publish.Off, SSLLabsApiService.StartNew.On,
+                SSLLabsApiService.FromCache.Off, 1, SSLLabsApiService.All.On, SSLLabsApiService.IgnoreMismatch.Off, 200, 3);
+            Debug.WriteLine(1);
         }
     }
 }

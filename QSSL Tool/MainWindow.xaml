@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QSSL_Tool"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Background="#FF9E9E9E">
     <Grid>
-        
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="23" Margin="48.727,67.545,0,0" TextWrapping="Wrap" Text="Enter URL HERE" VerticalAlignment="Top" Width="182.727"/>
+        <Button x:Name="searchButton" Content="Button" Margin="236.454,67.545,205.546,0" VerticalAlignment="Top" Height="23"/>
+
     </Grid>
 </Window>
