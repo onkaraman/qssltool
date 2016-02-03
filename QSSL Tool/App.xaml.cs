@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace QSSL_Tool
+namespace QSSLTool
 {
     /// <summary>
     /// Interaction logic for App.xaml

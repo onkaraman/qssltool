@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.IO;
 
-namespace QSSL_Tool.FileParsers
+namespace QSSLTool.FileParsers
 {
     public abstract class FileParser
     {
