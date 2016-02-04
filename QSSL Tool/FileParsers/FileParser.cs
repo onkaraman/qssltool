@@ -20,5 +20,11 @@ namespace QSSLTool.FileParsers
         protected abstract void prepareFile();
 
         public abstract void Parse();
+
+        public static Extension GetFileExtension(string path)
+        {
+            if (path.EndsWith("xls")) return Extension.xls;
+            else return Extension.xlsx;
+        }
     }
 }

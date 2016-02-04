@@ -1,4 +1,6 @@
-﻿using SSLLabsApiWrapper;
+﻿using Microsoft.Win32;
+using QSSLTool.Gateways;
+using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
 using System;
 using System.Diagnostics;
@@ -13,6 +15,7 @@ namespace QSSLTool
     public partial class MainWindow : Window
     {
         private SSLLabsApiService _service;
+        private ParserDelegator _parserDelegator;
 
         public MainWindow()
         {
@@ -20,9 +23,30 @@ namespace QSSLTool
             MainPageWindow.Title = getWindowTitle();
 
             _service = new SSLLabsApiService("https://api.ssllabs.com/api/v2");
+            _parserDelegator = new ParserDelegator();
+
             checkConnectionStatus();
             reloadSettings();
+            setupViews();
             //ThreadPool.QueueUserWorkItem(o => analyze());
+        }
+
+        private void setupViews()
+        {
+            OpenFileButton.Click += OpenFileButtonClick;
+        }
+
+        private void OpenFileButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dia = new OpenFileDialog();
+            dia.Filter = "Excel 97-2003 (*.xls)|*.xls|Excel 2007 (*.xlsx)|*.xlsx";
+            dia.Multiselect = false;
+
+            bool? clicked = dia.ShowDialog();
+            if (clicked == true)
+            {
+                _parserDelegator.Delegate(dia.FileName);
+            }
         }
 
         private string getWindowTitle()
@@ -37,7 +61,7 @@ namespace QSSLTool
             if (inf.Online)
             {
                 ConnectionDot.Fill = new SolidColorBrush(Color.FromArgb(255,90,209,8));
-                ConnectionStatusText.Text = "Connected to API";
+                ConnectionStatusText.Text = "Connected to API (ssllabs.com)";
             }
             else
             {
@@ -50,6 +74,8 @@ namespace QSSLTool
         {
             URLField.Text = "https://";
         }
+
+        
 
         private void analyze()
         {

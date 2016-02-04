@@ -4,8 +4,10 @@ namespace QSSLTool.FileParsers.Concretes
 {
     public class ExcelFileParser : FileParser
     {
-        public ExcelFileParser(string filePath)
+        public ExcelFileParser(string _filePath, Extension ext)
         {
+            filePath = _filePath;
+            extension = ext;
             prepareFile();
         }
 
@@ -16,7 +18,10 @@ namespace QSSLTool.FileParsers.Concretes
 
         protected override void prepareFile()
         {
-            throw new NotImplementedException();
+            if (extension == Extension.xlsx)
+            {
+
+            }
         }
     }
 }
