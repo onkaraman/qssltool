@@ -13,7 +13,7 @@
     <Grid x:Name="MainGrid"
           Background="#FF1A1A1D">
         <Grid x:Name="HeaderGrid"
-              Height="162.666"
+              Height="143.999"
               VerticalAlignment="Top">
             <ProgressBar x:Name="ProgressBar"
                          Height="5"
@@ -51,7 +51,7 @@
                      VerticalAlignment="Top" />
             <Button x:Name="AnalyzeButton"
                     Content="Analyze"
-                    Margin="10,94.666,10,0"
+                    Margin="10,94.666,202,0"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
@@ -62,7 +62,18 @@
                     Style="{DynamicResource DefaultButtonStyle}" />
             <Button x:Name="OpenFileButton"
                     Content="Open file"
-                    Margin="10,129.37,10,0"
+                    Margin="0,94.666,10,22.04"
+                    Background="#FF323236"
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Foreground="#FF007ACC"
+                    FontSize="14.667"
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    HorizontalAlignment="Right"
+                    Width="184" />
+            <Button x:Name="StartButton"
+                    Content="Start"
+                    Margin="10,94.666,10,0"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
@@ -70,7 +81,8 @@
                     FontSize="14.667"
                     Height="27.293"
                     VerticalAlignment="Top"
-                    Style="{DynamicResource DefaultButtonStyle}" />
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    Visibility="Collapsed" />
         </Grid>
     </Grid>
 </Window>

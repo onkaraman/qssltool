@@ -27,7 +27,7 @@
     <SolidColorBrush x:Key="Button.Pressed.Border"
                      Color="White" />
     <SolidColorBrush x:Key="Button.Disabled.Background"
-                     Color="#FFF4F4F4" />
+                     Color="#FF1A1A1D" />
     <SolidColorBrush x:Key="Button.Disabled.Border"
                      Color="#FFADB2B5" />
     <SolidColorBrush x:Key="Button.Disabled.Foreground"
@@ -58,6 +58,22 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="true">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)"
+                                                                        Storyboard.TargetName="border">
+                                            <DiscreteBooleanKeyFrame KeyTime="0"
+                                                                     Value="True" />
+                                        </BooleanAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <ContentPresenter x:Name="contentPresenter"
                                           Focusable="False"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"

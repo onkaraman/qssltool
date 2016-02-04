@@ -7,9 +7,17 @@ namespace QSSLTool.Gateways
 {
     public class ParserDelegator
     {
+        private int _readyRows;
+        public int ReadyRows { get { return _readyRows; } }
         private ExcelFileParser _excelParser;
         public static event Action OnParseComplete;
-        
+
+        private void CalcRows()
+        {
+            _readyRows = 0;
+            _readyRows += _excelParser.Rows;
+        }
+
         public void Delegate(string path)
         {
             FileParser.Extension ext = FileParser.GetFileExtension(path);
@@ -23,6 +31,11 @@ namespace QSSLTool.Gateways
         public static void CallOnParseComplete()
         {
             if (OnParseComplete != null) OnParseComplete();
+        }
+
+        public ParserDelegator()
+        {
+            OnParseComplete += CalcRows;
         }
     }
 }

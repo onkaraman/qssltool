@@ -59,7 +59,10 @@ namespace QSSLTool
         {
             Dispatcher.Invoke((Action)delegate ()
             {
+                URLField.Text = String.Format("Loaded {0} rows", 
+                    _parserDelegator.ReadyRows);
                 ProgressBar.Visibility = Visibility.Collapsed;
+                StartButton.Visibility = Visibility.Visible;
             });
         }
 

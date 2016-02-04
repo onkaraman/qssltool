@@ -8,7 +8,14 @@ namespace QSSLTool.FileParsers.Concretes
 {
     public class ExcelFileParser : FileParser
     {
-        public object ThreadPool { get; private set; }
+        public int Rows
+        {
+            get
+            {
+                return nodes[0].Subrows.Count - 1;
+            }
+        }
+
 
         public ExcelFileParser(string _filePath, Extension ext)
         {
