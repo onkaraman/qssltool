@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace QSSLTool
@@ -24,6 +25,7 @@ namespace QSSLTool
 
             _service = new SSLLabsApiService("https://api.ssllabs.com/api/v2");
             _parserDelegator = new ParserDelegator();
+            ParserDelegator.OnParseComplete += ParserDelegatorOnParseComplete;
 
             checkConnectionStatus();
             reloadSettings();
@@ -45,8 +47,20 @@ namespace QSSLTool
             bool? clicked = dia.ShowDialog();
             if (clicked == true)
             {
+                AnalyzeButton.IsEnabled = false;
+                OpenFileButton.IsEnabled = false;
+                URLField.IsEnabled = false;
+                ProgressBar.Visibility = Visibility.Visible;
                 _parserDelegator.Delegate(dia.FileName);
             }
+        }
+
+        private void ParserDelegatorOnParseComplete()
+        {
+            Dispatcher.Invoke((Action)delegate ()
+            {
+                ProgressBar.Visibility = Visibility.Collapsed;
+            });
         }
 
         private string getWindowTitle()

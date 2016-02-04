@@ -1,5 +1,6 @@
 ﻿using QSSLTool.FileParsers;
 using QSSLTool.FileParsers.Concretes;
+using System;
 using System.IO;
 
 namespace QSSLTool.Gateways
@@ -7,6 +8,7 @@ namespace QSSLTool.Gateways
     public class ParserDelegator
     {
         private ExcelFileParser _excelParser;
+        public static event Action OnParseComplete;
         
         public void Delegate(string path)
         {
@@ -18,5 +20,9 @@ namespace QSSLTool.Gateways
             }
         }
 
+        public static void CallOnParseComplete()
+        {
+            if (OnParseComplete != null) OnParseComplete();
+        }
     }
 }
