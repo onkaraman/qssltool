@@ -10,36 +10,52 @@
         Height="462"
         Width="402"
         ResizeMode="NoResize">
+    <Window.Resources>
+        <Storyboard x:Key="CurrentStatGrid_In">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                           Storyboard.TargetName="CurrentStatGrid">
+                <EasingDoubleKeyFrame KeyTime="0"
+                                      Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5"
+                                      Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseIn" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
     <Grid x:Name="MainGrid"
           Background="#FF1A1A1D">
         <Grid x:Name="HeaderGrid"
-              Height="143.999"
-              VerticalAlignment="Top">
+              Height="128.499"
+              VerticalAlignment="Top"
+              Background="#FF222225">
             <ProgressBar x:Name="ProgressBar"
                          Height="5"
                          VerticalAlignment="Top"
                          IsIndeterminate="True"
-                         Margin="10,10,10,0"
+                         Margin="0,0.331,0,0"
                          Foreground="#FF007ACC"
                          LargeChange="0"
-                         Visibility="Collapsed"
-                         Background="{x:Null}" />
+                         Background="{x:Null}"
+                         Visibility="Collapsed" />
             <TextBlock x:Name="ConnectionStatusText"
-                       Margin="26.328,23.16,0,0"
+                       Margin="26.328,11.984,0,0"
                        TextWrapping="Wrap"
                        Text="Connected to API"
                        VerticalAlignment="Top"
                        FontSize="13.333"
-                       Foreground="#FF007ACC" />
+                       Foreground="#FFB8B8B8" />
             <Ellipse x:Name="ConnectionDot"
                      Fill="White"
                      HorizontalAlignment="Left"
                      Height="7"
-                     Margin="10,29.168,0,0"
+                     Margin="10,17.999,0,0"
                      VerticalAlignment="Top"
                      Width="7" />
             <TextBox x:Name="URLField"
-                     Margin="10,54.666,10,0"
+                     Margin="10,40.997,10,0"
                      TextWrapping="Wrap"
                      Text="TextBox"
                      Background="{x:Null}"
@@ -51,18 +67,16 @@
                      VerticalAlignment="Top" />
             <Button x:Name="AnalyzeButton"
                     Content="Analyze"
-                    Margin="10,94.666,202,0"
+                    Margin="10,80.997,202,20.209"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
                     Foreground="#FF007ACC"
                     FontSize="14.667"
-                    Height="27.293"
-                    VerticalAlignment="Top"
                     Style="{DynamicResource DefaultButtonStyle}" />
             <Button x:Name="OpenFileButton"
                     Content="Open file"
-                    Margin="0,94.666,10,22.04"
+                    Margin="0,80.997,10,20.209"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
@@ -73,7 +87,7 @@
                     Width="184" />
             <Button x:Name="StartButton"
                     Content="Start"
-                    Margin="10,94.666,10,0"
+                    Margin="10,80.997,10,0"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
@@ -83,6 +97,48 @@
                     VerticalAlignment="Top"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Visibility="Collapsed" />
+        </Grid>
+        <Grid x:Name="CurrentStatGrid"
+              Margin="0,141.998,0,0"
+              Height="109.668"
+              VerticalAlignment="Top"
+              Background="#FF222225">
+            <TextBlock x:Name="AnalyzingLabel"
+                       Margin="10,10,0,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       FontSize="14.667"
+                       Foreground="#FF007ACC"
+                       HorizontalAlignment="Left"
+                       Width="66.339"><Run Foreground="#FFD6D6D6"
+                                           Text="Analyzing:" /></TextBlock>
+            <TextBlock x:Name="CurrentHostLabel"
+                       Margin="81.339,10,10,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       FontSize="14.667"
+                       Foreground="#FF007ACC"
+                       Text="easycredit.meineschufa-test.de" />
+            <TextBlock x:Name="HostsCheckedLabel"
+                       Margin="10,31.163,10,0"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Foreground="#FF007ACC"
+                       VerticalAlignment="Top"><Run Text="11/60 hosts " /><Run Text="analyzed" /></TextBlock>
+            <TextBlock x:Name="ElapsedTimeLabel"
+                       Margin="10,58.626,10,0"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Foreground="#FF007ACC"
+                       Text="Elapsed time:"
+                       VerticalAlignment="Top" />
+            <TextBlock x:Name="RemainingTimeLabel"
+                       Margin="10,77.548,10,0"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Foreground="#FF007ACC"
+                       Text="Remaining time (estimate): "
+                       VerticalAlignment="Top" />
         </Grid>
     </Grid>
 </Window>
