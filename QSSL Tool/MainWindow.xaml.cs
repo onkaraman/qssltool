@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using QSSLTool.Gateways;
+using QSSLTool.Queries;
 using SSLLabsApiWrapper;
+using SSLLabsApiWrapper.Models.Response;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -18,6 +20,7 @@ namespace QSSLTool
     {
         private SSLLabsApiService _service;
         private ParserDelegator _parserDelegator;
+        private SSLAnalyzer _sslAnalyzer;
         private DispatcherTimer _runTimer;
 
         public MainWindow()
@@ -72,6 +75,7 @@ namespace QSSLTool
             StartButton.Click += StartButtonClick;
         }
 
+
         private void OpenFileButtonClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dia = new OpenFileDialog();
@@ -104,6 +108,7 @@ namespace QSSLTool
         {
             Storyboard sb = this.FindResource("CurrentStatGrid_In") as Storyboard;
             sb.Begin();
+            _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetDataNodeList(), _service);
         }
 
     }

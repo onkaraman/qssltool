@@ -1,6 +1,8 @@
-﻿using QSSLTool.FileParsers;
+﻿using QSSLTool.Compacts;
+using QSSLTool.FileParsers;
 using QSSLTool.FileParsers.Concretes;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace QSSLTool.Gateways
@@ -12,12 +14,10 @@ namespace QSSLTool.Gateways
         private ExcelFileParser _excelParser;
         public static event Action OnParseComplete;
 
-        private void CalcRows()
-        {
-            _readyRows = 0;
-            _readyRows += _excelParser.Rows;
-        }
-
+        /// <summary>
+        /// Will choose the fitting file parser according to the file extension
+        /// of the imported file.
+        /// </summary>
         public void Delegate(string path)
         {
             FileParser.Extension ext = FileParser.GetFileExtension(path);
@@ -37,5 +37,17 @@ namespace QSSLTool.Gateways
         {
             OnParseComplete += CalcRows;
         }
+
+        private void CalcRows()
+        {
+            _readyRows = 0;
+            _readyRows += _excelParser.Rows;
+        }
+
+        public DataNodeList GetDataNodeList()
+        {
+            return _excelParser.Nodes;
+        }
+
     }
 }

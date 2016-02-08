@@ -16,7 +16,6 @@ namespace QSSLTool.FileParsers.Concretes
             }
         }
 
-
         public ExcelFileParser(string _filePath, Extension ext)
         {
             filePath = _filePath;
@@ -26,6 +25,11 @@ namespace QSSLTool.FileParsers.Concretes
             prepareFile();
         }
 
+        /// <summary>
+        /// Maps the imported Excel file to a DataNode-List. The first row
+        /// will be treated as the header row. All subsequent rows will be added
+        /// as childs of the respective header rows.
+        /// </summary>
         private void parse(IExcelDataReader reader)
         {
             // Get headers
@@ -43,8 +47,7 @@ namespace QSSLTool.FileParsers.Concretes
             {
                 while (reader.GetString(i) != null)
                 {
-                    nodes[i].Subrows.Add(new DataNode(i.ToString(),
-                        reader.GetString(i)));
+                    nodes.Add(new DataNode(i.ToString(), reader.GetString(i)), i);
                     i += 1;
                 }
                 i = 0;
@@ -59,7 +62,8 @@ namespace QSSLTool.FileParsers.Concretes
             if (extension == Extension.xlsx)
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else reader = ExcelReaderFactory.CreateBinaryReader(stream);
-            System.Threading.ThreadPool.QueueUserWorkItem(o => parse(reader));
+
+            ThreadPool.QueueUserWorkItem(o => parse(reader));
         }
     }
 }

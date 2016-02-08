@@ -13,10 +13,10 @@ namespace QSSLTool.Queries
     public class SSLAnalyzer
     {
         private int _done;
-        private List<DataNode> _nodes;
+        private DataNodeList _nodes;
         private SSLLabsApiService _service;
 
-        public SSLAnalyzer(List<DataNode> nodes, SSLLabsApiService service)
+        public SSLAnalyzer(DataNodeList nodes, SSLLabsApiService service)
         {
             _service = service;
             _nodes = nodes;

@@ -13,12 +13,13 @@ namespace QSSLTool.FileParsers
         protected Extension extension;
         protected FileStream stream;
         protected DataSet dataSet;
-        protected List<DataNode> nodes;
+        protected DataNodeList nodes;
+        public DataNodeList Nodes { get { return nodes; } }
 
         public void OpenFile(string path)
         {
             stream = File.Open(path, FileMode.Open, FileAccess.Read);
-            nodes = new List<DataNode>();
+            nodes = new DataNodeList();
         }
 
         protected abstract void prepareFile();
