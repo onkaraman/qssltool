@@ -26,7 +26,8 @@
         </Storyboard>
     </Window.Resources>
     <Grid x:Name="MainGrid"
-          Background="#FF1A1A1D">
+          Background="#FF1A1A1D"
+          Margin="0,0,0,-48.667">
         <Grid x:Name="HeaderGrid"
               Height="128.499"
               VerticalAlignment="Top"
@@ -104,35 +105,49 @@
               Height="88.668"
               VerticalAlignment="Top"
               Background="#FF222225">
-            <TextBlock x:Name="AnalyzingLabel"
-                       Margin="10,10,0,0"
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Top"
-                       FontSize="14.667"
-                       Foreground="#FF007ACC"
-                       HorizontalAlignment="Left"
-                       Width="66.339"><Run Foreground="#FFD6D6D6"
-                                           Text="Analyzing:" /></TextBlock>
             <TextBlock x:Name="CurrentHostLabel"
-                       Margin="81.339,10,10,0"
+                       Margin="10,10,81.339,0"
                        TextWrapping="Wrap"
                        VerticalAlignment="Top"
                        FontSize="14.667"
                        Foreground="#FF007ACC"
                        Text="easycredit.meineschufa-test.de" />
             <TextBlock x:Name="HostsCheckedLabel"
-                       Margin="10,35.506,10,0"
+                       Margin="10,35.006,10,0"
                        TextWrapping="Wrap"
-                       FontSize="14"
+                       FontSize="14.667"
                        Foreground="#FF007ACC"
                        VerticalAlignment="Top"><Run Text="11/60 hosts " /><Run Text="analyzed" /></TextBlock>
             <TextBlock x:Name="ElapsedTimeLabel"
                        Margin="10,58.626,10,0"
                        TextWrapping="Wrap"
-                       FontSize="14"
+                       FontSize="14.667"
                        Foreground="#FF007ACC"
                        Text="Elapsed time:"
                        VerticalAlignment="Top" />
+        </Grid>
+        <Grid x:Name="RecentOutcomeGrid"
+              Margin="0,245.998,0,0"
+              Height="216.668"
+              VerticalAlignment="Top"
+              Background="#FF222225">
+            <TextBlock x:Name="RecentOutcomeLabel"
+                       Margin="10,10,81.339,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       FontSize="14.667"
+                       Foreground="#FF007ACC"
+                       Text="Recent outcome"
+                       TextDecorations="{x:Null}" />
+            <ListView x:Name="OutcomeList"
+                      Margin="10,40.002,10,18.666"
+                      Background="{x:Null}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </Window>
