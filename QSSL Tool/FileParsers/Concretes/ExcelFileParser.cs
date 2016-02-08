@@ -8,14 +8,6 @@ namespace QSSLTool.FileParsers.Concretes
 {
     public class ExcelFileParser : FileParser
     {
-        public int Rows
-        {
-            get
-            {
-                return nodes[0].Subrows.Count - 1;
-            }
-        }
-
         public ExcelFileParser(string _filePath, Extension ext)
         {
             filePath = _filePath;
@@ -32,25 +24,39 @@ namespace QSSLTool.FileParsers.Concretes
         /// </summary>
         private void parse(IExcelDataReader reader)
         {
+            int ipIndex = -1;
+            int urlIndex = -1;
+            int protocolIndex = -1;
+            int rankingIndex = -1;
+            int fingerPrintIndex = -1;
+            int expirationIndex = -1;
+            int TLSIndex = -1;
+
             // Get headers
             reader.Read();
-            int i = 0;
-            while (reader.GetString(i) != null)
+            int columnIndex = 0;
+            while (reader.GetString(columnIndex) != null)
             {
-                nodes.Add(new DataNode(reader.GetString(i)));
-                i += 1;
+                string cmp = reader.GetString(columnIndex);
+
+                if (cmp.Equals("IP")) ipIndex = columnIndex;
+                else if (cmp.Contains("URL")) urlIndex = columnIndex;
+                else if (cmp.Contains("Ranking")) rankingIndex = columnIndex;
+                else if (cmp.Contains("Protocol")) protocolIndex = columnIndex;
+                else if (cmp.ToLower().Contains("fingerprint")) fingerPrintIndex = columnIndex;
+                else if (cmp.ToLower().Contains("expiration")) expirationIndex = columnIndex;
+                else if (cmp.Contains("TLS")) TLSIndex = columnIndex;
+                columnIndex += 1; 
             }
 
             // Get rows and add them as children of each header
-            i = 0;
             while (reader.Read())
             {
-                while (reader.GetString(i) != null)
-                {
-                    nodes.Add(new DataNode(i.ToString(), reader.GetString(i)), i);
-                    i += 1;
-                }
-                i = 0;
+                HostEntry h = new HostEntry(reader.GetString(ipIndex),
+                         reader.GetString(urlIndex), reader.GetString(protocolIndex),
+                         reader.GetString(rankingIndex), reader.GetString(fingerPrintIndex),
+                         reader.GetString(expirationIndex), reader.GetString(TLSIndex));
+                if (!h.isEmpty()) entries.Add(h);
             }
             reader.Close();
             ParserDelegator.CallOnParseComplete();

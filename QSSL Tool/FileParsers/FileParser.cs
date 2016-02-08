@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 
 namespace QSSLTool.FileParsers
@@ -13,13 +14,20 @@ namespace QSSLTool.FileParsers
         protected Extension extension;
         protected FileStream stream;
         protected DataSet dataSet;
-        protected DataNodeList nodes;
-        public DataNodeList Nodes { get { return nodes; } }
+        protected HostEntryList entries;
+        public HostEntryList HostEntries { get { return entries; } }
 
         public void OpenFile(string path)
         {
-            stream = File.Open(path, FileMode.Open, FileAccess.Read);
-            nodes = new DataNodeList();
+            try
+            {
+                stream = File.Open(path, FileMode.Open, FileAccess.Read);
+            }
+            catch (Exception)
+            {
+                Debugger.Break();
+            }
+            entries = new HostEntryList();
         }
 
         protected abstract void prepareFile();

@@ -74,6 +74,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Compacts\HostEntryList.cs" />
+    <Compile Include="Compacts\HostEntry.cs" />
     <Compile Include="Queries\SSLAnalyzer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -83,7 +85,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Compacts\DataNode.cs" />
     <Compile Include="FileParsers\FileParser.cs" />
     <Compile Include="FileParsers\Concretes\ExcelFileParser.cs" />
     <Compile Include="Gateways\ParserDelegator.cs" />

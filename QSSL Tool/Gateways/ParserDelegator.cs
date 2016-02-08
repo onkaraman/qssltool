@@ -41,12 +41,12 @@ namespace QSSLTool.Gateways
         private void CalcRows()
         {
             _readyRows = 0;
-            _readyRows += _excelParser.Rows;
+            _readyRows += _excelParser.HostEntries.Count;
         }
 
-        public DataNodeList GetDataNodeList()
+        public HostEntryList GetHostEntries()
         {
-            return _excelParser.Nodes;
+            return _excelParser.HostEntries;
         }
 
     }

@@ -22,6 +22,7 @@ namespace QSSLTool
         private ParserDelegator _parserDelegator;
         private SSLAnalyzer _sslAnalyzer;
         private DispatcherTimer _runTimer;
+        private DateTime _dateTimeNow;
 
         public MainWindow()
         {
@@ -73,13 +74,17 @@ namespace QSSLTool
         {
             OpenFileButton.Click += OpenFileButtonClick;
             StartButton.Click += StartButtonClick;
+
+            ElapsedTimeLabel.Text = "";
+            HostsCheckedLabel.Text = "";
         }
 
 
         private void OpenFileButtonClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dia = new OpenFileDialog();
-            dia.Filter = "Excel 97-2003 (*.xls)|*.xls|Excel 2007 (*.xlsx)|*.xlsx";
+            dia.ValidateNames = false;
+            dia.Filter = "Excel 2007 (*.xlsx)|*.xlsx|Excel 97 - 2003(*.xls) | *.xls";
             dia.Multiselect = false;
 
             bool? clicked = dia.ShowDialog();
@@ -89,6 +94,7 @@ namespace QSSLTool
                 OpenFileButton.IsEnabled = false;
                 URLField.IsEnabled = false;
                 ProgressBar.Visibility = Visibility.Visible;
+                URLField.Text = dia.FileName;
                 _parserDelegator.Delegate(dia.FileName);
             }
         }
@@ -97,10 +103,9 @@ namespace QSSLTool
         {
             Dispatcher.Invoke(delegate()
             {
-                URLField.Text = string.Format("Loaded {0} rows",
-                    _parserDelegator.ReadyRows);
                 ProgressBar.Visibility = Visibility.Collapsed;
                 StartButton.Visibility = Visibility.Visible;
+
             });
         }
 
@@ -108,8 +113,56 @@ namespace QSSLTool
         {
             Storyboard sb = this.FindResource("CurrentStatGrid_In") as Storyboard;
             sb.Begin();
-            _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetDataNodeList(), _service);
+            _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
+            _sslAnalyzer.Start();
+
+            _dateTimeNow = new DateTime();
+
+            _runTimer = new DispatcherTimer();
+            _runTimer.Interval = TimeSpan.FromSeconds(1);
+            _runTimer.Tick += runTimerTick;
+            _runTimer.Start();
+
+            ProgressBar.Visibility = Visibility.Visible;
         }
 
+        private void runTimerTick(object sender, EventArgs e)
+        {
+            updateCurrentCheck();
+            updateTimeElapsed();
+            updateHostsChecked();
+        }
+
+        private void updateCurrentCheck()
+        {
+            if (_sslAnalyzer.Current != null)
+            {
+                string str = string.Format("({0}) {1}", 
+                    _sslAnalyzer.Current.Protocol.ToLower(),
+                    _sslAnalyzer.Current.URL);
+                CurrentHostLabel.Text = str;
+            }
+        }
+
+        private void updateTimeElapsed()
+        {
+            _dateTimeNow = _dateTimeNow.AddSeconds(1);
+            DateTime est = new DateTime();
+            est = est.AddSeconds(_sslAnalyzer.EstimateRuntime(_dateTimeNow));
+
+            string elapsed = string.Format("Elapsed time: {0} / {1}",
+                _dateTimeNow.ToString("HH:mm:ss"),
+                est.ToString("HH:mm:ss"));
+
+            ElapsedTimeLabel.Text = elapsed;
+        }
+
+        private void updateHostsChecked()
+        {
+            string hostsChecked = string.Format("{0}/{1} hosts analyzed",
+                _sslAnalyzer.Done, _parserDelegator.ReadyRows);
+
+            HostsCheckedLabel.Text = hostsChecked;
+        }
     }
 }

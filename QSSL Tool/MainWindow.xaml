@@ -39,7 +39,8 @@
                          Foreground="#FF007ACC"
                          LargeChange="0"
                          Background="{x:Null}"
-                         Visibility="Collapsed" />
+                         Visibility="Collapsed"
+                         BorderBrush="{x:Null}" />
             <TextBlock x:Name="ConnectionStatusText"
                        Margin="26.328,11.984,0,0"
                        TextWrapping="Wrap"
@@ -100,7 +101,7 @@
         </Grid>
         <Grid x:Name="CurrentStatGrid"
               Margin="0,141.998,0,0"
-              Height="109.668"
+              Height="88.668"
               VerticalAlignment="Top"
               Background="#FF222225">
             <TextBlock x:Name="AnalyzingLabel"
@@ -120,7 +121,7 @@
                        Foreground="#FF007ACC"
                        Text="easycredit.meineschufa-test.de" />
             <TextBlock x:Name="HostsCheckedLabel"
-                       Margin="10,31.163,10,0"
+                       Margin="10,35.506,10,0"
                        TextWrapping="Wrap"
                        FontSize="14"
                        Foreground="#FF007ACC"
@@ -131,13 +132,6 @@
                        FontSize="14"
                        Foreground="#FF007ACC"
                        Text="Elapsed time:"
-                       VerticalAlignment="Top" />
-            <TextBlock x:Name="RemainingTimeLabel"
-                       Margin="10,77.548,10,0"
-                       TextWrapping="Wrap"
-                       FontSize="14"
-                       Foreground="#FF007ACC"
-                       Text="Remaining time (estimate): "
                        VerticalAlignment="Top" />
         </Grid>
     </Grid>
