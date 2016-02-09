@@ -18,6 +18,7 @@ namespace QSSLTool
 
     public partial class MainWindow : Window
     {
+        private bool _started;
         private SSLLabsApiService _service;
         private ParserDelegator _parserDelegator;
         private SSLAnalyzer _sslAnalyzer;
@@ -73,13 +74,19 @@ namespace QSSLTool
 
         private void setupViews()
         {
+            AnalyzeButton.Click += AnalyzeButtonClick;
             OpenFileButton.Click += OpenFileButtonClick;
             StartButton.Click += StartButtonClick;
 
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
+            CurrentHostLabel.Text = "";
         }
 
+        private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
 
         private void OpenFileButtonClick(object sender, RoutedEventArgs e)
         {
@@ -112,20 +119,42 @@ namespace QSSLTool
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-            Storyboard sb = FindResource("CurrentStatGrid_In") as Storyboard;
-            sb.Begin();
-            _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
-            _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
-            _sslAnalyzer.Start();
+            if (!_started)
+            {
+                StartButton.Content = "Stop";
+                Storyboard sb = FindResource("CurrentStatGrid_In") as Storyboard;
+                sb.Begin();
+                _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
+                _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
+                _sslAnalyzer.Start();
 
-            _dateTimeNow = new DateTime();
+                _dateTimeNow = new DateTime();
 
-            _runTimer = new DispatcherTimer();
-            _runTimer.Interval = TimeSpan.FromSeconds(1);
-            _runTimer.Tick += runTimerTick;
-            _runTimer.Start();
+                _runTimer = new DispatcherTimer();
+                _runTimer.Interval = TimeSpan.FromSeconds(1);
+                _runTimer.Tick += runTimerTick;
+                _runTimer.Start();
 
-            ProgressBar.Visibility = Visibility.Visible;
+                RecentOutcomeGrid.Opacity = 0;
+                ProgressBar.Visibility = Visibility.Visible;
+                _started = true;
+            }
+            else
+            {
+                _started = false;
+                _runTimer.Stop();
+                _runTimer = null;
+                _sslAnalyzer.Stop();
+                _sslAnalyzer.OnAnalyzeComplete -= OnAnalyzeComplete;
+                ProgressBar.Visibility = Visibility.Collapsed;
+
+                AnalyzeButton.IsEnabled = true;
+                OpenFileButton.IsEnabled = true;
+                URLField.IsEnabled = true;
+                URLField.Text = "https://";
+                StartButton.Content = "Start";
+                StartButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void OnAnalyzeComplete()

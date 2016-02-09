@@ -9,6 +9,7 @@ namespace QSSLTool.Queries
 {
     public class SSLAnalyzer
     {
+        private bool _stopSignal;
         private bool _updateEstimate;
         private int _estRuntime;
         private int _waitInterval;
@@ -63,6 +64,11 @@ namespace QSSLTool.Queries
                 host.AddDifference("General message", a.endpoints[0].statusMessage);
                 host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
 
+                if (_stopSignal)
+                {
+                    _stopSignal = false;
+                    break;
+                }
                 notify();
             }
         }
@@ -94,6 +100,11 @@ namespace QSSLTool.Queries
                 _updateEstimate = false;
             }
             return (_waitInterval + _estRuntime) * _entries.Count;
+        }
+
+        public void Stop()
+        {
+            _stopSignal = true;
         }
     }
 }

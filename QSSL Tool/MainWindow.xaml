@@ -10,7 +10,7 @@
         Title="QSSL Tool"
         Height="527"
         Width="402"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize">
     <Window.Resources>
         <Storyboard x:Key="CurrentStatGrid_In">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
