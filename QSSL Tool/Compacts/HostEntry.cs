@@ -24,6 +24,11 @@ namespace QSSLTool.Compacts
         private string _TLS;
         public string TLS { get { return _TLS; } }
 
+        private string _rc4;
+        public string RC4 { get { return _rc4; } }
+        private string _md5;
+        public string MD5 { get { return _md5; } }
+
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
 
