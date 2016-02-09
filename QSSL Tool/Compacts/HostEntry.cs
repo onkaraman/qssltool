@@ -34,7 +34,7 @@ namespace QSSLTool.Compacts
 
         public HostEntry(string ip, string url, string protocol,
             string ranking, string fingerprint, DateTime expiration,
-            string tls)
+            string tls, string rc4)
         {
             _IP = ip;
             _url = url;
@@ -46,6 +46,8 @@ namespace QSSLTool.Compacts
 
             _expiration = expiration;
             _TLS = tls;
+
+            _rc4 = rc4;
 
             _differences = new List<AnalyzeDifference>();
         }
@@ -60,13 +62,19 @@ namespace QSSLTool.Compacts
         {
             if (!_IP.Equals(he.IP))
             {
-                _differences.Add(new AnalyzeDifference("IP address", 
-                    string.Format("Changed from {0} to {1}", _IP, he.IP)));
+                string value = "";
+                if (_IP.Length > 0) value = string.Format("Changed from {0} to {1}", _IP, he.IP);
+                else value = string.Format("Discovered as {0}", he.IP);
+
+                _differences.Add(new AnalyzeDifference("IP address", value));
             }
             if (!_ranking.Equals(he.Ranking))
             {
-                _differences.Add(new AnalyzeDifference("Ranking",
-                    string.Format("Changed from {0} to {1}", _ranking, he.Ranking)));
+                string value = "";
+                if (_IP.Length > 0) value = string.Format("Changed from {0} to {1}", _ranking, he.Ranking);
+                else value = string.Format("Discovered as {0}", he.Ranking);
+
+                if (he.Ranking != null) _differences.Add(new AnalyzeDifference("Ranking", value));
             }
             if (!_fingerPrintCert.Equals(he.FingerPrintCert))
             {
@@ -79,6 +87,11 @@ namespace QSSLTool.Compacts
                     string.Format("Changed from {0} to {1}", 
                     _expiration.ToString("dd.MM.yyyy"), 
                     he.Expiration.ToString("dd.MM.yyyy"))));
+            }
+            if (!_rc4.Equals(he.RC4))
+            {
+                _differences.Add(new AnalyzeDifference("RC4 support",
+                    string.Format("Changed from {0} to {1}", _fingerPrintCert, he.FingerPrintCert)));
             }
         }
 

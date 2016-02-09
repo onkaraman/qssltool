@@ -145,7 +145,7 @@
                        VerticalAlignment="Top" />
         </Grid>
         <Grid x:Name="RecentOutcomeGrid"
-              Margin="0,245.998,0,0"
+              Margin="0,245.331,0,0"
               Height="226.002"
               VerticalAlignment="Top"
               Background="#FF222225">

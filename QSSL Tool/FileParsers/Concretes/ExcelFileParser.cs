@@ -31,8 +31,8 @@ namespace QSSLTool.FileParsers.Concretes
             int fingerPrintIndex = -1;
             int expirationIndex = -1;
             int TLSIndex = -1;
-            int rc4Index = -1;
-            int md5Index = -1;
+            int RC4Index = -1;
+            int MD5Index = -1;
 
             // Get headers
             reader.Read();
@@ -44,8 +44,8 @@ namespace QSSLTool.FileParsers.Concretes
                 if (cmp.Contains("IP")) ipIndex = columnIndex;
                 else if (cmp.Contains("URL")) urlIndex = columnIndex;
                 else if (cmp.Contains("TLS")) TLSIndex = columnIndex;
-                else if (cmp.Contains("MD5")) md5Index = columnIndex;
-                else if (cmp.Contains("RC4")) rc4Index = columnIndex;
+                else if (cmp.Contains("MD5")) MD5Index = columnIndex;
+                else if (cmp.Contains("RC4")) RC4Index = columnIndex;
                 else if (cmp.ToLower().Contains("ranking")) rankingIndex = columnIndex;
                 else if (cmp.ToLower().Contains("protocol")) protocolIndex = columnIndex;
                 else if (cmp.ToLower().Contains("fingerprint")) fingerPrintIndex = columnIndex;
@@ -60,7 +60,8 @@ namespace QSSLTool.FileParsers.Concretes
                          reader.GetString(urlIndex), reader.GetString(protocolIndex),
                          reader.GetString(rankingIndex), reader.GetString(fingerPrintIndex),
                          Convert.ToDateTime(reader.GetString(expirationIndex)), 
-                         reader.GetString(TLSIndex));
+                         reader.GetString(TLSIndex),
+                         reader.GetString(MD5Index));
                 if (!h.isEmpty()) entries.Add(h);
             }
             reader.Close();

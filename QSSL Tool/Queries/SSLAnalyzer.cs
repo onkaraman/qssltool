@@ -28,6 +28,7 @@ namespace QSSLTool.Queries
         private HostEntryList _analyzedEntries;
         public HostEntryList AnalyzedEntries { get { return _analyzedEntries; } }
         private SSLLabsApiService _service;
+        public event Action OnAnalyzeProgressed;
         public event Action OnAnalyzeComplete;
 
         public SSLAnalyzer(HostEntryList entries, SSLLabsApiService service)
@@ -71,13 +72,14 @@ namespace QSSLTool.Queries
                 }
                 notify();
             }
+            if (OnAnalyzeComplete != null) OnAnalyzeComplete();
         }
 
         private void notify()
         {
             _done += 1;
             _updateEstimate = true;
-            if (OnAnalyzeComplete != null) OnAnalyzeComplete();
+            if (OnAnalyzeProgressed != null) OnAnalyzeProgressed();
         }
 
         private HostEntry extractInfoFromAnalysis(Analyze a, HostEntry he)
@@ -87,8 +89,8 @@ namespace QSSLTool.Queries
             string tls = DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols);
             DateTime d = DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter);
             string fingerprint = a.endpoints[0].Details.cert.sigAlg;
-
-            return new HostEntry(ip, he.URL, he.Protocol, ranking, fingerprint, d, tls);
+            string rc4 = a.endpoints[0].Details.supportsRc4.ToString();
+            return new HostEntry(ip, he.URL, he.Protocol, ranking, fingerprint, d, tls, rc4);
         }
 
         public int EstimateRuntime(DateTime dt)

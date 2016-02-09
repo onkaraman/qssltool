@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("QSSL Tool")]
 [assembly: AssemblyDescription("Tool to execute mass queries with Qualys SSL analyzer")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Onur Karaman")]
 [assembly: AssemblyProduct("QSSL Tool")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

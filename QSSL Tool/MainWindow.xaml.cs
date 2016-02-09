@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using QSSLTool.Compacts;
 using QSSLTool.Gateways;
 using QSSLTool.Queries;
 using SSLLabsApiWrapper;
@@ -18,7 +19,8 @@ namespace QSSLTool
 
     public partial class MainWindow : Window
     {
-        private bool _started;
+        private bool _singleQueryStarted;
+        private bool _massQueryStarted;
         private SSLLabsApiService _service;
         private ParserDelegator _parserDelegator;
         private SSLAnalyzer _sslAnalyzer;
@@ -85,7 +87,28 @@ namespace QSSLTool
 
         private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
         {
-            
+            if (URLField.Text.Contains("https://"))
+            {
+                _singleQueryStarted = true;
+                AnalyzeButton.IsEnabled = false;
+                OpenFileButton.IsEnabled = false;
+                URLField.IsEnabled = false;
+
+                string url = URLField.Text.Replace("https://", "");
+                startAnimation("CurrentStatGrid_In");
+
+                HostEntryList hel = new HostEntryList();
+                HostEntry he = new HostEntry("", url, "https", "", "", 
+                    DateTime.Now, "", "");
+                hel.Add(he);
+
+                setupSSLAnalyzer(hel);
+
+                _dateTimeNow = new DateTime();
+                setupRunTimer();
+
+                RecentOutcomeGrid.Opacity = 0;
+            }
         }
 
         private void OpenFileButtonClick(object sender, RoutedEventArgs e)
@@ -119,53 +142,71 @@ namespace QSSLTool
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!_started)
+            if (!_massQueryStarted)
             {
                 StartButton.Content = "Stop";
-                Storyboard sb = FindResource("CurrentStatGrid_In") as Storyboard;
-                sb.Begin();
-                _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
-                _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
-                _sslAnalyzer.Start();
+                startAnimation("CurrentStatGrid_In");
+                setupSSLAnalyzer(_parserDelegator.GetHostEntries());
 
                 _dateTimeNow = new DateTime();
-
-                _runTimer = new DispatcherTimer();
-                _runTimer.Interval = TimeSpan.FromSeconds(1);
-                _runTimer.Tick += runTimerTick;
-                _runTimer.Start();
+                setupRunTimer();
 
                 RecentOutcomeGrid.Opacity = 0;
                 ProgressBar.Visibility = Visibility.Visible;
-                _started = true;
+                _massQueryStarted = true;
             }
-            else
-            {
-                _started = false;
-                _runTimer.Stop();
-                _runTimer = null;
-                _sslAnalyzer.Stop();
-                _sslAnalyzer.OnAnalyzeComplete -= OnAnalyzeComplete;
-                ProgressBar.Visibility = Visibility.Collapsed;
+            else stopMassQuery();
+        }
 
-                AnalyzeButton.IsEnabled = true;
-                OpenFileButton.IsEnabled = true;
-                URLField.IsEnabled = true;
-                URLField.Text = "https://";
-                StartButton.Content = "Start";
-                StartButton.Visibility = Visibility.Collapsed;
-            }
+        private void setupSSLAnalyzer(HostEntryList hel)
+        {
+            _sslAnalyzer = new SSLAnalyzer(hel, _service);
+            _sslAnalyzer.OnAnalyzeProgressed += OnAnalyzeProgressed;
+            _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
+            _sslAnalyzer.Start();
         }
 
         private void OnAnalyzeComplete()
         {
             Dispatcher.Invoke(delegate ()
             {
-                if (RecentOutcomeGrid.Opacity == 0)
-                {
-                    Storyboard sb = FindResource("RecentOutcomeGrid_In") as Storyboard;
-                    sb.Begin();
-                }
+                _singleQueryStarted = false;
+                stopMassQuery();
+            });
+        }
+
+        private void stopMassQuery()
+        {
+            _massQueryStarted = false;
+            AnalyzeButton.IsEnabled = true;
+            OpenFileButton.IsEnabled = true;
+            URLField.IsEnabled = true;
+
+            _runTimer.Stop();
+            _runTimer = null;
+
+            _sslAnalyzer.Stop();
+            _sslAnalyzer.OnAnalyzeProgressed -= OnAnalyzeProgressed;
+
+            URLField.Text = "https://";
+            StartButton.Content = "Start";
+            StartButton.Visibility = Visibility.Collapsed;
+            ProgressBar.Visibility = Visibility.Collapsed;
+        }
+
+        private void setupRunTimer()
+        {
+            _runTimer = new DispatcherTimer();
+            _runTimer.Interval = TimeSpan.FromSeconds(1);
+            _runTimer.Tick += runTimerTick;
+            _runTimer.Start();
+        }
+
+        private void OnAnalyzeProgressed()
+        {
+            Dispatcher.Invoke(delegate ()
+            {
+                if (RecentOutcomeGrid.Opacity == 0) startAnimation("RecentOutcomeGrid_In");
                 RecentOutcomeLabel.Text = string.Format("Recent outcome for {0}",
                         _sslAnalyzer.RecentlyAnalyzed.URL);
                 DifferenceListBox.ItemsSource = _sslAnalyzer.RecentlyAnalyzed.Differences;
@@ -205,10 +246,22 @@ namespace QSSLTool
 
         private void updateHostsChecked()
         {
-            string hostsChecked = string.Format("{0}/{1} hosts analyzed",
+            string msg = "";
+            if (!_singleQueryStarted)
+            {
+                msg = string.Format("{0}/{1} hosts analyzed",
                 _sslAnalyzer.Done, _parserDelegator.ReadyRows);
+            }
+            else msg = "Single host analysis";
+            string hostsChecked = msg;
 
             HostsCheckedLabel.Text = hostsChecked;
+        }
+
+        private void startAnimation(string name)
+        {
+            Storyboard sb = FindResource(name) as Storyboard;
+            sb.Begin();
         }
     }
 }
