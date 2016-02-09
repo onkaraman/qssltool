@@ -77,6 +77,8 @@
     <Compile Include="Compacts\AnalyzeDifference.cs" />
     <Compile Include="Compacts\HostEntryList.cs" />
     <Compile Include="Compacts\HostEntry.cs" />
+    <Compile Include="FileParsers\DataFormatter.cs" />
+    <Compile Include="Patterns\LazyStatic.cs" />
     <Compile Include="Queries\SSLAnalyzer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

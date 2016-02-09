@@ -55,7 +55,8 @@ namespace QSSLTool.FileParsers.Concretes
                 HostEntry h = new HostEntry(reader.GetString(ipIndex),
                          reader.GetString(urlIndex), reader.GetString(protocolIndex),
                          reader.GetString(rankingIndex), reader.GetString(fingerPrintIndex),
-                         reader.GetString(expirationIndex), reader.GetString(TLSIndex));
+                         Convert.ToDateTime(reader.GetString(expirationIndex)), 
+                         reader.GetString(TLSIndex));
                 if (!h.isEmpty()) entries.Add(h);
             }
             reader.Close();

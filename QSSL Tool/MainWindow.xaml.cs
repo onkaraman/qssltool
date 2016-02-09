@@ -112,7 +112,7 @@ namespace QSSLTool
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-            Storyboard sb = this.FindResource("CurrentStatGrid_In") as Storyboard;
+            Storyboard sb = FindResource("CurrentStatGrid_In") as Storyboard;
             sb.Begin();
             _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
             _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
@@ -130,7 +130,17 @@ namespace QSSLTool
 
         private void OnAnalyzeComplete()
         {
-            throw new NotImplementedException();
+            Dispatcher.Invoke(delegate ()
+            {
+                if (RecentOutcomeGrid.Opacity == 0)
+                {
+                    Storyboard sb = FindResource("RecentOutcomeGrid_In") as Storyboard;
+                    sb.Begin();
+                }
+                RecentOutcomeLabel.Text = string.Format("Recent outcome for {0}",
+                        _sslAnalyzer.RecentlyAnalyzed.URL);
+                DifferenceListBox.ItemsSource = _sslAnalyzer.RecentlyAnalyzed.Differences;
+            });
         }
 
         private void runTimerTick(object sender, EventArgs e)
@@ -144,7 +154,7 @@ namespace QSSLTool
         {
             if (_sslAnalyzer.Current != null)
             {
-                string str = string.Format("({0}) {1}", 
+                string str = string.Format("> ({0}) {1}", 
                     _sslAnalyzer.Current.Protocol.ToLower(),
                     _sslAnalyzer.Current.URL);
                 CurrentHostLabel.Text = str;

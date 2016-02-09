@@ -45,7 +45,7 @@
     </Window.Resources>
     <Grid x:Name="MainGrid"
           Background="#FF1A1A1D"
-          Margin="0,0,0,-48.667">
+          Margin="0,0,0,0.333">
         <Grid x:Name="HeaderGrid"
               Height="128.499"
               VerticalAlignment="Top"
@@ -146,11 +146,11 @@
         </Grid>
         <Grid x:Name="RecentOutcomeGrid"
               Margin="0,245.998,0,0"
-              Height="216.668"
+              Height="226.002"
               VerticalAlignment="Top"
               Background="#FF222225">
             <TextBlock x:Name="RecentOutcomeLabel"
-                       Margin="10,10,81.339,0"
+                       Margin="10,10,10,0"
                        TextWrapping="Wrap"
                        VerticalAlignment="Top"
                        FontSize="14.667"
@@ -158,8 +158,10 @@
                        Text="Recent outcome"
                        TextDecorations="{x:Null}" />
             <ListBox x:Name="DifferenceListBox"
-                     Margin="10,44.002,10,10"
-                     Background="{x:Null}">
+                     Margin="10,44.002,10,0"
+                     Background="{x:Null}"
+                     Height="162.666"
+                     VerticalAlignment="Top">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel HorizontalAlignment="Left"
