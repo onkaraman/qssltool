@@ -68,6 +68,7 @@ namespace QSSLTool
         private void prepareAnimations()
         {
             CurrentStatGrid.Opacity = 0;
+            RecentOutcomeGrid.Opacity = 0;
         }
 
         private void setupViews()
@@ -114,6 +115,7 @@ namespace QSSLTool
             Storyboard sb = this.FindResource("CurrentStatGrid_In") as Storyboard;
             sb.Begin();
             _sslAnalyzer = new SSLAnalyzer(_parserDelegator.GetHostEntries(), _service);
+            _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
             _sslAnalyzer.Start();
 
             _dateTimeNow = new DateTime();
@@ -124,6 +126,11 @@ namespace QSSLTool
             _runTimer.Start();
 
             ProgressBar.Visibility = Visibility.Visible;
+        }
+
+        private void OnAnalyzeComplete()
+        {
+            throw new NotImplementedException();
         }
 
         private void runTimerTick(object sender, EventArgs e)
