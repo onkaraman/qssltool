@@ -42,12 +42,19 @@ namespace QSSLTool
             prepareAnimations();
         }
 
+        /// <summary>
+        /// Applies the version number for the window title to make remote debugging easier.
+        /// </summary>
         private string getWindowTitle()
         {
             Version version = Assembly.GetEntryAssembly().GetName().Version;
-            return String.Format("QSSL Tool (version {0})", version.ToString());
+            return string.Format("QSSL Tool (version {0})", version.ToString());
         }
 
+        /// <summary>
+        /// Check if a connection to the API service is possible.
+        /// If not, the app won't be usable.
+        /// </summary>
         private void checkConnectionStatus()
         {
             Info inf = _service.Info();
@@ -60,6 +67,8 @@ namespace QSSLTool
             {
                 ConnectionDot.Fill = new SolidColorBrush(Color.FromArgb(255, 209, 17, 8));
                 ConnectionStatusText.Text = "Not connected to API";
+                AnalyzeButton.Visibility = Visibility.Collapsed;
+                OpenFileButton.Visibility = Visibility.Collapsed;
             }
         }
 

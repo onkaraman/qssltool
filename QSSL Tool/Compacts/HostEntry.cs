@@ -54,28 +54,35 @@ namespace QSSLTool.Compacts
             return false;
         }
 
-        public void CheckDifferences(HostEntry he)
+        public int CheckDifferences(HostEntry he)
         {
+            int diff = 0;
             if (!_IP.Equals(he.IP))
             {
                 _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, he.IP)));
+                diff += 1;
             }
             if (!_ranking.Equals(he.Ranking))
             {
                 _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, he.Ranking)));
+                diff += 1;
             }
             if (!_FingerPrintCert.Equals(he.FingerPrintCert))
             {
                 _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, he.FingerPrintCert)));
+                diff += 1;
             }
             if (!_expiration.Equals(he.Expiration))
             {
                 _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, he.Expiration)));
+                diff += 1;
             }
             if (!_RC4.Equals(he.RC4))
             {
                 _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, he.RC4)));
+                diff += 1;
             }
+            return diff;
         }
 
         private string getSummary(HostEntryAttribute before, HostEntryAttribute now)

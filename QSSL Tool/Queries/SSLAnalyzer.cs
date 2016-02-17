@@ -62,8 +62,16 @@ namespace QSSLTool.Queries
                 _analyzedEntries.Add(fresh);
                 host.CheckDifferences(fresh);
 
-                host.AddDifference("General message", a.endpoints[0].statusMessage);
-                host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
+                try
+                {
+                    host.AddDifference("General message", a.endpoints[0].statusMessage);
+                    host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
+                }
+                catch (Exception ex)
+                {
+                    host.AddDifference("Error", a.Errors[0].message);
+                    host.AddDifference("App", "This entry will be treated as unchanged.");
+                }
 
                 if (_stopSignal)
                 {
@@ -84,13 +92,20 @@ namespace QSSLTool.Queries
 
         private HostEntry extractInfoFromAnalysis(Analyze a, HostEntry he)
         {
-            string ip = a.endpoints[0].ipAddress;
-            string ranking = a.endpoints[0].grade;
-            string tls = DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols);
-            DateTime d = DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter);
-            string fingerprint = a.endpoints[0].Details.cert.sigAlg;
-            string rc4 = a.endpoints[0].Details.supportsRc4.ToString();
-            return new HostEntry(ip, he.URL.Content, he.Protocol.Content, ranking, fingerprint, d, tls, rc4);
+            try
+            {
+                string ip = a.endpoints[0].ipAddress;
+                string ranking = a.endpoints[0].grade;
+                string tls = DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols);
+                DateTime d = DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter);
+                string fingerprint = a.endpoints[0].Details.cert.sigAlg;
+                string rc4 = a.endpoints[0].Details.supportsRc4.ToString();
+                return new HostEntry(ip, he.URL.Content, he.Protocol.Content, ranking, fingerprint, d, tls, rc4);
+            }
+            catch (Exception)
+            {
+                return he;
+            }
         }
 
         public int EstimateRuntime(DateTime dt)
