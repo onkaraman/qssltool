@@ -39,8 +39,6 @@ namespace QSSLTool
             reloadSettings();
             setupViews();
             prepareAnimations();
-
-            ExcelWriter writer = new ExcelWriter(null, null);
         }
 
         private string getWindowTitle()
@@ -69,23 +67,24 @@ namespace QSSLTool
             URLField.Text = "https://";
         }
 
-        private void prepareAnimations()
-        {
-            CurrentStatGrid.Opacity = 0;
-            RecentOutcomeGrid.Opacity = 0;
-            OptionsGrid.Opacity = 0;
-        }
-
         private void setupViews()
         {
             URLField.KeyDown += URLFieldKeyDown;
             AnalyzeButton.Click += AnalyzeButtonClick;
             OpenFileButton.Click += OpenFileButtonClick;
             StartButton.Click += StartButtonClick;
+            ExportExcelButton.Click += ExportExcelButtonClick;
 
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
             CurrentHostLabel.Text = "";
+        }
+
+        private void prepareAnimations()
+        {
+            CurrentStatGrid.Opacity = 0;
+            RecentOutcomeGrid.Opacity = 0;
+            OptionsGrid.Opacity = 0;
         }
 
 
@@ -165,6 +164,12 @@ namespace QSSLTool
             else stopMassQuery();
         }
 
+        private void ExportExcelButtonClick(object sender, RoutedEventArgs e)
+        {
+            ExcelWriter writer = new ExcelWriter(_sslAnalyzer.AnalyzedEntries, "");
+            writer.Save();
+        }
+
         private void setupSSLAnalyzer(HostEntryList hel)
         {
             _sslAnalyzer = new SSLAnalyzer(hel, _service);
@@ -236,7 +241,7 @@ namespace QSSLTool
             if (_sslAnalyzer.Current != null)
             {
                 string str = string.Format("> ({0}) {1}", 
-                    _sslAnalyzer.Current.Protocol.ToLower(),
+                    _sslAnalyzer.Current.Protocol.Content.ToLower(),
                     _sslAnalyzer.Current.URL);
                 CurrentHostLabel.Text = str;
             }
@@ -274,5 +279,6 @@ namespace QSSLTool
             Storyboard sb = FindResource(name) as Storyboard;
             sb.Begin();
         }
+
     }
 }

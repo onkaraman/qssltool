@@ -7,6 +7,7 @@ namespace QSSLTool.FileWriters.Concretes
 {
     public class ExcelWriter
     {
+        private enum attribute { positive, neutral, negative, none }
         private int _cursor;
         private string _path;
         private HostEntryList _hosts;
@@ -22,8 +23,10 @@ namespace QSSLTool.FileWriters.Concretes
             _excelPackage = new ExcelPackage();
             _sheet = _excelPackage.Workbook.Worksheets.Add("A");
             _sheet.View.ShowGridLines = true;
+
             addHeaders();
-            applyStyling();
+            applyGeneralStyling();
+            addRows();
         }
 
         public void Save()
@@ -54,7 +57,31 @@ namespace QSSLTool.FileWriters.Concretes
             }
         }
 
-        private void applyStyling()
+        private void addCell(string address, string content,
+            attribute attr = attribute.none)
+        {
+            _sheet.Cells[address].Value = content;
+            if (attr == attribute.neutral)
+            {
+                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 235, 156));
+                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(191,149,0));
+            }
+            else if (attr == attribute.negative)
+            {
+                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 199, 206));
+                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(156, 0, 6));
+            }
+            else if (attr == attribute.positive)
+            {
+                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(198, 239, 206));
+                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(0, 97, 0));
+            }
+        }
+
+        private void applyGeneralStyling()
         {
             _sheet.Cells["A1:I1"].Style.Font.Bold = true;
             _sheet.Cells["A1:I1"].Style.Font.Color.SetColor(Color.White);
@@ -62,21 +89,34 @@ namespace QSSLTool.FileWriters.Concretes
             _sheet.Cells["A1:I1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(150, 150, 150));
         }
 
-        public void AddRow(HostEntry entry)
+        private void addRows()
+        {
+            foreach (HostEntry he in _hosts.List) addRow(he);
+        }
+
+        private void addRow(HostEntry entry)
         {
             _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Name = "Arial";
             _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Size = 9;
 
-            addCell(string.Format("A{0}", _cursor), entry.URL);
-            addCell(string.Format("B{0}", _cursor), entry.Ranking);
-            addCell(string.Format("C{0}", _cursor), entry.IP);
-            addCell(string.Format("D{0}", _cursor), entry.Protocol);
-            addCell(string.Format("E{0}", _cursor), entry.FingerPrintCert);
-            addCell(string.Format("F{0}", _cursor), entry.RC4);
-            addCell(string.Format("G{0}", _cursor), entry.MD5);
-            addCell(string.Format("H{0}", _cursor), entry.Expiration.ToString("dd.MM.yyyy"));
-            addCell(string.Format("I{0}", _cursor), entry.TLS);
+            addCell(string.Format("A{0}", _cursor), entry.URL.Content, detemineCellAttribute(entry.URL));
+            addCell(string.Format("B{0}", _cursor), entry.Ranking.Content, detemineCellAttribute(entry.Ranking));
+            addCell(string.Format("C{0}", _cursor), entry.IP.Content, detemineCellAttribute(entry.IP));
+            addCell(string.Format("D{0}", _cursor), entry.Protocol.Content, detemineCellAttribute(entry.Protocol));
+            addCell(string.Format("E{0}", _cursor), entry.FingerPrintCert.Content, detemineCellAttribute(entry.FingerPrintCert));
+            addCell(string.Format("F{0}", _cursor), entry.RC4.Content, detemineCellAttribute(entry.RC4));
+            addCell(string.Format("G{0}", _cursor), entry.MD5.Content, detemineCellAttribute(entry.MD5));
+            addCell(string.Format("H{0}", _cursor), entry.Expiration.Content,
+                detemineCellAttribute(entry.Expiration));
+            addCell(string.Format("I{0}", _cursor), entry.TLS.Content, detemineCellAttribute(entry.TLS));
+
             _cursor += 1;
+        }
+
+        private attribute detemineCellAttribute(HostEntryAttribute s)
+        {
+
+            return attribute.none;
         }
     }
 }

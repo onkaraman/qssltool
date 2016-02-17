@@ -51,7 +51,7 @@ namespace QSSLTool.Queries
             {
                 _current = host;
                 string url = string.Format("{0}://{1}", 
-                    host.Protocol.ToLower(), host.URL);
+                    host.Protocol.Content.ToLower(), host.URL);
 
                 Analyze a = _service.AutomaticAnalyze(url, 
                     SSLLabsApiService.Publish.Off, SSLLabsApiService.StartNew.On,
@@ -90,7 +90,7 @@ namespace QSSLTool.Queries
             DateTime d = DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter);
             string fingerprint = a.endpoints[0].Details.cert.sigAlg;
             string rc4 = a.endpoints[0].Details.supportsRc4.ToString();
-            return new HostEntry(ip, he.URL, he.Protocol, ranking, fingerprint, d, tls, rc4);
+            return new HostEntry(ip, he.URL.Content, he.Protocol.Content, ranking, fingerprint, d, tls, rc4);
         }
 
         public int EstimateRuntime(DateTime dt)
