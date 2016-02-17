@@ -115,11 +115,14 @@ namespace QSSLTool
             OpenFileButton.IsEnabled = true;
             URLField.IsEnabled = true;
 
-            _runTimer.Stop();
-            _runTimer = null;
-
-            _sslAnalyzer.Stop();
-            _sslAnalyzer.OnAnalyzeProgressed -= OnAnalyzeProgressed;
+            try
+            {
+                _runTimer.Stop();
+                _runTimer = null;
+                _sslAnalyzer.Stop();
+                _sslAnalyzer.OnAnalyzeProgressed -= OnAnalyzeProgressed;
+            }
+            catch (Exception) { }
 
             URLField.Text = "https://";
             StartButton.Content = "Start";
@@ -209,7 +212,7 @@ namespace QSSLTool
 
         private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
         {
-            if (URLField.Text.Contains("https://"))
+            if (URLField.Text.StartsWith("https://") && URLField.Text.Length > 15)
             {
                 _singleQueryStarted = true;
                 AnalyzeButton.IsEnabled = false;
@@ -229,6 +232,10 @@ namespace QSSLTool
                 _dateTimeNow = new DateTime();
                 setupRunTimer();
             }
+            else
+            {
+                MessageBox.Show("URL has to be a proper HTTPS address.", "QSSL Tool");
+            }
         }
 
         private void OpenFileButtonClick(object sender, RoutedEventArgs e)
@@ -246,7 +253,17 @@ namespace QSSLTool
                 URLField.IsEnabled = false;
                 ProgressBar.Visibility = Visibility.Visible;
                 URLField.Text = dia.FileName;
-                _parserDelegator.Delegate(dia.FileName);
+
+                try
+                {
+                    _parserDelegator.Delegate(dia.FileName);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Couldn't open file. Is another process accessing it?",
+                        "QSSL Tool");
+                    stopMassQuery();
+                }
             }
         }
 
@@ -285,6 +302,7 @@ namespace QSSLTool
             {
                 ExcelWriter writer = new ExcelWriter(_sslAnalyzer.AnalyzedEntries, dia.FileName);
                 writer.Save();
+                MessageBox.Show("Excel file has been exported.", "QSSL Tool");
             }
         }
         #endregion

@@ -19,14 +19,7 @@ namespace QSSLTool.FileParsers
 
         public void OpenFile(string path)
         {
-            try
-            {
-                stream = File.Open(path, FileMode.Open, FileAccess.Read);
-            }
-            catch (Exception)
-            {
-                Debugger.Break();
-            }
+            stream = File.Open(path, FileMode.Open, FileAccess.Read);
             entries = new HostEntryList();
         }
 
