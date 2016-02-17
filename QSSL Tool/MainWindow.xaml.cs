@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using QSSLTool.Compacts;
+using QSSLTool.FileWriters.Concretes;
 using QSSLTool.Gateways;
 using QSSLTool.Queries;
 using SSLLabsApiWrapper;
@@ -38,6 +39,8 @@ namespace QSSLTool
             reloadSettings();
             setupViews();
             prepareAnimations();
+
+            ExcelWriter writer = new ExcelWriter(null, null);
         }
 
         private string getWindowTitle()
@@ -70,6 +73,7 @@ namespace QSSLTool
         {
             CurrentStatGrid.Opacity = 0;
             RecentOutcomeGrid.Opacity = 0;
+            OptionsGrid.Opacity = 0;
         }
 
         private void setupViews()
@@ -83,6 +87,7 @@ namespace QSSLTool
             HostsCheckedLabel.Text = "";
             CurrentHostLabel.Text = "";
         }
+
 
         private void URLFieldKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -113,8 +118,6 @@ namespace QSSLTool
 
                 _dateTimeNow = new DateTime();
                 setupRunTimer();
-
-                RecentOutcomeGrid.Opacity = 0;
             }
         }
 
@@ -157,8 +160,6 @@ namespace QSSLTool
 
                 _dateTimeNow = new DateTime();
                 setupRunTimer();
-
-                RecentOutcomeGrid.Opacity = 0;
                 _massQueryStarted = true;
             }
             else stopMassQuery();
@@ -173,12 +174,14 @@ namespace QSSLTool
             ProgressBar.Visibility = Visibility.Visible;
         }
 
+
         private void OnAnalyzeComplete()
         {
             Dispatcher.Invoke(delegate ()
             {
                 _singleQueryStarted = false;
                 stopMassQuery();
+                startAnimation("OptionsGrid_In");
             });
         }
 
@@ -199,6 +202,7 @@ namespace QSSLTool
             StartButton.Content = "Start";
             StartButton.Visibility = Visibility.Collapsed;
             ProgressBar.Visibility = Visibility.Collapsed;
+            prepareAnimations();
         }
 
         private void setupRunTimer()

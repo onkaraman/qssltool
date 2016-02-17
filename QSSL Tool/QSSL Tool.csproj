@@ -38,6 +38,10 @@
     <ApplicationIcon>Icons\qssl_icon_32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
       <Private>True</Private>
@@ -78,6 +82,7 @@
     <Compile Include="Compacts\HostEntryList.cs" />
     <Compile Include="Compacts\HostEntry.cs" />
     <Compile Include="FileParsers\DataFormatter.cs" />
+    <Compile Include="FileWriters\Concretes\ExcelWriter.cs" />
     <Compile Include="Patterns\LazyStatic.cs" />
     <Compile Include="Queries\SSLAnalyzer.cs" />
     <Page Include="MainWindow.xaml">
@@ -136,12 +141,7 @@
   <ItemGroup>
     <Resource Include="Icons\qssl_icon_32.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="qssl_icon_32.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="qssl_icon_256.ico" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
