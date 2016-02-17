@@ -74,6 +74,7 @@ namespace QSSLTool
 
         private void setupViews()
         {
+            URLField.KeyDown += URLFieldKeyDown;
             AnalyzeButton.Click += AnalyzeButtonClick;
             OpenFileButton.Click += OpenFileButtonClick;
             StartButton.Click += StartButtonClick;
@@ -81,6 +82,14 @@ namespace QSSLTool
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
             CurrentHostLabel.Text = "";
+        }
+
+        private void URLFieldKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                AnalyzeButtonClick(null, null);
+            }
         }
 
         private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
@@ -150,7 +159,6 @@ namespace QSSLTool
                 setupRunTimer();
 
                 RecentOutcomeGrid.Opacity = 0;
-                ProgressBar.Visibility = Visibility.Visible;
                 _massQueryStarted = true;
             }
             else stopMassQuery();
@@ -162,6 +170,7 @@ namespace QSSLTool
             _sslAnalyzer.OnAnalyzeProgressed += OnAnalyzeProgressed;
             _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
             _sslAnalyzer.Start();
+            ProgressBar.Visibility = Visibility.Visible;
         }
 
         private void OnAnalyzeComplete()

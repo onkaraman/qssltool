@@ -8,7 +8,7 @@
         x:Class="QSSLTool.MainWindow"
         mc:Ignorable="d"
         Title="QSSL Tool"
-        Height="527"
+        Height="615.667"
         Width="402"
         ResizeMode="CanMinimize">
     <Window.Resources>
@@ -45,7 +45,7 @@
     </Window.Resources>
     <Grid x:Name="MainGrid"
           Background="#FF1A1A1D"
-          Margin="0,0,0,0.333">
+          Margin="0,0,0,-1">
         <Grid x:Name="HeaderGrid"
               Height="128.499"
               VerticalAlignment="Top"
@@ -190,6 +190,40 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </Grid>
+        <Grid x:Name="OptionsGrid"
+              Margin="0,486.333,0,14.332"
+              Background="#FF222225">
+            <TextBlock x:Name="OptionsLabel"
+                       Margin="10,10,10,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       FontSize="14.667"
+                       Foreground="#FF007ACC"
+                       Text="Options"
+                       TextDecorations="{x:Null}" />
+            <Button x:Name="ExportExcelButton"
+                    Content="Export as Excel"
+                    Margin="10,40.709,202,0"
+                    Background="#FF323236"
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Foreground="#FF007ACC"
+                    FontSize="14.667"
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    Height="27.293"
+                    VerticalAlignment="Top" />
+            <Button x:Name="ExportTextButton"
+                    Content="Export as text file"
+                    Margin="202,40.709,10,0"
+                    Background="#FF323236"
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Foreground="#FF007ACC"
+                    FontSize="14.667"
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    Height="27.293"
+                    VerticalAlignment="Top" />
         </Grid>
     </Grid>
 </Window>
