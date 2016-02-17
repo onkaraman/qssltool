@@ -72,6 +72,9 @@ namespace QSSLTool
             }
         }
 
+        /// <summary>
+        /// To restore the latest session.
+        /// </summary>
         private void reloadSettings()
         {
             URLField.Text = "https://";
@@ -106,7 +109,6 @@ namespace QSSLTool
             ProgressBar.Visibility = Visibility.Visible;
         }
 
-
         private void OnAnalyzeComplete()
         {
             Dispatcher.Invoke(delegate ()
@@ -117,6 +119,9 @@ namespace QSSLTool
             });
         }
 
+        /// <summary>
+        /// Resets the whole app to make a fresh search possible.
+        /// </summary>
         private void stopMassQuery()
         {
             _massQueryStarted = false;
@@ -148,6 +153,11 @@ namespace QSSLTool
             _runTimer.Start();
         }
 
+        /// <summary>
+        /// After a single item of a mass analysis has been progressed,
+        /// this method shows the result in a listbox and starts the
+        /// animation if it hasn't been started before.
+        /// </summary>
         private void OnAnalyzeProgressed()
         {
             Dispatcher.Invoke(delegate ()
@@ -166,6 +176,9 @@ namespace QSSLTool
             updateHostsChecked();
         }
 
+        /// <summary>
+        /// Updates the current host label after an item has been progressed.
+        /// </summary>
         private void updateCurrentCheck()
         {
             if (_sslAnalyzer.Current != null)
@@ -177,6 +190,9 @@ namespace QSSLTool
             }
         }
 
+        /// <summary>
+        /// Updates the timer each second during an analysis.
+        /// </summary>
         private void updateTimeElapsed()
         {
             _dateTimeNow = _dateTimeNow.AddSeconds(1);
@@ -190,6 +206,10 @@ namespace QSSLTool
             ElapsedTimeLabel.Text = elapsed;
         }
 
+        /// <summary>
+        /// Updates the checked items of a mass analysis.
+        /// If it is a single anylsis it will be shown as such.
+        /// </summary>
         private void updateHostsChecked()
         {
             string msg = "";
@@ -204,6 +224,9 @@ namespace QSSLTool
             HostsCheckedLabel.Text = hostsChecked;
         }
 
+        /// <summary>
+        /// Starts a storyboard animation which will be found by its name.
+        /// </summary>
         private void startAnimation(string name)
         {
             Storyboard sb = FindResource(name) as Storyboard;
@@ -211,6 +234,9 @@ namespace QSSLTool
         }
 
         #region View events
+        /// <summary>
+        /// Íf the user pressed the enter-key, the single analysis will be started.
+        /// </summary>
         private void URLFieldKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
@@ -219,6 +245,11 @@ namespace QSSLTool
             }
         }
 
+        /// <summary>
+        /// Before a single analysis starts, this method will check whether
+        /// the URL is properly written (http is pointless for this cause).
+        /// A single analysis will be treated internally as a mass query with a single entry.
+        /// </summary>
         private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
         {
             if (URLField.Text.StartsWith("https://") && URLField.Text.Length > 15)
@@ -276,6 +307,9 @@ namespace QSSLTool
             }
         }
 
+        /// <summary>
+        /// When parsing the opened file is complete.
+        /// </summary>
         private void ParserDelegatorOnParseComplete()
         {
             Dispatcher.Invoke(delegate ()
@@ -286,6 +320,10 @@ namespace QSSLTool
             });
         }
 
+        /// <summary>
+        /// After the mass file has been parsed, the process can be started by pressing the 
+        /// start button. The SSL Analyzer will pull the data from the parser and start working.
+        /// </summary>
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
             if (!_massQueryStarted)
