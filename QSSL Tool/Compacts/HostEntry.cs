@@ -44,12 +44,13 @@ namespace QSSLTool.Compacts
             _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, expiration.ToString("dd.MM.yyyy"));
             _TLS = new HostEntryAttribute(HostEntryAttribute.AttributeType.TLS, TLS);
             _RC4 = new HostEntryAttribute(HostEntryAttribute.AttributeType.RC4, RC4);
+            _md5 = new HostEntryAttribute(HostEntryAttribute.AttributeType.MD5, "?");
             _differences = new List<AnalyzeDifference>();
         }
 
         public bool isEmpty()
         {
-            if (_IP == null && _url == null) return true;
+            if (_IP.Content.Length < 3 && _url.Content.Length < 3) return true;
             return false;
         }
 

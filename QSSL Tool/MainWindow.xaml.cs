@@ -6,6 +6,7 @@ using QSSLTool.Queries;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,89 +86,6 @@ namespace QSSLTool
             CurrentStatGrid.Opacity = 0;
             RecentOutcomeGrid.Opacity = 0;
             OptionsGrid.Opacity = 0;
-        }
-
-
-        private void URLFieldKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                AnalyzeButtonClick(null, null);
-            }
-        }
-
-        private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (URLField.Text.Contains("https://"))
-            {
-                _singleQueryStarted = true;
-                AnalyzeButton.IsEnabled = false;
-                OpenFileButton.IsEnabled = false;
-                URLField.IsEnabled = false;
-
-                string url = URLField.Text.Replace("https://", "");
-                startAnimation("CurrentStatGrid_In");
-
-                HostEntryList hel = new HostEntryList();
-                HostEntry he = new HostEntry("", url, "https", "", "", 
-                    DateTime.Now, "", "");
-                hel.Add(he);
-
-                setupSSLAnalyzer(hel);
-
-                _dateTimeNow = new DateTime();
-                setupRunTimer();
-            }
-        }
-
-        private void OpenFileButtonClick(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dia = new OpenFileDialog();
-            dia.ValidateNames = false;
-            dia.Filter = "Excel 2007 (*.xlsx)|*.xlsx|Excel 97 - 2003(*.xls) | *.xls";
-            dia.Multiselect = false;
-
-            bool? clicked = dia.ShowDialog();
-            if (clicked == true)
-            {
-                AnalyzeButton.IsEnabled = false;
-                OpenFileButton.IsEnabled = false;
-                URLField.IsEnabled = false;
-                ProgressBar.Visibility = Visibility.Visible;
-                URLField.Text = dia.FileName;
-                _parserDelegator.Delegate(dia.FileName);
-            }
-        }
-
-        private void ParserDelegatorOnParseComplete()
-        {
-            Dispatcher.Invoke(delegate()
-            {
-                ProgressBar.Visibility = Visibility.Collapsed;
-                StartButton.Visibility = Visibility.Visible;
-
-            });
-        }
-
-        private void StartButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (!_massQueryStarted)
-            {
-                StartButton.Content = "Stop";
-                startAnimation("CurrentStatGrid_In");
-                setupSSLAnalyzer(_parserDelegator.GetHostEntries());
-
-                _dateTimeNow = new DateTime();
-                setupRunTimer();
-                _massQueryStarted = true;
-            }
-            else stopMassQuery();
-        }
-
-        private void ExportExcelButtonClick(object sender, RoutedEventArgs e)
-        {
-            ExcelWriter writer = new ExcelWriter(_sslAnalyzer.AnalyzedEntries, "");
-            writer.Save();
         }
 
         private void setupSSLAnalyzer(HostEntryList hel)
@@ -280,5 +198,95 @@ namespace QSSLTool
             sb.Begin();
         }
 
+        #region View events
+        private void URLFieldKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                AnalyzeButtonClick(null, null);
+            }
+        }
+
+        private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (URLField.Text.Contains("https://"))
+            {
+                _singleQueryStarted = true;
+                AnalyzeButton.IsEnabled = false;
+                OpenFileButton.IsEnabled = false;
+                URLField.IsEnabled = false;
+
+                string url = URLField.Text.Replace("https://", "");
+                startAnimation("CurrentStatGrid_In");
+
+                HostEntryList hel = new HostEntryList();
+                HostEntry he = new HostEntry("", url, "https", "", "",
+                    DateTime.Now, "", "");
+                hel.Add(he);
+
+                setupSSLAnalyzer(hel);
+
+                _dateTimeNow = new DateTime();
+                setupRunTimer();
+            }
+        }
+
+        private void OpenFileButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dia = new OpenFileDialog();
+            dia.ValidateNames = false;
+            dia.Filter = "Excel 2007 (*.xlsx)|*.xlsx|Excel 97 - 2003(*.xls) | *.xls";
+            dia.Multiselect = false;
+
+            bool? clicked = dia.ShowDialog();
+            if (clicked == true)
+            {
+                AnalyzeButton.IsEnabled = false;
+                OpenFileButton.IsEnabled = false;
+                URLField.IsEnabled = false;
+                ProgressBar.Visibility = Visibility.Visible;
+                URLField.Text = dia.FileName;
+                _parserDelegator.Delegate(dia.FileName);
+            }
+        }
+
+        private void ParserDelegatorOnParseComplete()
+        {
+            Dispatcher.Invoke(delegate ()
+            {
+                ProgressBar.Visibility = Visibility.Collapsed;
+                StartButton.Visibility = Visibility.Visible;
+
+            });
+        }
+
+        private void StartButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!_massQueryStarted)
+            {
+                StartButton.Content = "Stop";
+                startAnimation("CurrentStatGrid_In");
+                setupSSLAnalyzer(_parserDelegator.GetHostEntries());
+
+                _dateTimeNow = new DateTime();
+                setupRunTimer();
+                _massQueryStarted = true;
+            }
+            else stopMassQuery();
+        }
+
+        private void ExportExcelButtonClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dia = new SaveFileDialog();
+
+            dia.Filter = "Excel files (*.xlsx)|*.xlsx";
+
+            if (dia.ShowDialog() == true)
+            {
+                ExcelWriter writer = new ExcelWriter(_sslAnalyzer.AnalyzedEntries, dia.FileName);
+                writer.Save();
+            }
+        }
+        #endregion
     }
 }

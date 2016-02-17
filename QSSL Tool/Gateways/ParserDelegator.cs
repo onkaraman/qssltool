@@ -10,7 +10,7 @@ namespace QSSLTool.Gateways
     public class ParserDelegator
     {
         private int _readyRows;
-        public int ReadyRows { get { return _readyRows; } }
+        public int ReadyRows { get { return _readyRows-1; } }
         private ExcelFileParser _excelParser;
         public static event Action OnParseComplete;
 

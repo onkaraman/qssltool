@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Compacts\AnalyzeDifference.cs" />
+    <Compile Include="Compacts\HostEntryAttribute.cs" />
     <Compile Include="Compacts\HostEntryList.cs" />
     <Compile Include="Compacts\HostEntry.cs" />
     <Compile Include="FileParsers\DataFormatter.cs" />
