@@ -60,8 +60,8 @@ namespace QSSLTool.Queries
 
                 HostEntry fresh = extractInfoFromAnalysis(a, host);
                 _analyzedEntries.Add(fresh);
+                host.CheckDifferences(fresh);
 
-                host.CheckDifferences(extractInfoFromAnalysis(a, host));
                 host.AddDifference("General message", a.endpoints[0].statusMessage);
                 host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
 

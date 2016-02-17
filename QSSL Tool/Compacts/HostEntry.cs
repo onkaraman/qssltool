@@ -17,8 +17,8 @@ namespace QSSLTool.Compacts
 
         private string _ranking;
         public string Ranking { get { return _ranking; } }
-        private string _fingerPrintCert;
-        public string FingerPrintCert { get { return _fingerPrintCert; } }
+        private string _FingerPrintCert;
+        public string FingerPrintCert { get { return _FingerPrintCert; } }
         private DateTime _expiration;
         public DateTime Expiration { get { return _expiration; } }
         private string _TLS;
@@ -42,7 +42,7 @@ namespace QSSLTool.Compacts
             if (_protocol == null) _protocol = "http";
 
             _ranking = ranking;
-            _fingerPrintCert = fingerprint;
+            _FingerPrintCert = fingerprint;
 
             _expiration = expiration;
             _TLS = tls;
@@ -62,37 +62,31 @@ namespace QSSLTool.Compacts
         {
             if (!_IP.Equals(he.IP))
             {
-                string value = "";
-                if (_IP.Length > 0) value = string.Format("Changed from {0} to {1}", _IP, he.IP);
-                else value = string.Format("Discovered as {0}", he.IP);
-
-                _differences.Add(new AnalyzeDifference("IP address", value));
+                _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, he.IP)));
             }
             if (!_ranking.Equals(he.Ranking))
             {
-                string value = "";
-                if (_IP.Length > 0) value = string.Format("Changed from {0} to {1}", _ranking, he.Ranking);
-                else value = string.Format("Discovered as {0}", he.Ranking);
-
-                if (he.Ranking != null) _differences.Add(new AnalyzeDifference("Ranking", value));
+                _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, he.Ranking)));
             }
-            if (!_fingerPrintCert.Equals(he.FingerPrintCert))
+            if (!_FingerPrintCert.Equals(he.FingerPrintCert))
             {
-                _differences.Add(new AnalyzeDifference("Fingerprint certificate",
-                    string.Format("Changed from {0} to {1}", _fingerPrintCert, he.FingerPrintCert)));
+                _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, he.FingerPrintCert)));
             }
             if (!_expiration.ToString("dd.MM.yyyy").Equals(he.Expiration.ToString("dd.MM.yyyy")))
             {
-                _differences.Add(new AnalyzeDifference("Expiration",
-                    string.Format("Changed from {0} to {1}", 
-                    _expiration.ToString("dd.MM.yyyy"), 
+                _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration.ToString("dd.MM.yyyy"),
                     he.Expiration.ToString("dd.MM.yyyy"))));
             }
             if (!_rc4.Equals(he.RC4))
             {
-                _differences.Add(new AnalyzeDifference("RC4 support",
-                    string.Format("Changed from {0} to {1}", _fingerPrintCert, he.FingerPrintCert)));
+                _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_rc4, he.RC4)));
             }
+        }
+
+        private string getSummary(string before, string now)
+        {
+            if (before.Length > 0) return string.Format("Changed from {0} to {1}", before, now);
+            else return string.Format("Discovered as {0}", now);
         }
 
         public void AddDifference(string name, string key)
