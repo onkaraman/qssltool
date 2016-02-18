@@ -2,6 +2,7 @@
 using QSSLTool.Compacts;
 using QSSLTool.Gateways;
 using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace QSSLTool.FileParsers.Concretes
@@ -36,21 +37,28 @@ namespace QSSLTool.FileParsers.Concretes
 
             // Get headers
             reader.Read();
-            int columnIndex = -1;
-            while (reader.GetString(columnIndex) != null)
+            int columnIndex = 0;
+            try
             {
-                string cmp = reader.GetString(columnIndex);
+                while (reader.GetString(columnIndex) != null)
+                {
+                    string cmp = reader.GetString(columnIndex);
 
-                if (cmp.Contains("IP")) ipIndex = columnIndex;
-                else if (cmp.Contains("URL")) urlIndex = columnIndex;
-                else if (cmp.Contains("TLS")) TLSIndex = columnIndex;
-                else if (cmp.Contains("MD5")) MD5Index = columnIndex;
-                else if (cmp.Contains("RC4")) RC4Index = columnIndex;
-                else if (cmp.ToLower().Contains("ranking")) rankingIndex = columnIndex;
-                else if (cmp.ToLower().Contains("protocol")) protocolIndex = columnIndex;
-                else if (cmp.ToLower().Contains("fingerprint")) fingerPrintIndex = columnIndex;
-                else if (cmp.ToLower().Contains("expiration")) expirationIndex = columnIndex;
-                columnIndex += 1; 
+                    if (cmp.Contains("IP")) ipIndex = columnIndex;
+                    else if (cmp.Contains("URL")) urlIndex = columnIndex;
+                    else if (cmp.Contains("TLS")) TLSIndex = columnIndex;
+                    else if (cmp.Contains("MD5")) MD5Index = columnIndex;
+                    else if (cmp.Contains("RC4")) RC4Index = columnIndex;
+                    else if (cmp.ToLower().Contains("ranking")) rankingIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("protocol")) protocolIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("fingerprint")) fingerPrintIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("expiration")) expirationIndex = columnIndex;
+                    columnIndex += 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(string.Format("Excel header reading touched outer bounds: {0}", ex.Message));
             }
 
             // Get rows and add them as children of each header

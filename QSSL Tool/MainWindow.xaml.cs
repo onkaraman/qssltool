@@ -215,7 +215,7 @@ namespace QSSLTool
             if (!_singleQueryStarted)
             {
                 msg = string.Format("{0}/{1} hosts analyzed",
-                _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count);
+                _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count-1);
             }
             else msg = "Single host analysis";
             string hostsChecked = msg;

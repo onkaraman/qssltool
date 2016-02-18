@@ -149,15 +149,15 @@
                        Text="easycredit.meineschufa-test.de"
                        Width="376" />
             <TextBlock x:Name="HostsCheckedLabel"
-                       Margin="10,35.006,10,0"
+                       Margin="10,35.672,10,0"
                        TextWrapping="Wrap"
-                       FontSize="14.667"
+                       FontSize="13.333"
                        Foreground="#FF007ACC"
                        VerticalAlignment="Top"><Run Text="11/60 hosts " /><Run Text="analyzed" /></TextBlock>
             <TextBlock x:Name="ElapsedTimeLabel"
                        Margin="10,58.626,10,0"
                        TextWrapping="Wrap"
-                       FontSize="14.667"
+                       FontSize="13.333"
                        Foreground="#FF007ACC"
                        Text="Elapsed time:"
                        VerticalAlignment="Top" />
@@ -222,17 +222,6 @@
                        TextDecorations="{x:Null}" />
             <Button x:Name="ExportExcelButton"
                     Content="Export as Excel"
-                    Margin="10,40.709,202,0"
-                    Background="#FF323236"
-                    BorderThickness="1"
-                    BorderBrush="White"
-                    Foreground="#FF007ACC"
-                    FontSize="14.667"
-                    Style="{DynamicResource DefaultButtonStyle}"
-                    Height="27.293"
-                    VerticalAlignment="Top" />
-            <Button x:Name="ExportTextButton"
-                    Content="Export as text file"
                     Margin="202,40.709,10,0"
                     Background="#FF323236"
                     BorderThickness="1"
@@ -242,6 +231,18 @@
                     Style="{DynamicResource DefaultButtonStyle}"
                     Height="27.293"
                     VerticalAlignment="Top" />
+            <Button x:Name="FiltersButton"
+                    Content="Filters"
+                    Margin="10,40.709,202,0"
+                    Background="#FF323236"
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Foreground="#FF007ACC"
+                    FontSize="14.667"
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    Height="27.293"
+                    VerticalAlignment="Top"
+                    IsEnabled="False" />
         </Grid>
     </Grid>
 </Window>
