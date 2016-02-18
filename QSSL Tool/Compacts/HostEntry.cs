@@ -11,8 +11,8 @@ namespace QSSLTool.Compacts
         #region Fields
         private HostEntryAttribute _IP;
         public HostEntryAttribute IP { get { return _IP; } }
-        private HostEntryAttribute _url;
-        public HostEntryAttribute URL { get { return _url; } }
+        private HostEntryAttribute _URL;
+        public HostEntryAttribute URL { get { return _URL; } }
         private HostEntryAttribute _protocol;
         public HostEntryAttribute Protocol { get { return _protocol; } }
 
@@ -39,7 +39,7 @@ namespace QSSLTool.Compacts
             string TLS, string RC4)
         {
             _IP = new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, ip);
-            _url = new HostEntryAttribute(HostEntryAttribute.AttributeType.URL, url);
+            _URL = new HostEntryAttribute(HostEntryAttribute.AttributeType.URL, url);
             _protocol = new HostEntryAttribute(HostEntryAttribute.AttributeType.Protocol, protocol);
             _ranking = new HostEntryAttribute(HostEntryAttribute.AttributeType.Ranking, ranking);
             _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.AttributeType.Fingerprint, fingerprint);
@@ -56,7 +56,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public bool IsEmpty()
         {
-            if (_IP.ToString().Length < 3 && _url.ToString().Length < 3) return true;
+            if (_IP.ToString().Length < 3 && _URL.ToString().Length < 3) return true;
             return false;
         }
         
@@ -64,13 +64,35 @@ namespace QSSLTool.Compacts
         /// Checks whether there are differences between the object and the passed object.
         /// If there are any, those will be added to the difference list of this object.
         /// </summary>
-        public void CheckDifferences(HostEntry he)
+        public void CheckDifferences(HostEntry other)
         {
-            if (!_IP.Equals(he.IP)) _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, he.IP)));
-            if (!_ranking.Equals(he.Ranking)) _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, he.Ranking)));
-            if (!_FingerPrintCert.Equals(he.FingerPrintCert)) _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, he.FingerPrintCert)));
-            if (!_expiration.Equals(he.Expiration)) _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, he.Expiration)));
-            if (!_RC4.Equals(he.RC4)) _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, he.RC4)));
+            if (!_IP.Equals(other.IP))
+                _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, other.IP)));
+            if (!_URL.ToString().ToLower().Equals(other.URL.ToString().ToLower()))
+                _differences.Add(new AnalyzeDifference("URL", getSummary(_URL, other.URL)));
+            if (!_ranking.Equals(other.Ranking))
+                _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, other.Ranking)));
+            if (!_FingerPrintCert.Equals(other.FingerPrintCert))
+                _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, other.FingerPrintCert)));
+            if (!_expiration.Equals(other.Expiration))
+                _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, other.Expiration)));
+            if (!_RC4.Equals(other.RC4))
+                _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, other.RC4)));
+            if (!_TLS.Equals(other.TLS))
+                _differences.Add(new AnalyzeDifference("TLS", getSummary(_RC4, other.RC4)));
+        }
+
+        /// <summary>
+        /// Checks whether this object has a difference by the passed keyword.
+        /// </summary>
+        public bool HasDifference(string keyword)
+        {
+            foreach(AnalyzeDifference d in _differences)
+            {
+                if (d.Name.ToLower().Contains(keyword.ToLower()))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>

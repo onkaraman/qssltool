@@ -56,5 +56,100 @@ namespace QSSL_Tool_Testing
                 );
             Assert.IsTrue(he.IsEmpty());
         }
+
+        [TestMethod]
+        public void HostEntry_Differences()
+        {
+            HostEntry a = new HostEntry(
+                "1.1.1.1", "demo.de",
+                "https", "C",
+                "SHA1", DateTime.Now,
+                "False", "False"
+                );
+
+            HostEntry b = new HostEntry(
+                "1.1.1.2", "demo.com",
+                "https", "C",
+                "SHA1", DateTime.Now,
+                "False", "False"
+                );
+
+            a.CheckDifferences(b);
+            Assert.IsTrue(a.Differences.Count == 2);
+            Assert.IsTrue(a.HasDifference("IP"));
+            Assert.IsTrue(a.HasDifference("URL"));
+        }
+
+        [TestMethod]
+        public void HostEntry_NoDifferences()
+        {
+            HostEntry a = new HostEntry(
+                "1.1.1.1", "demo.de",
+                "https", "C",
+                "SHA1", DateTime.Now,
+                "False", "False"
+                );
+
+            a.CheckDifferences(a);
+            Assert.IsTrue(a.Differences.Count == 0);
+        }
+
+        [TestMethod]
+        public void HostEntry_AddDifference()
+        {
+            HostEntry a = new HostEntry(
+               "1.1.1.1", "demo.de",
+               "https", "C", "SHA1", DateTime.Now,
+               "False", "False"
+               );
+
+            a.AddDifference("a", "b");
+            Assert.IsTrue(a.Differences.Count > 0);
+        }
+
+        [TestMethod]
+        public void HostEntry_AddDifferenceEmpty()
+        {
+            HostEntry a = new HostEntry(
+               "1.1.1.1", "demo.de",
+               "https", "C", "SHA1", DateTime.Now,
+               "False", "False"
+               );
+
+            a.AddDifference(null, "b");
+            a.AddDifference("a", null);
+            Assert.IsTrue(a.Differences.Count == 0);
+        }
+
+        [TestMethod]
+        public void HostEntryAttribute_Positive()
+        {
+            string ip = "1.1.1.1";
+            HostEntryAttribute hea = 
+                new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, 
+                ip);
+            Assert.AreEqual(ip, hea.ToString());
+        }
+
+        [TestMethod]
+        public void HostEntryAttribute_Negative()
+        {
+            HostEntryAttribute hea =
+                new HostEntryAttribute(HostEntryAttribute.AttributeType.IP,
+                null);
+            Assert.AreEqual("?", hea.ToString());
+        }
+
+        [TestMethod]
+        public void HostEntryAttribute_Equals()
+        {
+            string ip = "1.1.1.1";
+            HostEntryAttribute.AttributeType type = 
+                HostEntryAttribute.AttributeType.IP;
+            HostEntryAttribute hea = new HostEntryAttribute(type, ip);
+            HostEntryAttribute hea2 = new HostEntryAttribute(type, ip);
+
+            Assert.AreEqual(hea, hea2);
+        }
     }
 }
