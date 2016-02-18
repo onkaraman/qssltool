@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QSSLTool.Compacts
 {
+    /// <summary>
+    /// This class encapsulates a host entry in a mass query.
+    /// </summary>
     public class HostEntry
     {
+        #region Fields
         private HostEntryAttribute _IP;
         public HostEntryAttribute IP { get { return _IP; } }
         private HostEntryAttribute _url;
@@ -31,6 +32,7 @@ namespace QSSLTool.Compacts
 
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
+        #endregion
 
         public HostEntry(string ip, string url, string protocol,
             string ranking, string fingerprint, DateTime expiration,
@@ -48,53 +50,46 @@ namespace QSSLTool.Compacts
             _differences = new List<AnalyzeDifference>();
         }
 
-        public bool isEmpty()
+        /// <summary>
+        /// Checks if a host entry is empty by looking at the IP address and URL.
+        /// If those are empty, the whole object will be treated as empty.
+        /// </summary>
+        public bool IsEmpty()
         {
             if (_IP.Content.Length < 3 && _url.Content.Length < 3) return true;
             return false;
         }
-
-        public int CheckDifferences(HostEntry he)
+        
+        /// <summary>
+        /// Checks whether there are differences between the object and the passed object.
+        /// If there are any, those will be added to the difference list of this object.
+        /// </summary>
+        public void CheckDifferences(HostEntry he)
         {
-            int diff = 0;
-            if (!_IP.Equals(he.IP))
-            {
-                _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, he.IP)));
-                diff += 1;
-            }
-            if (!_ranking.Equals(he.Ranking))
-            {
-                _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, he.Ranking)));
-                diff += 1;
-            }
-            if (!_FingerPrintCert.Equals(he.FingerPrintCert))
-            {
-                _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, he.FingerPrintCert)));
-                diff += 1;
-            }
-            if (!_expiration.Equals(he.Expiration))
-            {
-                _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, he.Expiration)));
-                diff += 1;
-            }
-            if (!_RC4.Equals(he.RC4))
-            {
-                _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, he.RC4)));
-                diff += 1;
-            }
-            return diff;
+            if (!_IP.Equals(he.IP)) _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, he.IP)));
+            if (!_ranking.Equals(he.Ranking)) _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, he.Ranking)));
+            if (!_FingerPrintCert.Equals(he.FingerPrintCert)) _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, he.FingerPrintCert)));
+            if (!_expiration.Equals(he.Expiration)) _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, he.Expiration)));
+            if (!_RC4.Equals(he.RC4)) _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, he.RC4)));
         }
 
+        /// <summary>
+        /// Formulates the difference of two HostEntryAttributes. 
+        /// </summary>
         private string getSummary(HostEntryAttribute before, HostEntryAttribute now)
         {
             if (before.Content.Length > 1) return string.Format("Changed from {0} to {1}", before, now);
             else return string.Format("Discovered as {0}", now);
         }
 
-        public void AddDifference(string name, string key)
+        /// <summary>
+        /// Adds a difference to the internal list of this object.
+        /// If the name or value is empty, the difference will not be added.
+        /// </summary>
+        public void AddDifference(string name, string value)
         {
-            if (name == null || key == null || key.Length <= 0) return;
-            _differences.Add(new AnalyzeDifference(name, key));
+            if (name == null || value == null || value.Length <= 0) return;
+            _differences.Add(new AnalyzeDifference(name, value));
         }
     }
 }

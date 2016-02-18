@@ -16,7 +16,6 @@ using System.Windows.Threading;
 
 namespace QSSLTool
 {
-
     public partial class MainWindow : Window
     {
         private bool _singleQueryStarted;
@@ -128,6 +127,11 @@ namespace QSSLTool
             AnalyzeButton.IsEnabled = true;
             OpenFileButton.IsEnabled = true;
             URLField.IsEnabled = true;
+            URLField.Text = "https://";
+            StartButton.Content = "Start";
+            StartButton.Visibility = Visibility.Collapsed;
+            ProgressBar.Visibility = Visibility.Collapsed;
+            prepareAnimations();
 
             try
             {
@@ -137,12 +141,6 @@ namespace QSSLTool
                 _sslAnalyzer.OnAnalyzeProgressed -= OnAnalyzeProgressed;
             }
             catch (Exception) { }
-
-            URLField.Text = "https://";
-            StartButton.Content = "Start";
-            StartButton.Visibility = Visibility.Collapsed;
-            ProgressBar.Visibility = Visibility.Collapsed;
-            prepareAnimations();
         }
 
         private void setupRunTimer()

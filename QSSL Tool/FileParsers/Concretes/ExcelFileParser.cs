@@ -62,7 +62,7 @@ namespace QSSLTool.FileParsers.Concretes
                          Convert.ToDateTime(reader.GetString(expirationIndex)), 
                          reader.GetString(TLSIndex),
                          reader.GetString(MD5Index));
-                if (!h.isEmpty()) entries.Add(h);
+                if (!h.IsEmpty()) entries.Add(h);
             }
             reader.Close();
             ParserDelegator.CallOnParseComplete();
