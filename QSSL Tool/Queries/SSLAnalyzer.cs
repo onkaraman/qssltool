@@ -7,8 +7,12 @@ using System.Threading;
 
 namespace QSSLTool.Queries
 {
+    /// <summary>
+    /// Uses the SSLLabsAPIWrapper to make threaded queries possible.
+    /// </summary>
     public class SSLAnalyzer
     {
+        #region Fields
         private bool _stopSignal;
         private bool _updateEstimate;
         private int _estRuntime;
@@ -30,7 +34,11 @@ namespace QSSLTool.Queries
         private SSLLabsApiService _service;
         public event Action OnAnalyzeProgressed;
         public event Action OnAnalyzeComplete;
+        #endregion
 
+        /// <summary>
+        /// Constructs the SSLAnalyzer using a parsed list of HostEntries and a connected API service object.
+        /// </summary>
         public SSLAnalyzer(HostEntryList entries, SSLLabsApiService service)
         {
             _service = service;
@@ -40,38 +48,38 @@ namespace QSSLTool.Queries
             _analyzedEntries = new HostEntryList();
         }
 
+        /// <summary>
+        /// Starts the mass query in a new thread.
+        /// </summary>
         public void Start()
         {
             ThreadPool.QueueUserWorkItem(o => analyze());
         }
 
+        /// <summary>
+        /// Iterates through the whole list of parsed HostEntries and starts an analysis on each item.
+        /// The current iteration will be saved into the _current object to make a callable outside this SSLAnalzer.
+        /// After a single analysis is complete, a fresh HostEntry will be created with the information of the analysis.
+        /// The differences between _current on the fresh HostEntry will be added to _current.
+        /// If a stop signal is set from the outside, the analysis will be stopped.
+        /// </summary>
         private void analyze()
         {
-            foreach(HostEntry host in _entries.List)
+            for (int i=0; i < _entries.Count; i+=1)
             {
-                _current = host;
+                _current = _entries.List[i];
                 string url = string.Format("{0}://{1}", 
-                    host.Protocol.Content.ToLower(), host.URL);
+                    _current.Protocol.Content.ToLower(), _current.URL);
 
                 Analyze a = _service.AutomaticAnalyze(url, 
                     SSLLabsApiService.Publish.Off, SSLLabsApiService.StartNew.On,
                     SSLLabsApiService.FromCache.Off, 1, SSLLabsApiService.All.On, 
                     SSLLabsApiService.IgnoreMismatch.Off, 200, _waitInterval);
 
-                HostEntry fresh = extractInfoFromAnalysis(a, host);
+                HostEntry fresh = extractInfoFromAnalysis(a, _current);
+                _current.CheckDifferences(fresh);
+                _current = addMetaNotes(a, _current);
                 _analyzedEntries.Add(fresh);
-                host.CheckDifferences(fresh);
-
-                try
-                {
-                    host.AddDifference("General message", a.endpoints[0].statusMessage);
-                    host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
-                }
-                catch (Exception ex)
-                {
-                    host.AddDifference("Error", a.Errors[0].message);
-                    host.AddDifference("App", "This entry will be treated as unchanged.");
-                }
 
                 if (_stopSignal)
                 {
@@ -80,27 +88,45 @@ namespace QSSLTool.Queries
                 }
                 notify();
             }
+
             if (OnAnalyzeComplete != null) OnAnalyzeComplete();
         }
 
-        private void notify()
+        /// <summary>
+        /// This method adds further notes for the 'Recent outcome' list on the UI.
+        /// </summary>
+        private HostEntry addMetaNotes(Analyze a, HostEntry host)
         {
-            _done += 1;
-            _updateEstimate = true;
-            if (OnAnalyzeProgressed != null) OnAnalyzeProgressed();
+            try
+            {
+                host.AddDifference("General message", a.endpoints[0].statusMessage);
+                host.AddDifference("Detailed message", a.endpoints[0].statusDetailsMessage);
+            }
+            catch (Exception)
+            {
+                host.AddDifference("Error", a.Errors[0].message);
+                host.AddDifference("App", "This entry will be treated as unchanged.");
+            }
+            return host;
         }
 
+        /// <summary>
+        /// Takes the result of the analysis and extracts the information to a new HostEntry.
+        /// If the extraction fails, the same HostEntry as passed will be returned.
+        /// Otherwise the fresh HostEntry gets returned.
+        /// </summary>
         private HostEntry extractInfoFromAnalysis(Analyze a, HostEntry he)
         {
             try
             {
-                string ip = a.endpoints[0].ipAddress;
-                string ranking = a.endpoints[0].grade;
-                string tls = DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols);
-                DateTime d = DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter);
-                string fingerprint = a.endpoints[0].Details.cert.sigAlg;
-                string rc4 = a.endpoints[0].Details.supportsRc4.ToString();
-                return new HostEntry(ip, he.URL.Content, he.Protocol.Content, ranking, fingerprint, d, tls, rc4);
+                return new HostEntry(a.endpoints[0].ipAddress, 
+                    he.URL.Content, 
+                    he.Protocol.Content,
+                    a.endpoints[0].grade,
+                    a.endpoints[0].Details.cert.sigAlg,
+                    DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter),
+                    DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols),
+                    a.endpoints[0].Details.supportsRc4.ToString());
             }
             catch (Exception)
             {
@@ -108,17 +134,37 @@ namespace QSSLTool.Queries
             }
         }
 
+        /// <summary>
+        /// Notifies the subscribed classes that the current iteration of the analysis has been complete.
+        /// </summary>
+        private void notify()
+        {
+            _done += 1;
+            // This will be set to true in order to make sure that the estimation
+            // gets only calculated at the right moments.
+            _updateEstimate = true;
+            if (OnAnalyzeProgressed != null) OnAnalyzeProgressed();
+        }
+
+        /// <summary>
+        /// Estimates the runtime for the analysis only when enough analyses have been done.
+        /// </summary>
         public int EstimateRuntime(DateTime dt)
         {
             int seconds = dt.Second + (dt.Minute * 60);
             if (_done > 2 && _updateEstimate)
             {
+                // Estimate runtime for a single analysis.
                 _estRuntime = seconds / _done;
                 _updateEstimate = false;
             }
             return (_waitInterval + _estRuntime) * _entries.Count;
         }
 
+        /// <summary>
+        /// Sends the stop signal to the analysis.
+        /// The analysis will be stopped after the current analysis has been done.
+        /// </summary>
         public void Stop()
         {
             _stopSignal = true;

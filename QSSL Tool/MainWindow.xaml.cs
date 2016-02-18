@@ -48,7 +48,7 @@ namespace QSSLTool
         private string getWindowTitle()
         {
             Version version = Assembly.GetEntryAssembly().GetName().Version;
-            return string.Format("QSSL Tool (version {0})", version.ToString());
+            return string.Format("QSSL Tool (Version {0})", version.ToString());
         }
 
         /// <summary>

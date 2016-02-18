@@ -18,9 +18,9 @@ namespace QSSLTool.FileParsers.Concretes
         }
 
         /// <summary>
-        /// Maps the imported Excel file to a DataNode-List. The first row
-        /// will be treated as the header row. All subsequent rows will be added
-        /// as childs of the respective header rows.
+        /// Reads the first row to determine which column is located on which column-index.
+        /// After that HostEntries will be created using those indexes and added to the internal
+        /// list of HostEntries.
         /// </summary>
         private void parse(IExcelDataReader reader)
         {
@@ -68,6 +68,9 @@ namespace QSSLTool.FileParsers.Concretes
             ParserDelegator.CallOnParseComplete();
         }
 
+        /// <summary>
+        /// Uses the proper file reader for the Excel file.
+        /// </summary>
         protected override void prepareFile()
         {
             IExcelDataReader reader;

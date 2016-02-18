@@ -7,6 +7,7 @@ using System.IO;
 
 namespace QSSLTool.FileParsers
 {
+
     public abstract class FileParser
     {
         protected string filePath;
