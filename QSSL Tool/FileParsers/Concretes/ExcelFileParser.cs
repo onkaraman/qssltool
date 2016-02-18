@@ -36,7 +36,7 @@ namespace QSSLTool.FileParsers.Concretes
 
             // Get headers
             reader.Read();
-            int columnIndex = 0;
+            int columnIndex = -1;
             while (reader.GetString(columnIndex) != null)
             {
                 string cmp = reader.GetString(columnIndex);
