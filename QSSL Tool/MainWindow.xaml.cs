@@ -6,6 +6,7 @@ using QSSLTool.Queries;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -99,7 +100,7 @@ namespace QSSLTool
             OptionsGrid.Opacity = 0;
         }
 
-        private void setupSSLAnalyzer(HostEntryList hel)
+        private void setupSSLAnalyzer(List<HostEntry> hel)
         {
             _sslAnalyzer = new SSLAnalyzer(hel, _service);
             _sslAnalyzer.OnAnalyzeProgressed += OnAnalyzeProgressed;
@@ -182,7 +183,7 @@ namespace QSSLTool
             if (_sslAnalyzer.Current != null)
             {
                 string str = string.Format("> ({0}) {1}", 
-                    _sslAnalyzer.Current.Protocol.Content.ToLower(),
+                    _sslAnalyzer.Current.Protocol.ToString().ToLower(),
                     _sslAnalyzer.Current.URL);
                 CurrentHostLabel.Text = str;
             }
@@ -214,7 +215,7 @@ namespace QSSLTool
             if (!_singleQueryStarted)
             {
                 msg = string.Format("{0}/{1} hosts analyzed",
-                _sslAnalyzer.Done, _parserDelegator.ReadyRows);
+                _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count);
             }
             else msg = "Single host analysis";
             string hostsChecked = msg;
@@ -260,7 +261,7 @@ namespace QSSLTool
                 string url = URLField.Text.Replace("https://", "");
                 startAnimation("CurrentStatGrid_In");
 
-                HostEntryList hel = new HostEntryList();
+                List<HostEntry> hel = new List<HostEntry>();
                 HostEntry he = new HostEntry("", url, "https", "", "",
                     DateTime.Now, "", "");
                 hel.Add(he);

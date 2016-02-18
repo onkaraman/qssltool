@@ -3,6 +3,7 @@ using QSSLTool.FileParsers;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace QSSLTool.Queries
@@ -25,12 +26,12 @@ namespace QSSLTool.Queries
         {
             get
             {
-                return _entries.List[_done-1];
+                return _entries[_done-1];
             }
         }
-        private HostEntryList _entries;
-        private HostEntryList _analyzedEntries;
-        public HostEntryList AnalyzedEntries { get { return _analyzedEntries; } }
+        private List<HostEntry> _entries;
+        private List<HostEntry> _analyzedEntries;
+        public List<HostEntry> AnalyzedEntries { get { return _analyzedEntries; } }
         private SSLLabsApiService _service;
         public event Action OnAnalyzeProgressed;
         public event Action OnAnalyzeComplete;
@@ -39,13 +40,13 @@ namespace QSSLTool.Queries
         /// <summary>
         /// Constructs the SSLAnalyzer using a parsed list of HostEntries and a connected API service object.
         /// </summary>
-        public SSLAnalyzer(HostEntryList entries, SSLLabsApiService service)
+        public SSLAnalyzer(List<HostEntry> entries, SSLLabsApiService service)
         {
             _service = service;
             _entries = entries;
             _estRuntime = 60;
             _waitInterval = 3;
-            _analyzedEntries = new HostEntryList();
+            _analyzedEntries = new List<HostEntry>();
         }
 
         /// <summary>
@@ -67,9 +68,9 @@ namespace QSSLTool.Queries
         {
             for (int i=0; i < _entries.Count; i+=1)
             {
-                _current = _entries.List[i];
+                _current = _entries[i];
                 string url = string.Format("{0}://{1}", 
-                    _current.Protocol.Content.ToLower(), _current.URL);
+                    _current.Protocol.ToString().ToLower(), _current.URL);
 
                 Analyze a = _service.AutomaticAnalyze(url, 
                     SSLLabsApiService.Publish.Off, SSLLabsApiService.StartNew.On,
@@ -120,8 +121,8 @@ namespace QSSLTool.Queries
             try
             {
                 return new HostEntry(a.endpoints[0].ipAddress, 
-                    he.URL.Content, 
-                    he.Protocol.Content,
+                    he.URL.ToString(), 
+                    he.Protocol.ToString(),
                     a.endpoints[0].grade,
                     a.endpoints[0].Details.cert.sigAlg,
                     DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter),

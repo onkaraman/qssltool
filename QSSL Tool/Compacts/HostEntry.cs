@@ -56,7 +56,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public bool IsEmpty()
         {
-            if (_IP.Content.Length < 3 && _url.Content.Length < 3) return true;
+            if (_IP.ToString().Length < 3 && _url.ToString().Length < 3) return true;
             return false;
         }
         
@@ -78,7 +78,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         private string getSummary(HostEntryAttribute before, HostEntryAttribute now)
         {
-            if (before.Content.Length > 1) return string.Format("Changed from {0} to {1}", before, now);
+            if (before.ToString().Length > 1) return string.Format("Changed from {0} to {1}", before, now);
             else return string.Format("Discovered as {0}", now);
         }
 

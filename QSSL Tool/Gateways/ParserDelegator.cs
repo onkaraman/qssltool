@@ -7,10 +7,12 @@ using System.IO;
 
 namespace QSSLTool.Gateways
 {
+    /// <summary>
+    /// This class delegates the read filename to a file parser
+    /// which is specialized for that file type.
+    /// </summary>
     public class ParserDelegator
     {
-        private int _readyRows;
-        public int ReadyRows { get { return _readyRows-1; } }
         private ExcelFileParser _excelParser;
         public static event Action OnParseComplete;
 
@@ -33,18 +35,7 @@ namespace QSSLTool.Gateways
             if (OnParseComplete != null) OnParseComplete();
         }
 
-        public ParserDelegator()
-        {
-            OnParseComplete += CalcRows;
-        }
-
-        private void CalcRows()
-        {
-            _readyRows = 0;
-            _readyRows += _excelParser.HostEntries.Count;
-        }
-
-        public HostEntryList GetHostEntries()
+        public List<HostEntry> GetHostEntries()
         {
             return _excelParser.HostEntries;
         }

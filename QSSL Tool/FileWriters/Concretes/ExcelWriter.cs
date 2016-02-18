@@ -1,21 +1,25 @@
 ﻿using OfficeOpenXml;
 using QSSLTool.Compacts;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
 namespace QSSLTool.FileWriters.Concretes
 {
+    /// <summary>
+    /// This class writes analyzed data to an excel file.
+    /// </summary>
     public class ExcelWriter
     {
         private enum coloring { positive, neutral, negative, none }
         private int _cursor;
         private string _path;
-        private HostEntryList _hosts;
+        private List<HostEntry> _hosts;
         private ExcelPackage _excelPackage;
         private ExcelWorksheet _sheet;
 
-        public ExcelWriter(HostEntryList hosts, string path)
+        public ExcelWriter(List<HostEntry> hosts, string path)
         {
             _cursor = 2;
             _path = path;
@@ -30,6 +34,9 @@ namespace QSSLTool.FileWriters.Concretes
             addRows();
         }
 
+        /// <summary>
+        /// Will save the excel file at the path passed in the constructor of this object.
+        /// </summary>
         public void Save()
         {
             _excelPackage.SaveAs(new FileInfo(_path));
@@ -52,34 +59,41 @@ namespace QSSLTool.FileWriters.Concretes
             int width = -1, int column = -1)
         {
             _sheet.Cells[address].Value = content;
-            if (width > 0 || column > 0)
-            {
-                _sheet.Column(column).Width = width;
-            }
+            if (width > 0 || column > 0) _sheet.Column(column).Width = width;
         }
 
         private void addCell(string address, string content,
-            coloring attr = coloring.none)
+            coloring col = coloring.none)
         {
             _sheet.Cells[address].Value = content;
-            if (attr == coloring.neutral)
+            applyCellStyling(address, col);
+        }
+
+        /// <summary>
+        /// Applies the styling for a single cell based on the colorin enum.
+        /// </summary>
+        private void applyCellStyling(string address, coloring col)
+        {
+            _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            Color background = Color.White;
+            Color foreground = Color.Black;
+            if (col == coloring.neutral)
             {
-                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 235, 156));
-                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(191,149,0));
+                background = Color.FromArgb(255, 235, 156);
+                foreground = Color.FromArgb(191, 149, 0);
             }
-            else if (attr == coloring.negative)
+            else if (col == coloring.negative)
             {
-                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(255, 199, 206));
-                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(156, 0, 6));
+                background = Color.FromArgb(255, 199, 206);
+                foreground = Color.FromArgb(156, 0, 6);
             }
-            else if (attr == coloring.positive)
+            else if (col == coloring.positive)
             {
-                _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(198, 239, 206));
-                _sheet.Cells[address].Style.Font.Color.SetColor(Color.FromArgb(0, 97, 0));
+                background = Color.FromArgb(198, 239, 206);
+                foreground = Color.FromArgb(0, 97, 0);
             }
+            _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(background);
+            _sheet.Cells[address].Style.Font.Color.SetColor(foreground);
         }
 
         private void applyGeneralStyling()
@@ -92,56 +106,64 @@ namespace QSSLTool.FileWriters.Concretes
 
         private void addRows()
         {
-            foreach (HostEntry he in _hosts.List) addRow(he);
+            foreach (HostEntry he in _hosts) addRow(he);
         }
 
+        /// <summary>
+        /// Will add a row to the excel sheet with the data which held by the HostEntry.
+        /// </summary>
+        /// <param name="entry"></param>
         private void addRow(HostEntry entry)
         {
             _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Name = "Arial";
             _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Size = 9;
 
-            addCell(string.Format("A{0}", _cursor), entry.URL.Content, detemineCellAttribute(entry.URL));
-            addCell(string.Format("B{0}", _cursor), entry.Ranking.Content, detemineCellAttribute(entry.Ranking));
-            addCell(string.Format("C{0}", _cursor), entry.IP.Content, detemineCellAttribute(entry.IP));
-            addCell(string.Format("D{0}", _cursor), entry.Protocol.Content, detemineCellAttribute(entry.Protocol));
-            addCell(string.Format("E{0}", _cursor), entry.FingerPrintCert.Content, detemineCellAttribute(entry.FingerPrintCert));
-            addCell(string.Format("F{0}", _cursor), entry.RC4.Content, detemineCellAttribute(entry.RC4));
-            addCell(string.Format("G{0}", _cursor), entry.MD5.Content, detemineCellAttribute(entry.MD5));
-            addCell(string.Format("H{0}", _cursor), entry.Expiration.Content,
-                detemineCellAttribute(entry.Expiration));
-            addCell(string.Format("I{0}", _cursor), entry.TLS.Content, detemineCellAttribute(entry.TLS));
+            addCell(string.Format("A{0}", _cursor), entry.URL.ToString(), detemineCellColoring(entry.URL));
+            addCell(string.Format("B{0}", _cursor), entry.Ranking.ToString(), detemineCellColoring(entry.Ranking));
+            addCell(string.Format("C{0}", _cursor), entry.IP.ToString(), detemineCellColoring(entry.IP));
+            addCell(string.Format("D{0}", _cursor), entry.Protocol.ToString(), detemineCellColoring(entry.Protocol));
+            addCell(string.Format("E{0}", _cursor), entry.FingerPrintCert.ToString(), detemineCellColoring(entry.FingerPrintCert));
+            addCell(string.Format("F{0}", _cursor), entry.RC4.ToString(), detemineCellColoring(entry.RC4));
+            addCell(string.Format("G{0}", _cursor), entry.MD5.ToString(), detemineCellColoring(entry.MD5));
+            addCell(string.Format("H{0}", _cursor), entry.Expiration.ToString(),
+                detemineCellColoring(entry.Expiration));
+            addCell(string.Format("I{0}", _cursor), entry.TLS.ToString(), detemineCellColoring(entry.TLS));
 
             _cursor += 1;
         }
 
-        private coloring detemineCellAttribute(HostEntryAttribute s)
+        /// <summary>
+        /// Will determine the coloring of the cell based on the content it holds
+        /// for its type.
+        /// </summary>
+        private coloring detemineCellColoring(HostEntryAttribute s)
         {
             if (s.Attribute == HostEntryAttribute.AttributeType.Protocol)
             {
-                if (s.Content.ToLower().Equals("http")) return coloring.negative;
+                if (s.ToString().ToLower().Equals("http")) return coloring.negative;
                 return coloring.positive;
             }
             else if (s.Attribute == HostEntryAttribute.AttributeType.Ranking)
             {
-                if (s.Content.ToLower().StartsWith("a")) return coloring.positive;
-                else if (s.Content.ToLower().StartsWith("b")) return coloring.neutral;
+                if (s.ToString().ToLower().StartsWith("a")) return coloring.positive;
+                else if (s.ToString().ToLower().StartsWith("b")) return coloring.neutral;
                 else return coloring.negative;
             }
             else if (s.Attribute == HostEntryAttribute.AttributeType.Fingerprint)
             {
-                if (s.Content.Contains("256")) return coloring.positive;
+                if (s.ToString().Contains("256")) return coloring.positive;
                 else return coloring.neutral;
             }
             else if (s.Attribute == HostEntryAttribute.AttributeType.Expiration)
             {
-                DateTime dt = DateTime.Parse(s.Content);
+                DateTime dt = DateTime.Parse(s.ToString());
                 if (dt > DateTime.Today.AddDays(10)) return coloring.positive;
                 else if (dt < DateTime.Today) return coloring.negative;
             }
             else if (s.Attribute == HostEntryAttribute.AttributeType.RC4)
             {
-                if (s.Content.Contains("True")) return coloring.positive;
-                else if (s.Content.Contains("False")) return coloring.positive;
+                if (s.ToString().Contains("True")) return coloring.negative;
+                else if (s.ToString().Contains("False")) return coloring.positive;
             }
             return coloring.none;
         }
