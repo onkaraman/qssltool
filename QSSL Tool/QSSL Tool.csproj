@@ -84,8 +84,15 @@
     <Compile Include="Compacts\HostEntry.cs" />
     <Compile Include="FileParsers\DataFormatter.cs" />
     <Compile Include="FileWriters\Concretes\ExcelWriter.cs" />
+    <Compile Include="FiltersWindow.xaml.cs">
+      <DependentUpon>FiltersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Patterns\LazyStatic.cs" />
     <Compile Include="Queries\SSLAnalyzer.cs" />
+    <Page Include="FiltersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

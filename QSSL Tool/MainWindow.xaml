@@ -11,7 +11,8 @@
         Height="622.667"
         Width="402"
         ResizeMode="CanMinimize"
-        Background="{DynamicResource General Background}">
+        Background="{DynamicResource General Background}"
+        Icon="Icons/qssl_icon_32.ico">
     <Window.Resources>
         <Storyboard x:Key="CurrentStatGrid_In">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
@@ -107,16 +108,18 @@
                      Style="{DynamicResource DefaultTextBoxStyle}" />
             <Button x:Name="AnalyzeButton"
                     Content="Analyze"
-                    Margin="10,80.997,202,20.209"
+                    Margin="10,80.997,202,0"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
                     Foreground="#FF007ACC"
                     FontSize="14.667"
-                    Style="{DynamicResource DefaultButtonStyle}" />
+                    Style="{DynamicResource DefaultButtonStyle}"
+                    Height="27.293"
+                    VerticalAlignment="Top" />
             <Button x:Name="OpenFileButton"
                     Content="Open file"
-                    Margin="0,80.997,10,20.209"
+                    Margin="0,80.997,10,0"
                     Background="#FF323236"
                     BorderThickness="1"
                     BorderBrush="White"
@@ -124,7 +127,9 @@
                     FontSize="14.667"
                     Style="{DynamicResource DefaultButtonStyle}"
                     HorizontalAlignment="Right"
-                    Width="184" />
+                    Width="184"
+                    Height="27.293"
+                    VerticalAlignment="Top" />
             <Button x:Name="StartButton"
                     Content="Start"
                     Margin="10,80.997,10,0"
@@ -140,7 +145,7 @@
         </Grid>
         <Grid x:Name="CurrentStatGrid"
               Margin="0,141.998,0,0"
-              Height="88.668"
+              Height="90"
               VerticalAlignment="Top"
               Background="{DynamicResource General Grid Background}">
             <TextBlock x:Name="CurrentHostLabel"
@@ -233,7 +238,8 @@
                     FontSize="14.667"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Height="27.293"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Top"
+                    Padding="1,0,1,1" />
             <Button x:Name="FiltersButton"
                     Content="Filters"
                     Margin="10,40.709,202,0"
@@ -244,7 +250,8 @@
                     FontSize="14.667"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Height="27.293"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Top"
+                    Padding="1,0,1,1" />
         </Grid>
     </Grid>
 </Window>

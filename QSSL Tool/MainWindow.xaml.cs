@@ -87,6 +87,7 @@ namespace QSSLTool
             OpenFileButton.Click += OpenFileButtonClick;
             StartButton.Click += StartButtonClick;
             ExportExcelButton.Click += ExportExcelButtonClick;
+            FiltersButton.Click += FiltersButtonClick;
 
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
@@ -251,7 +252,7 @@ namespace QSSLTool
         /// </summary>
         private void AnalyzeButtonClick(object sender, RoutedEventArgs e)
         {
-            if (URLField.Text.StartsWith("https://") && URLField.Text.Length > 15)
+            if (URLField.Text.StartsWith("https://") && URLField.Text.Length > 12)
             {
                 _singleQueryStarted = true;
                 AnalyzeButton.IsEnabled = false;
@@ -350,6 +351,12 @@ namespace QSSLTool
                 writer.Save();
                 MessageBox.Show("Excel file has been exported.", "QSSL Tool");
             }
+        }
+
+        private void FiltersButtonClick(object sender, RoutedEventArgs e)
+        {
+            FiltersWindow fw = new FiltersWindow();
+            fw.Show();
         }
         #endregion
     }
