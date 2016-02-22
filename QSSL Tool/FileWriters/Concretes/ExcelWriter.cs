@@ -14,6 +14,8 @@ namespace QSSLTool.FileWriters.Concretes
     {
         private enum coloring { positive, neutral, negative, none }
         private int _cursor;
+        private int _filteredOut;
+        public int FilteredOut { get { return _filteredOut; } }
         private string _path;
         private List<HostEntry> _hosts;
         private ExcelPackage _excelPackage;
@@ -106,7 +108,12 @@ namespace QSSLTool.FileWriters.Concretes
 
         private void addRows()
         {
-            foreach (HostEntry he in _hosts) addRow(he);
+            foreach (HostEntry he in _hosts)
+            {
+                if (he.AppliesToFilters()) addRow(he);
+                else _filteredOut += 1;
+            }
+
         }
 
         /// <summary>
@@ -166,6 +173,17 @@ namespace QSSLTool.FileWriters.Concretes
                 else if (s.ToString().Contains("False")) return coloring.positive;
             }
             return coloring.none;
+        }
+
+        public string GetMessage()
+        {
+            string str = "Excel file has been exported.{0}";
+            if (_filteredOut > 0)
+            {
+                str = string.Format(str, " " + _filteredOut + " items have been filtered out.");
+            }
+            else str = string.Format(str, "");
+            return str;
         }
     }
 }

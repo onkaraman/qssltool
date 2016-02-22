@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QSSLTool.Gateways;
+using System;
 using System.Collections.Generic;
 
 namespace QSSLTool.Compacts
@@ -112,6 +113,39 @@ namespace QSSLTool.Compacts
         {
             if (name == null || value == null || value.Length <= 0) return;
             _differences.Add(new AnalyzeDifference(name, value));
+        }
+
+        /// <summary>
+        /// Returns true if this host entry is comforming with the filter settings.
+        /// </summary>
+        /// <returns></returns>
+        public bool AppliesToFilters()
+        {
+            if (ExportFilter.Static.AlreadyExpired)
+            {
+                if (DateTime.Parse(_expiration.ToString()) >= DateTime.Now)
+                    return false; 
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("days"))
+                    now = now.AddDays(ExportFilter.Static.ExpireTimeFrame);
+                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("weeks"))
+                    now = now.AddDays(ExportFilter.Static.ExpireTimeFrame*7);
+                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("months"))
+                    now = now.AddMonths(ExportFilter.Static.ExpireTimeFrame);
+                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("years"))
+                    now = now.AddYears(ExportFilter.Static.ExpireTimeFrame);
+
+                if (DateTime.Parse(_expiration.ToString()) <= now) return false;
+            }
+
+            if (!ExportFilter.Static.RankingFilter.Equals("*"))
+            {
+                if (!ExportFilter.Static.RankingFilter.StartsWith(_ranking.ToString())) return false;
+            }
+            return true;
         }
     }
 }

@@ -116,7 +116,8 @@
                     FontSize="14.667"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Height="27.293"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Top"
+                    Padding="1,0,1,1" />
             <Button x:Name="OpenFileButton"
                     Content="Open file"
                     Margin="0,80.997,10,0"
@@ -129,7 +130,8 @@
                     HorizontalAlignment="Right"
                     Width="184"
                     Height="27.293"
-                    VerticalAlignment="Top" />
+                    VerticalAlignment="Top"
+                    Padding="1,0,1,1" />
             <Button x:Name="StartButton"
                     Content="Start"
                     Margin="10,80.997,10,0"

@@ -102,7 +102,7 @@
                       VerticalAlignment="Bottom"
                       Height="26.617"
                       HorizontalAlignment="Left"
-                      Width="69"
+                      Width="74.334"
                       Background="{DynamicResource General Grid Background}"
                       Foreground="{DynamicResource General Font Foreground}"
                       FontSize="13.333"

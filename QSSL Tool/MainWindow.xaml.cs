@@ -349,7 +349,7 @@ namespace QSSLTool
             {
                 ExcelWriter writer = new ExcelWriter(_sslAnalyzer.AnalyzedEntries, dia.FileName);
                 writer.Save();
-                MessageBox.Show("Excel file has been exported.", "QSSL Tool");
+                MessageBox.Show(writer.GetMessage(), "QSSL Tool");
             }
         }
 
