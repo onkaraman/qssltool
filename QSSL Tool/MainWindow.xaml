@@ -10,7 +10,8 @@
         Title="QSSL Tool"
         Height="622.667"
         Width="402"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        Background="{DynamicResource General Background}">
     <Window.Resources>
         <Storyboard x:Key="CurrentStatGrid_In">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
@@ -59,6 +60,7 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+
     </Window.Resources>
     <Grid x:Name="MainGrid"
           Background="#FF1A1A1D"
@@ -66,7 +68,7 @@
         <Grid x:Name="HeaderGrid"
               Height="128.499"
               VerticalAlignment="Top"
-              Background="#FF222225">
+              Background="{DynamicResource General Grid Background}">
             <ProgressBar x:Name="ProgressBar"
                          Height="5"
                          VerticalAlignment="Top"
@@ -101,7 +103,8 @@
                      FontSize="14.667"
                      CaretBrush="#FF007ACC"
                      Height="28.8"
-                     VerticalAlignment="Top" />
+                     VerticalAlignment="Top"
+                     Style="{DynamicResource DefaultTextBoxStyle}" />
             <Button x:Name="AnalyzeButton"
                     Content="Analyze"
                     Margin="10,80.997,202,20.209"
@@ -139,28 +142,28 @@
               Margin="0,141.998,0,0"
               Height="88.668"
               VerticalAlignment="Top"
-              Background="#FF222225">
+              Background="{DynamicResource General Grid Background}">
             <TextBlock x:Name="CurrentHostLabel"
                        Margin="10,10,10,0"
                        TextWrapping="Wrap"
                        VerticalAlignment="Top"
                        FontSize="14.667"
-                       Foreground="#FF007ACC"
                        Text="easycredit.meineschufa-test.de"
-                       Width="376" />
+                       Width="376"
+                       Foreground="{DynamicResource General Font Foreground}" />
             <TextBlock x:Name="HostsCheckedLabel"
                        Margin="10,35.672,10,0"
                        TextWrapping="Wrap"
                        FontSize="13.333"
-                       Foreground="#FF007ACC"
-                       VerticalAlignment="Top"><Run Text="11/60 hosts " /><Run Text="analyzed" /></TextBlock>
+                       VerticalAlignment="Top"
+                       Foreground="{DynamicResource General Font Foreground}"><Run Text="11/60 hosts " /><Run Text="analyzed" /></TextBlock>
             <TextBlock x:Name="ElapsedTimeLabel"
                        Margin="10,58.626,10,0"
                        TextWrapping="Wrap"
                        FontSize="13.333"
-                       Foreground="#FF007ACC"
                        Text="Elapsed time:"
-                       VerticalAlignment="Top" />
+                       VerticalAlignment="Top"
+                       Foreground="{DynamicResource General Font Foreground}" />
         </Grid>
         <Grid x:Name="RecentOutcomeGrid"
               Margin="0,245.331,0,0"
@@ -172,9 +175,9 @@
                        TextWrapping="Wrap"
                        VerticalAlignment="Top"
                        FontSize="14.667"
-                       Foreground="#FF007ACC"
                        Text="Recent outcome"
-                       TextDecorations="{x:Null}" />
+                       TextDecorations="{x:Null}"
+                       Foreground="{DynamicResource General Font Foreground}" />
             <ListBox x:Name="DifferenceListBox"
                      Margin="10,44.002,10,0"
                      Background="{x:Null}"
@@ -217,9 +220,9 @@
                        TextWrapping="Wrap"
                        VerticalAlignment="Top"
                        FontSize="14.667"
-                       Foreground="#FF007ACC"
                        Text="Options"
-                       TextDecorations="{x:Null}" />
+                       TextDecorations="{x:Null}"
+                       Foreground="{DynamicResource General Font Foreground}" />
             <Button x:Name="ExportExcelButton"
                     Content="Export as Excel"
                     Margin="202,40.709,10,0"
@@ -241,8 +244,7 @@
                     FontSize="14.667"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Height="27.293"
-                    VerticalAlignment="Top"
-                    IsEnabled="False" />
+                    VerticalAlignment="Top" />
         </Grid>
     </Grid>
 </Window>
