@@ -81,7 +81,7 @@
                          Visibility="Collapsed"
                          BorderBrush="{x:Null}" />
             <TextBlock x:Name="ConnectionStatusText"
-                       Margin="26.328,11.984,0,0"
+                       Margin="26.328,11.984,100,0"
                        TextWrapping="Wrap"
                        Text="Connected to API"
                        VerticalAlignment="Top"
@@ -144,6 +144,22 @@
                     VerticalAlignment="Top"
                     Style="{DynamicResource DefaultButtonStyle}"
                     Visibility="Collapsed" />
+            <TextBlock x:Name="SettingsLabel"
+                       Margin="0,11.984,10,0"
+                       TextWrapping="Wrap"
+                       Text="Settings"
+                       VerticalAlignment="Top"
+                       FontSize="13.333"
+                       HorizontalAlignment="Right"
+                       Width="90"
+                       TextAlignment="Right"
+                       TextDecorations="{x:Null}"
+                       Foreground="{DynamicResource General Font Foreground}"
+                       Padding="0,0,2,0">
+                <TextBlock.Background>
+                    <ImageBrush />
+                </TextBlock.Background>
+            </TextBlock>
         </Grid>
         <Grid x:Name="CurrentStatGrid"
               Margin="0,141.998,0,0"

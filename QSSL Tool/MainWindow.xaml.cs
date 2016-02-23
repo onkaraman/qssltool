@@ -88,6 +88,8 @@ namespace QSSLTool
             StartButton.Click += StartButtonClick;
             ExportExcelButton.Click += ExportExcelButtonClick;
             FiltersButton.Click += FiltersButtonClick;
+            SettingsLabel.MouseEnter += SettingsLabelMouseEnter;
+            SettingsLabel.MouseLeave += SettingsLabelMouseLeave;
 
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
@@ -234,6 +236,16 @@ namespace QSSLTool
         }
 
         #region View events
+        private void SettingsLabelMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            SettingsLabel.TextDecorations = null;
+        }
+
+        private void SettingsLabelMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            SettingsLabel.TextDecorations = TextDecorations.Underline;
+        }
+
         /// <summary>
         /// Íf the user pressed the enter-key, the single analysis will be started.
         /// </summary>
