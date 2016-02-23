@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using QSSLTool.Compacts;
+using QSSLTool.Gateways;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -77,23 +78,31 @@ namespace QSSLTool.FileWriters.Concretes
         private void applyCellStyling(string address, coloring col)
         {
             _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+
             Color background = Color.White;
             Color foreground = Color.Black;
+            ColorHolder chbg = null;
+            ColorHolder chfg = null;
+
             if (col == coloring.neutral)
             {
-                background = Color.FromArgb(255, 235, 156);
-                foreground = Color.FromArgb(191, 149, 0);
+                chbg = Settings.Static.ColorSettings.NeutralBG;
+                chfg = Settings.Static.ColorSettings.NeutralFG;
             }
             else if (col == coloring.negative)
             {
-                background = Color.FromArgb(255, 199, 206);
-                foreground = Color.FromArgb(156, 0, 6);
+                chbg = Settings.Static.ColorSettings.NegativeBG;
+                chfg = Settings.Static.ColorSettings.NegativeFG;
             }
             else if (col == coloring.positive)
             {
-                background = Color.FromArgb(198, 239, 206);
-                foreground = Color.FromArgb(0, 97, 0);
+                chbg = Settings.Static.ColorSettings.PositiveBG;
+                chfg = Settings.Static.ColorSettings.PositiveFG;
             }
+
+            background = Color.FromArgb(chbg.R, chbg.G, chbg.B);
+            foreground = Color.FromArgb(chfg.R, chfg.G, chfg.B);
+
             _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(background);
             _sheet.Cells[address].Style.Font.Color.SetColor(foreground);
         }

@@ -126,7 +126,7 @@ namespace QSSLTool.Compacts
                 if (DateTime.Parse(_expiration.ToString()) >= DateTime.Now)
                     return false; 
             }
-            else
+            else if (ExportFilter.Static.ExpireTimeFrame > 0)
             {
                 DateTime now = DateTime.Now;
                 if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("days"))

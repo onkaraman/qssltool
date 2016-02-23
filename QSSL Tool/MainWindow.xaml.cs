@@ -376,8 +376,15 @@ namespace QSSLTool
 
         private void SettingsLabelMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            SettingsWindow sw = new SettingsWindow();
-            sw.Show();
+            if (_singleQueryStarted || _massQueryStarted)
+            {
+                MessageBox.Show("Cannot enter settings while an analysis is happening", "QSSL Tool");
+            }
+            else
+            {
+                SettingsWindow sw = new SettingsWindow();
+                sw.Show();
+            }
         }
         #endregion
 
