@@ -1,7 +1,9 @@
 ﻿using SSLLabsApiWrapper;
+using System;
 
 namespace QSSLTool.Gateways
 {
+    [Serializable]
     public class AnalyzerSettings
     {
         public SSLLabsApiService.Publish Publish;

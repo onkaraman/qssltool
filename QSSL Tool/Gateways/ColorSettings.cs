@@ -1,15 +1,18 @@
-﻿using System.Windows.Media;
+﻿using QSSLTool.Compacts;
+using System;
+using System.Windows.Media;
 
 namespace QSSLTool.Gateways
 {
+    [Serializable]
     public class ColorSettings
     {
-        public Color NeutralBG;
-        public Color NeutralFG;
-        public Color PositiveBG;
-        public Color PositiveFG;
-        public Color NegativeBG;
-        public Color NegativeFG;
+        public ColorHolder NeutralBG;
+        public ColorHolder NeutralFG;
+        public ColorHolder PositiveBG;
+        public ColorHolder PositiveFG;
+        public ColorHolder NegativeBG;
+        public ColorHolder NegativeFG;
 
         public ColorSettings()
         {
@@ -18,12 +21,12 @@ namespace QSSLTool.Gateways
 
         public void RestoreDefaults()
         {
-            NeutralBG = Color.FromArgb(255, 255, 235, 156);
-            NeutralFG = Color.FromArgb(255, 191, 149, 0);
-            PositiveBG = Color.FromArgb(255, 198, 239, 206);
-            PositiveFG = Color.FromArgb(255, 0, 97, 0);
-            NegativeBG = Color.FromArgb(255, 255, 199, 206);
-            NegativeFG = Color.FromArgb(255, 156, 0, 6);
+            NeutralBG = new ColorHolder(255, 255, 235, 156);
+            NeutralFG = new ColorHolder(255, 191, 149, 0);
+            PositiveBG = new ColorHolder(255, 198, 239, 206);
+            PositiveFG = new ColorHolder(255, 0, 97, 0);
+            NegativeBG = new ColorHolder(255, 255, 199, 206);
+            NegativeFG = new ColorHolder(255, 156, 0, 6);
         }
     }
 }

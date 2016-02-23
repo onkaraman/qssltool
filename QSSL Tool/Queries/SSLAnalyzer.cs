@@ -45,7 +45,7 @@ namespace QSSLTool.Queries
         {
             _service = service;
             _entries = entries;
-            _estRuntime = 60;
+            _estRuntime = 95;
             _waitInterval = 3;
             _analyzedEntries = new List<HostEntry>();
         }

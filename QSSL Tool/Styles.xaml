@@ -395,7 +395,7 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Width="Auto"
-                                          Height="15.733" />
+                                          Height="Auto" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent"

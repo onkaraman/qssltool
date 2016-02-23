@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using SSLLabsApiWrapper.Models.Response.EndpointSubModels;
+using System.Windows.Media;
+using QSSLTool.Compacts;
 
 namespace QSSLTool.FileParsers
 {
@@ -33,6 +35,11 @@ namespace QSSLTool.FileParsers
                 s += string.Format("{0} {1}, ", p.name, p.version);
             }
             return s;
+        }
+
+        public Color ColorHolderToColor(ColorHolder c)
+        {
+            return Color.FromArgb(c.A, c.R, c.G, c.B);
         }
     }
 }

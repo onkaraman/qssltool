@@ -1,13 +1,12 @@
-﻿using QSSLTool.Gateways;
+﻿using QSSLTool.Compacts;
+using QSSLTool.FileParsers;
+using QSSLTool.Gateways;
 using System.Windows;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
 
 namespace QSSLTool
 {
-    /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
-    /// </summary>
     public partial class SettingsWindow : Window
     {
 
@@ -36,7 +35,7 @@ namespace QSSLTool
 
         private void restoreCheckBoxes()
         {
-            if (Settings.Static.AnalyzerSettings.FromCache 
+            if (Settings.Static.AnalyzerSettings.FromCache
                 == SSLLabsApiWrapper.SSLLabsApiService.FromCache.On)
             {
                 UseCacheCheckBox.IsChecked = true;
@@ -50,7 +49,7 @@ namespace QSSLTool
             }
             else PublishResultsCheckbox.IsChecked = false;
 
-            if (Settings.Static.AnalyzerSettings.IgnoreMismatch 
+            if (Settings.Static.AnalyzerSettings.IgnoreMismatch
                 == SSLLabsApiWrapper.SSLLabsApiService.IgnoreMismatch.On)
             {
                 IgnoreMismatchCheckBox.IsChecked = true;
@@ -61,12 +60,18 @@ namespace QSSLTool
 
         private void restoreColors()
         {
-            NeutralBGPicker.SelectedColor = Settings.Static.ColorSettings.NeutralBG;
-            NeutralFGPicker.SelectedColor = Settings.Static.ColorSettings.NeutralFG;
-            PositiveBGPicker.SelectedColor = Settings.Static.ColorSettings.PositiveBG;
-            PositiveFGPicker.SelectedColor = Settings.Static.ColorSettings.PositiveFG;
-            NegativeBGPicker.SelectedColor = Settings.Static.ColorSettings.NegativeBG;
-            NegativeFGPicker.SelectedColor = Settings.Static.ColorSettings.NegativeFG;
+            NeutralBGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NeutralBG);
+            NeutralFGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NeutralFG);
+            PositiveBGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.PositiveBG);
+            PositiveFGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.PositiveFG);
+            NegativeBGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NegativeBG);
+            NegativeFGPicker.SelectedColor =
+                DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NegativeFG);
         }
 
         #region Checkbox events
@@ -89,39 +94,45 @@ namespace QSSLTool
         #region Color changed events
         private void NeutralFGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.NeutralFG = (Color) NeutralFGPicker.SelectedColor;
-            NeutralSampleTB.Foreground = new SolidColorBrush(Settings.Static.ColorSettings.NeutralFG);
+            Color sel = (Color)NeutralFGPicker.SelectedColor;
+            Settings.Static.ColorSettings.NeutralFG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            NeutralSampleTB.Foreground = new SolidColorBrush(sel);
         }
 
         private void NeutralBGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.NeutralBG = (Color)NeutralBGPicker.SelectedColor;
-            NeutralSampleTB.Background = new SolidColorBrush(Settings.Static.ColorSettings.NeutralBG);
+            Color sel = (Color)NeutralBGPicker.SelectedColor;
+            Settings.Static.ColorSettings.NeutralBG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            NeutralSampleTB.Background = new SolidColorBrush(sel);
         }
 
         private void PositiveFGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.PositiveFG = (Color)PositiveFGPicker.SelectedColor;
-            PositiveSampleTB.Foreground = new SolidColorBrush(Settings.Static.ColorSettings.PositiveFG);
+            Color sel = (Color)PositiveFGPicker.SelectedColor;
+            Settings.Static.ColorSettings.PositiveFG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            PositiveSampleTB.Foreground = new SolidColorBrush(sel);
         }
 
         private void PositiveBGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.PositiveBG = (Color)PositiveBGPicker.SelectedColor;
-            PositiveSampleTB.Background = new SolidColorBrush(Settings.Static.ColorSettings.PositiveBG);
+            Color sel = (Color)PositiveBGPicker.SelectedColor;
+            Settings.Static.ColorSettings.PositiveBG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            PositiveSampleTB.Background = new SolidColorBrush(sel);
         }
 
         private void NegativeFGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.NegativeFG = (Color)NegativeFGPicker.SelectedColor;
-            NegativeSampleTB.Foreground = new SolidColorBrush(Settings.Static.ColorSettings.NegativeFG);
+            Color sel = (Color)NegativeFGPicker.SelectedColor;
+            Settings.Static.ColorSettings.NegativeFG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            NegativeSampleTB.Foreground = new SolidColorBrush(sel);
         }
 
         private void NegativeBGPickerColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Settings.Static.ColorSettings.NegativeBG = (Color)NegativeBGPicker.SelectedColor;
-            NegativeSampleTB.Background = new SolidColorBrush(Settings.Static.ColorSettings.NegativeBG);
+            Color sel = (Color)NegativeBGPicker.SelectedColor;
+            Settings.Static.ColorSettings.NegativeBG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
+            NegativeSampleTB.Background = new SolidColorBrush(sel);
+            #endregion
         }
-        #endregion
     }
 }

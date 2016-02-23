@@ -383,6 +383,7 @@ namespace QSSLTool
 
         private void MainWindowClosed(object sender, EventArgs e)
         {
+            Settings.Static.Save();
             Application.Current.Shutdown();
         }
     }

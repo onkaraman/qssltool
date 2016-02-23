@@ -32,21 +32,24 @@
                       Style="{DynamicResource DefaultCheckBoxStyle}"
                       Foreground="{DynamicResource General Font Foreground}"
                       Padding="4,2,0,0"
-                      VerticalAlignment="Top" />
+                      VerticalAlignment="Top"
+                      ToolTip="Set to &quot;on&quot; if assessment results should be published on the public results boards; optional, defaults to &quot;off&quot;" />
             <CheckBox x:Name="UseCacheCheckBox"
                       Content="Use cached results"
                       Margin="10,69.239,10,0"
                       Style="{DynamicResource DefaultCheckBoxStyle}"
                       Foreground="{DynamicResource General Font Foreground}"
                       Padding="4,2,0,0"
-                      VerticalAlignment="Top" />
+                      VerticalAlignment="Top"
+                      ToolTip="Always deliver cached assessment reports if available." />
             <CheckBox x:Name="IgnoreMismatchCheckBox"
                       Content="Ignore certificate name mismatch"
                       Margin="10,98.972,10,0"
                       Style="{DynamicResource DefaultCheckBoxStyle}"
                       Foreground="{DynamicResource General Font Foreground}"
                       Padding="4,2,0,0"
-                      VerticalAlignment="Top" />
+                      VerticalAlignment="Top"
+                      ToolTip="Set to &quot;on&quot; to proceed with assessments even when the server certificate doesn't match the assessment hostname. Set to off by default. Please note that this parameter is ignored if a cached report is returned." />
         </Grid>
         <Grid x:Name="ExportSettingsGrid"
               Background="{DynamicResource General Grid Background}"
