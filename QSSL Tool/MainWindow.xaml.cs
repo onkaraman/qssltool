@@ -30,6 +30,7 @@ namespace QSSLTool
         public MainWindow()
         {
             InitializeComponent();
+            this.Closed += MainWindowClosed;
             MainPageWindow.Title = getWindowTitle();
 
             _service = new SSLLabsApiService("https://api.ssllabs.com/api/v2");
@@ -40,6 +41,7 @@ namespace QSSLTool
             reloadSettings();
             setupViews();
             prepareAnimations();
+
         }
 
         /// <summary>
@@ -90,6 +92,7 @@ namespace QSSLTool
             FiltersButton.Click += FiltersButtonClick;
             SettingsLabel.MouseEnter += SettingsLabelMouseEnter;
             SettingsLabel.MouseLeave += SettingsLabelMouseLeave;
+            SettingsLabel.MouseUp += SettingsLabelMouseUp;
 
             ElapsedTimeLabel.Text = "";
             HostsCheckedLabel.Text = "";
@@ -370,6 +373,17 @@ namespace QSSLTool
             FiltersWindow fw = new FiltersWindow();
             fw.Show();
         }
+
+        private void SettingsLabelMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            SettingsWindow sw = new SettingsWindow();
+            sw.Show();
+        }
         #endregion
+
+        private void MainWindowClosed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

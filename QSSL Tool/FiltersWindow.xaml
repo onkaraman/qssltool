@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="QSSL Tool Filters"
         Height="282.312"
-        Width="382.597"
+        Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico">
     <Grid Background="{DynamicResource General Background}"
