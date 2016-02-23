@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:QSSLTool"
         mc:Ignorable="d"
         Title="QSSL Tool Settings"
-        Height="452"
-        Width="391"
+        Height="507"
+        Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico"
         Background="{DynamicResource General Background}">
@@ -50,9 +50,13 @@
         </Grid>
         <Grid x:Name="ExportSettingsGrid"
               Background="{DynamicResource General Grid Background}"
-              Height="249.666"
+              Height="302.333"
               VerticalAlignment="Top"
-              Margin="0,152,0,0">
+              Margin="0,152,0,0"
+              d:LayoutOverrides="LeftMargin, RightMargin">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <TextBlock x:Name="ExportSettingsLabel"
                        Margin="10,10,10,0"
                        TextWrapping="Wrap"
@@ -73,7 +77,7 @@
             <xctk:ColorPicker x:Name="NeutralBGPicker"
                               Margin="10,65.787,0,0"
                               HorizontalAlignment="Left"
-                              Width="98"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
@@ -93,16 +97,17 @@
                        HorizontalAlignment="Right"
                        Width="177.667" />
             <xctk:ColorPicker x:Name="NeutralFGPicker"
-                              Margin="0,65.787,92.841,0"
+                              Margin="0,65.787,18.666,0"
                               HorizontalAlignment="Right"
-                              Width="91.159"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
                               Background="White"
                               Foreground="{DynamicResource General Font Foreground}"
                               Height="22.84"
-                              VerticalAlignment="Top" />
+                              VerticalAlignment="Top"
+                              d:LayoutOverrides="HorizontalAlignment" />
             <TextBlock x:Name="PositiveBGLabel"
                        Margin="10,111.499,184,0"
                        TextWrapping="Wrap"
@@ -115,7 +120,7 @@
             <xctk:ColorPicker x:Name="PositiveBGPicker"
                               Margin="10,137.121,0,0"
                               HorizontalAlignment="Left"
-                              Width="98"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
@@ -135,16 +140,17 @@
                        HorizontalAlignment="Right"
                        Width="177.667" />
             <xctk:ColorPicker x:Name="PositiveFGPicker"
-                              Margin="0,137.121,92.841,0"
+                              Margin="0,137.121,18.666,0"
                               HorizontalAlignment="Right"
-                              Width="91.159"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
                               Background="White"
                               Foreground="{DynamicResource General Font Foreground}"
                               Height="22.84"
-                              VerticalAlignment="Top" />
+                              VerticalAlignment="Top"
+                              d:LayoutOverrides="HorizontalAlignment" />
             <TextBlock x:Name="NegativeBGLabel"
                        Margin="10,180.533,184,0"
                        TextWrapping="Wrap"
@@ -157,7 +163,7 @@
             <xctk:ColorPicker x:Name="NegativeBGPicker"
                               Margin="10,206.162,0,0"
                               HorizontalAlignment="Left"
-                              Width="98"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
@@ -177,16 +183,54 @@
                        HorizontalAlignment="Right"
                        Width="177.667" />
             <xctk:ColorPicker x:Name="NegativeFGPicker"
-                              Margin="0,206.162,92.841,0"
+                              Margin="0,206.162,18.666,0"
                               HorizontalAlignment="Right"
-                              Width="91.159"
+                              Width="164"
                               SelectedColor="#FFC10000"
                               ShowDropDownButton="False"
                               DisplayColorAndName="True"
                               Background="White"
                               Foreground="{DynamicResource General Font Foreground}"
                               Height="22.84"
-                              VerticalAlignment="Top" />
+                              VerticalAlignment="Top"
+                              d:LayoutOverrides="HorizontalAlignment" />
+            <TextBlock x:Name="NegativeSampleTB"
+                       HorizontalAlignment="Right"
+                       Height="22"
+                       Margin="0,260.998,11.998,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       Width="110"
+                       Background="White"
+                       Text="Negative sample"
+                       TextAlignment="Center"
+                       Padding="0,2,0,0" />
+            <Path Data="M10,246.66667 L375.20824,246.66667"
+                  Height="1"
+                  Margin="10,246.667,8.792,0"
+                  Stretch="Fill"
+                  VerticalAlignment="Top"
+                  Stroke="{DynamicResource General Background}" />
+            <TextBlock x:Name="PositiveSampleTB"
+                       Margin="143.499,260.998,142.501,0"
+                       TextWrapping="Wrap"
+                       Background="White"
+                       Text="Positive sample"
+                       TextAlignment="Center"
+                       Padding="0,2,0,0"
+                       Height="22"
+                       VerticalAlignment="Top" />
+            <TextBlock x:Name="NeutralSampleTB"
+                       Height="22"
+                       Margin="10,260.998,0,0"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       Background="White"
+                       Text="Neutral sample"
+                       TextAlignment="Center"
+                       Padding="0,2,0,0"
+                       HorizontalAlignment="Left"
+                       Width="110" />
         </Grid>
 
     </Grid>
