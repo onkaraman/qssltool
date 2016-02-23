@@ -1,5 +1,6 @@
 ﻿using QSSLTool.Compacts;
 using QSSLTool.FileParsers;
+using QSSLTool.Gateways;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
 using System;
@@ -73,9 +74,13 @@ namespace QSSLTool.Queries
                     _current.Protocol.ToString().ToLower(), _current.URL);
 
                 Analyze a = _service.AutomaticAnalyze(url, 
-                    SSLLabsApiService.Publish.Off, SSLLabsApiService.StartNew.On,
-                    SSLLabsApiService.FromCache.Off, 1, SSLLabsApiService.All.On, 
-                    SSLLabsApiService.IgnoreMismatch.Off, 200, _waitInterval);
+                    Settings.Static.AnalyzerSettings.Publish, 
+                    SSLLabsApiService.StartNew.On,
+                    Settings.Static.AnalyzerSettings.FromCache, 
+                    1, 
+                    SSLLabsApiService.All.On,
+                    Settings.Static.AnalyzerSettings.IgnoreMismatch, 
+                    200, _waitInterval);
 
                 HostEntry fresh = extractInfoFromAnalysis(a, _current);
                 _current.CheckDifferences(fresh);

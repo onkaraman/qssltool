@@ -148,6 +148,7 @@
     <Compile Include="FiltersWindow.xaml.cs">
       <DependentUpon>FiltersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gateways\AnalyzerSettings.cs" />
     <Compile Include="Gateways\ColorSettings.cs" />
     <Compile Include="Gateways\ExportFilter.cs" />
     <Compile Include="Gateways\Settings.cs" />

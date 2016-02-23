@@ -40,7 +40,7 @@
                       Foreground="{DynamicResource General Font Foreground}"
                       Padding="4,2,0,0"
                       VerticalAlignment="Top" />
-            <CheckBox x:Name="UseCacheCheckBox_Copy"
+            <CheckBox x:Name="IgnoreMismatchCheckBox"
                       Content="Ignore certificate name mismatch"
                       Margin="10,98.972,10,0"
                       Style="{DynamicResource DefaultCheckBoxStyle}"
