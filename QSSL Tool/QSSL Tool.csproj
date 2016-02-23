@@ -148,7 +148,9 @@
     <Compile Include="FiltersWindow.xaml.cs">
       <DependentUpon>FiltersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gateways\ColorSettings.cs" />
     <Compile Include="Gateways\ExportFilter.cs" />
+    <Compile Include="Gateways\Settings.cs" />
     <Compile Include="Patterns\LazyStatic.cs" />
     <Compile Include="Queries\SSLAnalyzer.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
