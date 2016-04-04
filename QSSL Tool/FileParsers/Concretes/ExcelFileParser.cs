@@ -34,6 +34,7 @@ namespace QSSLTool.FileParsers.Concretes
             int TLSIndex = -1;
             int RC4Index = -1;
             int MD5Index = -1;
+            int SSLIndex = -1;
 
             // Get headers
             reader.Read();
@@ -44,15 +45,26 @@ namespace QSSLTool.FileParsers.Concretes
                 {
                     string cmp = reader.GetString(columnIndex);
 
-                    if (cmp.Contains("IP")) ipIndex = columnIndex;
-                    else if (cmp.Contains("URL")) urlIndex = columnIndex;
-                    else if (cmp.Contains("TLS")) TLSIndex = columnIndex;
-                    else if (cmp.Contains("MD5")) MD5Index = columnIndex;
-                    else if (cmp.Contains("RC4")) RC4Index = columnIndex;
-                    else if (cmp.ToLower().Contains("ranking")) rankingIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("protocol")) protocolIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("fingerprint")) fingerPrintIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("expiration")) expirationIndex = columnIndex;
+                    if (cmp.Contains("IP"))
+                        ipIndex = columnIndex;
+                    else if (cmp.Contains("URL"))
+                        urlIndex = columnIndex;
+                    else if (cmp.Contains("TLS"))
+                        TLSIndex = columnIndex;
+                    else if (cmp.Contains("MD5"))
+                        MD5Index = columnIndex;
+                    else if (cmp.Contains("RC4"))
+                        RC4Index = columnIndex;
+                    else if (cmp.ToLower().Contains("ranking"))
+                        rankingIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("protocol"))
+                        protocolIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("fingerprint"))
+                        fingerPrintIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("expiration"))
+                        expirationIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("ssl version"))
+                        SSLIndex = columnIndex;
                     columnIndex += 1;
                 }
             }
@@ -64,16 +76,41 @@ namespace QSSLTool.FileParsers.Concretes
             // Get rows and add them as children of each header
             while (reader.Read())
             {
-                HostEntry h = new HostEntry(reader.GetString(ipIndex),
-                         reader.GetString(urlIndex), reader.GetString(protocolIndex),
-                         reader.GetString(rankingIndex), reader.GetString(fingerPrintIndex),
-                         Convert.ToDateTime(reader.GetString(expirationIndex)), 
-                         reader.GetString(TLSIndex),
-                         reader.GetString(MD5Index));
+                string ssl = getColumn(reader, SSLIndex);
+
+                HostEntry h = new HostEntry(getColumn(reader, urlIndex),
+                    getColumn(reader, protocolIndex));
+
+                h.SetIP(getColumn(reader, ipIndex));
+                h.SetRanking(getColumn(reader, rankingIndex));
+                h.SetFingerPrintCert(getColumn(reader, fingerPrintIndex));
+                h.SetExpirationDate(getColumn(reader, expirationIndex));
+                h.SetTLS(getColumn(reader, TLSIndex));
+                h.SetMD5(getColumn(reader, MD5Index));
+                h.SetSSL(getColumn(reader, MD5Index));
+
                 if (!h.IsEmpty()) entries.Add(h);
             }
             reader.Close();
             ParserDelegator.CallOnParseComplete();
+        }
+
+        /// <summary>
+        /// Will try to get the content of the passed column.
+        /// If it is empty or an error occurs, null will be returned.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="index"></param>
+        private string getColumn(IExcelDataReader reader, int index)
+        {
+            try
+            {
+                return reader.GetString(index);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

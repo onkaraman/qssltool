@@ -15,7 +15,11 @@
             Expiration,
             TLS,
             RC4,
-            MD5
+            MD5,
+            SSLVersions,
+            Beast,
+            PFS,
+            Heartbleed
         }
 
         private AttributeType _attribute;

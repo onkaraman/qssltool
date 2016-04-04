@@ -16,7 +16,6 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute URL { get { return _URL; } }
         private HostEntryAttribute _protocol;
         public HostEntryAttribute Protocol { get { return _protocol; } }
-
         private HostEntryAttribute _ranking;
         public HostEntryAttribute Ranking { get { return _ranking; } }
         private HostEntryAttribute _FingerPrintCert;
@@ -25,30 +24,113 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute Expiration { get { return _expiration; } }
         private HostEntryAttribute _TLS;
         public HostEntryAttribute TLS { get { return _TLS; } }
-
         private HostEntryAttribute _RC4;
         public HostEntryAttribute RC4 { get { return _RC4; } }
         private HostEntryAttribute _md5;
         public HostEntryAttribute MD5 { get { return _md5; } }
+        private HostEntryAttribute _SSLVersions;
+        public HostEntryAttribute SSLVersions { get { return _SSLVersions; } }
+        private HostEntryAttribute _beast;
+        public HostEntryAttribute Beast { get { return _beast; } }
+        private HostEntryAttribute _PFS;
+        public HostEntryAttribute PFS { get { return _PFS; } }
+        private HostEntryAttribute _heartbleed;
+        public HostEntryAttribute Heartbleed { get { return _heartbleed; } }
 
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
         #endregion
 
-        public HostEntry(string ip, string url, string protocol,
-            string ranking, string fingerprint, DateTime expiration,
-            string TLS, string RC4)
+        public HostEntry(string url, string protocol)
         {
-            _IP = new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, ip);
             _URL = new HostEntryAttribute(HostEntryAttribute.AttributeType.URL, url);
             _protocol = new HostEntryAttribute(HostEntryAttribute.AttributeType.Protocol, protocol);
-            _ranking = new HostEntryAttribute(HostEntryAttribute.AttributeType.Ranking, ranking);
-            _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.AttributeType.Fingerprint, fingerprint);
-            _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, expiration.ToString("dd.MM.yyyy"));
-            _TLS = new HostEntryAttribute(HostEntryAttribute.AttributeType.TLS, TLS);
-            _RC4 = new HostEntryAttribute(HostEntryAttribute.AttributeType.RC4, RC4);
-            _md5 = new HostEntryAttribute(HostEntryAttribute.AttributeType.MD5, "?");
             _differences = new List<AnalyzeDifference>();
+        }
+
+        /// <summary>
+        /// Will set the IP address for this host entry.
+        /// </summary>
+        public void SetIP(string value)
+        {
+            if (value == null) return;
+            _IP = new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, value);
+        }
+
+        /// <summary>
+        /// Will set the ranking for this host entry.
+        /// </summary>
+        public void SetRanking(string value)
+        {
+            if (value == null) return;
+            _ranking = new HostEntryAttribute(HostEntryAttribute.AttributeType.Ranking, value);
+        }
+
+        /// <summary>
+        /// Will set the fingerprint certificate for this
+        /// host entry.
+        /// </summary>
+        public void SetFingerPrintCert(string value)
+        {
+            if (value == null) return;
+            _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.AttributeType.Fingerprint, value);
+        }
+
+        /// <summary>
+        /// Will set the expiration date for this host entry.
+        /// </summary>
+        public void SetExpirationDate(DateTime value)
+        {
+            if (value == null) return;
+            _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, value.ToString("dd.MM.yyyy"));
+        }
+
+        /// <summary>
+        /// Will set the expiration date for this host entry.
+        /// </summary>
+        public void SetExpirationDate(string value)
+        {
+            if (value == null) return;
+            _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, value);
+        }
+
+        /// <summary>
+        /// Will set the TLS versions for this host entry.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetTLS(string value)
+        {
+            if (value == null) return;
+            _TLS = new HostEntryAttribute(HostEntryAttribute.AttributeType.TLS, value);
+        }
+
+        /// <summary>
+        /// Will set the RC4 support for this host entry.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetRC4(string value)
+        {
+            if (value == null) return;
+            _RC4 = new HostEntryAttribute(HostEntryAttribute.AttributeType.RC4, value);
+        }
+
+        /// <summary>
+        /// Will set the MD5 availability for this host entry.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetMD5(string value)
+        {
+            if (value == null) return;
+            _md5 = new HostEntryAttribute(HostEntryAttribute.AttributeType.MD5, "?");
+        }
+
+        /// <summary>
+        /// Sets the accepted SSL versions of this host entry.
+        /// </summary>
+        public void SetSSL(string value)
+        {
+            if (value == null) return;
+            _SSLVersions = new HostEntryAttribute(HostEntryAttribute.AttributeType.SSLVersions, value);
         }
 
         /// <summary>

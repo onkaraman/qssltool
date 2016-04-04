@@ -40,6 +40,7 @@ namespace QSSLTool
             checkConnectionStatus();
             reloadSettings();
             setupViews();
+            assignEvents();
             prepareAnimations();
 
         }
@@ -82,7 +83,20 @@ namespace QSSLTool
             URLField.Text = "https://";
         }
 
+        /// <summary>
+        /// Will prepare the UI.
+        /// </summary>
         private void setupViews()
+        {
+            ElapsedTimeLabel.Text = "";
+            HostsCheckedLabel.Text = "";
+            CurrentHostLabel.Text = "";
+        }
+
+        /// <summary>
+        /// Will assign events for the UI elements.
+        /// </summary>
+        private void assignEvents()
         {
             URLField.KeyDown += URLFieldKeyDown;
             AnalyzeButton.Click += AnalyzeButtonClick;
@@ -93,12 +107,12 @@ namespace QSSLTool
             SettingsLabel.MouseEnter += SettingsLabelMouseEnter;
             SettingsLabel.MouseLeave += SettingsLabelMouseLeave;
             SettingsLabel.MouseUp += SettingsLabelMouseUp;
-
-            ElapsedTimeLabel.Text = "";
-            HostsCheckedLabel.Text = "";
-            CurrentHostLabel.Text = "";
         }
 
+        /// <summary>
+        /// Will prepare the UI for animations by setting opacities
+        /// of various UI elements to zero.
+        /// </summary>
         private void prepareAnimations()
         {
             CurrentStatGrid.Opacity = 0;
@@ -115,6 +129,10 @@ namespace QSSLTool
             ProgressBar.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// This method will be called once an analysis is complete.
+        /// An animation will be triggered.
+        /// </summary>
         private void OnAnalyzeComplete()
         {
             Dispatcher.Invoke(delegate ()
@@ -150,6 +168,10 @@ namespace QSSLTool
             catch (Exception) { }
         }
 
+        /// <summary>
+        /// Will prepare and start the analysis timer, which will
+        /// show progress of the ongoing analysis.
+        /// </summary>
         private void setupRunTimer()
         {
             _runTimer = new DispatcherTimer();
@@ -278,8 +300,7 @@ namespace QSSLTool
                 startAnimation("CurrentStatGrid_In");
 
                 List<HostEntry> hel = new List<HostEntry>();
-                HostEntry he = new HostEntry("", url, "https", "", "",
-                    DateTime.Now, "", "");
+                HostEntry he = new HostEntry(url, "https");
                 hel.Add(he);
 
                 setupSSLAnalyzer(hel);
