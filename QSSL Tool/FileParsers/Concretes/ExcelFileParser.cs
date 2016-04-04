@@ -35,6 +35,9 @@ namespace QSSLTool.FileParsers.Concretes
             int RC4Index = -1;
             int MD5Index = -1;
             int SSLIndex = -1;
+            int beastIndex = -1;
+            int forwardSecrecyIndex = -1;
+            int heartbleedIndex = -1;
 
             // Get headers
             reader.Read();
@@ -65,6 +68,12 @@ namespace QSSLTool.FileParsers.Concretes
                         expirationIndex = columnIndex;
                     else if (cmp.ToLower().Contains("ssl version"))
                         SSLIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("beast"))
+                        beastIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("forward secrecy"))
+                        forwardSecrecyIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("heartbleed"))
+                        heartbleedIndex = columnIndex;
                     columnIndex += 1;
                 }
             }

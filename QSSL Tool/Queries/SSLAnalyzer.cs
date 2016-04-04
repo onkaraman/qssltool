@@ -125,14 +125,14 @@ namespace QSSLTool.Queries
         {
             try
             {
-                return new HostEntry(a.endpoints[0].ipAddress, 
-                    he.URL.ToString(), 
-                    he.Protocol.ToString(),
-                    a.endpoints[0].grade,
-                    a.endpoints[0].Details.cert.sigAlg,
-                    DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter),
-                    DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols),
-                    a.endpoints[0].Details.supportsRc4.ToString());
+                HostEntry ret = new HostEntry(he.URL.ToString(), he.Protocol.ToString());
+                ret.SetIP(a.endpoints[0].ipAddress);
+                ret.SetRanking(a.endpoints[0].grade);
+                ret.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
+                ret.SetExpirationDate(DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter));
+                ret.SetTLS(DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols));
+                ret.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
+                return ret;
             }
             catch (Exception)
             {

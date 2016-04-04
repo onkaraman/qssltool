@@ -18,7 +18,7 @@
             MD5,
             SSLVersions,
             Beast,
-            PFS,
+            ForwardSecrecy,
             Heartbleed
         }
 

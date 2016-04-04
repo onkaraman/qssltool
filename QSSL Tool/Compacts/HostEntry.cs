@@ -32,8 +32,8 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute SSLVersions { get { return _SSLVersions; } }
         private HostEntryAttribute _beast;
         public HostEntryAttribute Beast { get { return _beast; } }
-        private HostEntryAttribute _PFS;
-        public HostEntryAttribute PFS { get { return _PFS; } }
+        private HostEntryAttribute _forwardSecrecy;
+        public HostEntryAttribute ForwardSecrecy { get { return _forwardSecrecy; } }
         private HostEntryAttribute _heartbleed;
         public HostEntryAttribute Heartbleed { get { return _heartbleed; } }
 
@@ -131,6 +131,35 @@ namespace QSSLTool.Compacts
         {
             if (value == null) return;
             _SSLVersions = new HostEntryAttribute(HostEntryAttribute.AttributeType.SSLVersions, value);
+        }
+
+        /// <summary>
+        /// Sets the beast vulnerability of this host entry.
+        /// </summary>
+        public void SetBeast(string value)
+        {
+            if (value == null) return;
+            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Beast, value);
+        }
+
+        /// <summary>
+        /// Sets the forward secrecy attribute of this host entry.
+        /// </summary>
+        public void SetForwardSecrecy(string value)
+        {
+            if (value == null) return;
+            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.AttributeType.ForwardSecrecy
+                , value);
+        }
+
+        /// <summary>
+        /// Sets the heartbleed vulnerability for this host entry.
+        /// </summary>
+        public void SetHeartbleed(string value)
+        {
+            if (value == null) return;
+            _heartbleed = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed
+                , value);
         }
 
         /// <summary>

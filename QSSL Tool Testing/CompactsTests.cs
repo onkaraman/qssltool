@@ -13,12 +13,11 @@ namespace QSSL_Tool_Testing
         [TestMethod]
         public void HostEntryCreation_Positive()
         {
-            HostEntry he = new HostEntry(
-                "1.1.1.1", "demo.de",
-                "https", "C",
-                "SHA1", DateTime.Now,
-                "False", "False" 
-                );
+            HostEntry he = new HostEntry("demo.de", "https");
+            he.SetIP("1.1.1.1");
+            he.SetRanking("C");
+            he.SetFingerPrintCert("SHA1");
+            he.SetExpirationDate(DateTime.Now);
 
             Assert.IsNotNull(he);
         }
@@ -26,12 +25,7 @@ namespace QSSL_Tool_Testing
         [TestMethod]
         public void HostEntryCreation_NullParams()
         {
-            HostEntry he = new HostEntry(
-                null, null,
-                null, null,
-                null, DateTime.Now,
-                null, null
-                );
+            HostEntry he = new HostEntry(null, null);
 
             Assert.AreEqual(he.IP.ToString(), "?");
             Assert.AreEqual(he.URL.ToString(), "?");
@@ -48,31 +42,29 @@ namespace QSSL_Tool_Testing
         [TestMethod]
         public void HostEntryCreation_Empty()
         {
-            HostEntry he = new HostEntry(
-                null, "-",
-                "https", "C",
-                "SHA1", DateTime.Now,
-                "False", "False"
-                );
+            HostEntry he = new HostEntry(null, "https");
+            he.SetIP("1.1.1.1");
+            he.SetRanking("C");
+            he.SetFingerPrintCert("SHA1");
+            he.SetExpirationDate(DateTime.Now);
+
             Assert.IsTrue(he.IsEmpty());
         }
 
         [TestMethod]
         public void HostEntry_Differences()
         {
-            HostEntry a = new HostEntry(
-                "1.1.1.1", "demo.de",
-                "https", "C",
-                "SHA1", DateTime.Now,
-                "False", "False"
-                );
+            HostEntry a = new HostEntry("demo.de", "https");
+            a.SetIP("1.1.1.1");
+            a.SetRanking("C");
+            a.SetFingerPrintCert("SHA1");
+            a.SetExpirationDate(DateTime.Now);
 
-            HostEntry b = new HostEntry(
-                "1.1.1.2", "demo.com",
-                "https", "C",
-                "SHA1", DateTime.Now,
-                "False", "False"
-                );
+            HostEntry b = new HostEntry("demo.de", "https");
+            b.SetIP("1.1.1.2");
+            b.SetRanking("C");
+            b.SetFingerPrintCert("SHA1");
+            b.SetExpirationDate(DateTime.Now);
 
             a.CheckDifferences(b);
             Assert.IsTrue(a.Differences.Count == 2);
@@ -83,42 +75,41 @@ namespace QSSL_Tool_Testing
         [TestMethod]
         public void HostEntry_NoDifferences()
         {
-            HostEntry a = new HostEntry(
-                "1.1.1.1", "demo.de",
-                "https", "C",
-                "SHA1", DateTime.Now,
-                "False", "False"
-                );
+            HostEntry he = new HostEntry("demo.de", "https");
+            he.SetIP("1.1.1.1");
+            he.SetRanking("C");
+            he.SetFingerPrintCert("SHA1");
+            he.SetExpirationDate(DateTime.Now);
 
-            a.CheckDifferences(a);
-            Assert.IsTrue(a.Differences.Count == 0);
+            he.CheckDifferences(he);
+            Assert.IsTrue(he.Differences.Count == 0);
         }
 
         [TestMethod]
         public void HostEntry_AddDifference()
         {
-            HostEntry a = new HostEntry(
-               "1.1.1.1", "demo.de",
-               "https", "C", "SHA1", DateTime.Now,
-               "False", "False"
-               );
+            HostEntry he = new HostEntry("demo.de", "https");
+            he.SetIP("1.1.1.1");
+            he.SetRanking("C");
+            he.SetFingerPrintCert("SHA1");
+            he.SetExpirationDate(DateTime.Now);
 
-            a.AddDifference("a", "b");
-            Assert.IsTrue(a.Differences.Count > 0);
+            he.AddDifference("a", "b");
+            Assert.IsTrue(he.Differences.Count > 0);
         }
 
         [TestMethod]
         public void HostEntry_AddDifferenceEmpty()
         {
-            HostEntry a = new HostEntry(
-               "1.1.1.1", "demo.de",
-               "https", "C", "SHA1", DateTime.Now,
-               "False", "False"
-               );
+            HostEntry he = new HostEntry("demo.de", "https");
+            he.SetIP("1.1.1.1");
+            he.SetRanking("C");
+            he.SetFingerPrintCert("SHA1");
+            he.SetExpirationDate(DateTime.Now);
 
-            a.AddDifference(null, "b");
-            a.AddDifference("a", null);
-            Assert.IsTrue(a.Differences.Count == 0);
+            he.AddDifference(null, "b");
+            he.AddDifference("a", null);
+            Assert.IsTrue(he.Differences.Count == 0);
         }
 
         [TestMethod]
