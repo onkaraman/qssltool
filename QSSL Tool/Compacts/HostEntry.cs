@@ -22,14 +22,12 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute FingerPrintCert { get { return _FingerPrintCert; } }
         private HostEntryAttribute _expiration;
         public HostEntryAttribute Expiration { get { return _expiration; } }
-        private HostEntryAttribute _TLS;
-        public HostEntryAttribute TLS { get { return _TLS; } }
+        private HostEntryAttribute _protocolVersions;
+        public HostEntryAttribute ProtocolVersions { get { return _protocolVersions; } }
         private HostEntryAttribute _RC4;
         public HostEntryAttribute RC4 { get { return _RC4; } }
         private HostEntryAttribute _md5;
         public HostEntryAttribute MD5 { get { return _md5; } }
-        private HostEntryAttribute _SSLVersions;
-        public HostEntryAttribute SSLVersions { get { return _SSLVersions; } }
         private HostEntryAttribute _beast;
         public HostEntryAttribute Beast { get { return _beast; } }
         private HostEntryAttribute _forwardSecrecy;
@@ -41,11 +39,32 @@ namespace QSSLTool.Compacts
         public List<AnalyzeDifference> Differences { get { return _differences; } }
         #endregion
 
-        public HostEntry(string url, string protocol)
+        /// <summary>
+        /// Will construct a new HostEntry object.
+        /// </summary>
+        /// <param name="url">The URL of the host.</param>
+        /// <param name="protocol">The URL protocol of the host.</param>
+        /// <param name="fillEmpty">True if attributes such as IP should be filled
+        /// with empty strings.</param>
+        public HostEntry(string url, string protocol, bool fillEmpty = true)
         {
             _URL = new HostEntryAttribute(HostEntryAttribute.AttributeType.URL, url);
             _protocol = new HostEntryAttribute(HostEntryAttribute.AttributeType.Protocol, protocol);
             _differences = new List<AnalyzeDifference>();
+
+            if (fillEmpty)
+            {
+                SetIP("");
+                SetRanking("");
+                SetFingerPrintCert("");
+                SetExpirationDate(DateTime.Now);
+                SetProtocolVersions("");
+                SetRC4("");
+                SetMD5("");
+                SetBeastVulnerarbility(false);
+                SetHeartbleed(false);
+                SetForwardSecrecy("");
+            }
         }
 
         /// <summary>
@@ -98,10 +117,10 @@ namespace QSSLTool.Compacts
         /// Will set the TLS versions for this host entry.
         /// </summary>
         /// <param name="value"></param>
-        public void SetTLS(string value)
+        public void SetProtocolVersions(string value)
         {
             if (value == null) return;
-            _TLS = new HostEntryAttribute(HostEntryAttribute.AttributeType.TLS, value);
+            _protocolVersions = new HostEntryAttribute(HostEntryAttribute.AttributeType.ProtocolVersions, value);
         }
 
         /// <summary>
@@ -125,18 +144,20 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
-        /// Sets the accepted SSL versions of this host entry.
+        /// Sets the beast vulnerability of this host entry.
         /// </summary>
-        public void SetSSL(string value)
+        public void SetBeastVulnerarbility(bool value)
         {
-            if (value == null) return;
-            _SSLVersions = new HostEntryAttribute(HostEntryAttribute.AttributeType.SSLVersions, value);
+            string str = "No";
+            if (value) str = "Yes";
+
+            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Beast, str);
         }
 
         /// <summary>
         /// Sets the beast vulnerability of this host entry.
         /// </summary>
-        public void SetBeast(string value)
+        public void SetBeastVulnerarbility(string value)
         {
             if (value == null) return;
             _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Beast, value);
@@ -153,6 +174,19 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
+        /// Sets the forward secrecy attribute of this host entry.
+        /// </summary>
+        public void SetForwardSecrecy(int value)
+        {
+            string str = "No";
+            if (value == 1) str = "(0) For at least one browser from simulator.";
+            else if (value == 2) str = "(1) ECDHE suites, but not DHE.";
+            else if (value == 4) str = "(2) Robust: ECDHE + DHE.";
+            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.AttributeType.ForwardSecrecy
+                ,str);
+        }
+
+        /// <summary>
         /// Sets the heartbleed vulnerability for this host entry.
         /// </summary>
         public void SetHeartbleed(string value)
@@ -160,6 +194,17 @@ namespace QSSLTool.Compacts
             if (value == null) return;
             _heartbleed = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed
                 , value);
+        }
+
+        /// <summary>
+        /// Sets the beast vulnerability of this host entry.
+        /// </summary>
+        public void SetHeartbleed(bool value)
+        {
+            string str = "No";
+            if (value) str = "Yes";
+
+            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed, str);
         }
 
         /// <summary>
@@ -176,23 +221,82 @@ namespace QSSLTool.Compacts
         /// Checks whether there are differences between the object and the passed object.
         /// If there are any, those will be added to the difference list of this object.
         /// </summary>
-        public void CheckDifferences(HostEntry other)
+        public void CheckDifferences(HostEntry other, bool compareAnyway)
         {
-            if (!_IP.Equals(other.IP))
-                _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, other.IP)));
-            if (!_URL.ToString().ToLower().Equals(other.URL.ToString().ToLower()))
-                _differences.Add(new AnalyzeDifference("URL", getSummary(_URL, other.URL)));
-            if (!_ranking.Equals(other.Ranking))
-                _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, other.Ranking)));
-            if (!_FingerPrintCert.Equals(other.FingerPrintCert))
-                _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, other.FingerPrintCert)));
-            if (!_expiration.Equals(other.Expiration))
-                _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, other.Expiration)));
-            if (!_RC4.Equals(other.RC4))
-                _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, other.RC4)));
-            if (!_TLS.Equals(other.TLS))
-                _differences.Add(new AnalyzeDifference("TLS", getSummary(_RC4, other.RC4)));
-        }
+            try
+            {
+                if (!_URL.ToString().ToLower().Equals(other.URL.ToString().ToLower()))
+                    _differences.Add(new AnalyzeDifference("URL", getSummary(_URL, other.URL)));
+
+                if (_IP != null)
+                {
+                    if (!_IP.Equals(other.IP))
+                        _differences.Add(new AnalyzeDifference("IP address",
+                            getSummary(_IP, other.IP)));
+                }
+
+                if (_ranking != null)
+                {
+                    if (!_ranking.Equals(other.Ranking))
+                        _differences.Add(new AnalyzeDifference("Ranking", 
+                            getSummary(_ranking, other.Ranking)));
+                }
+
+                if (_FingerPrintCert != null)
+                {
+                    if (!_FingerPrintCert.Equals(other.FingerPrintCert))
+                        _differences.Add(new AnalyzeDifference("Fingerprint cert.",
+                            getSummary(_FingerPrintCert, other.FingerPrintCert)));
+                }
+
+                if (_expiration != null)
+                {
+                    if (!_expiration.Equals(other.Expiration))
+                        _differences.Add(new AnalyzeDifference("Expiration",
+                            getSummary(_expiration, other.Expiration)));
+                }
+
+                if (_RC4 != null)
+                {
+                    if (!_RC4.Equals(other.RC4))
+                        _differences.Add(new AnalyzeDifference("RC4 support",
+                            getSummary(_RC4, other.RC4)));
+                }
+
+                if (_protocolVersions != null)
+                {
+                    if (!_protocolVersions.Equals(other.ProtocolVersions))
+                        _differences.Add(new AnalyzeDifference("Protocol versions",
+                            getSummary(_protocolVersions, other.ProtocolVersions)));
+                }
+
+                if (_beast != null)
+                {
+                    if (!_beast.Equals(other.Beast))
+                        _differences.Add(new AnalyzeDifference("Beast vuln.",
+                            getSummary(_beast, other.Beast)));
+                }
+
+                if (_heartbleed != null)
+                {
+                    if (!_heartbleed.Equals(other.Heartbleed))
+                        _differences.Add(new AnalyzeDifference("Heartbleed vuln.",
+                            getSummary(_heartbleed, other.Heartbleed)));
+                }
+
+                if (_forwardSecrecy != null)
+                {
+                    if (!_forwardSecrecy.Equals(other.ForwardSecrecy))
+                        _differences.Add(new AnalyzeDifference("Forward secrecy",
+                            getSummary(_forwardSecrecy, other.ForwardSecrecy)));
+                }
+
+            }
+            catch (Exception)
+            {
+                _differences.Add(new AnalyzeDifference("Error", "Try analyzing without cache (settings)."));
+            }
+         }
 
         /// <summary>
         /// Checks whether this object has a difference by the passed keyword.

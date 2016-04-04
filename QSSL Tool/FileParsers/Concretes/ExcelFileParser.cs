@@ -31,10 +31,9 @@ namespace QSSLTool.FileParsers.Concretes
             int rankingIndex = -1;
             int fingerPrintIndex = -1;
             int expirationIndex = -1;
-            int TLSIndex = -1;
+            int protocolVersionsIndex = -1;
             int RC4Index = -1;
             int MD5Index = -1;
-            int SSLIndex = -1;
             int beastIndex = -1;
             int forwardSecrecyIndex = -1;
             int heartbleedIndex = -1;
@@ -48,12 +47,13 @@ namespace QSSLTool.FileParsers.Concretes
                 {
                     string cmp = reader.GetString(columnIndex);
 
+                    #region Column finding
                     if (cmp.Contains("IP"))
                         ipIndex = columnIndex;
                     else if (cmp.Contains("URL"))
                         urlIndex = columnIndex;
                     else if (cmp.Contains("TLS"))
-                        TLSIndex = columnIndex;
+                        protocolVersionsIndex = columnIndex;
                     else if (cmp.Contains("MD5"))
                         MD5Index = columnIndex;
                     else if (cmp.Contains("RC4"))
@@ -66,14 +66,14 @@ namespace QSSLTool.FileParsers.Concretes
                         fingerPrintIndex = columnIndex;
                     else if (cmp.ToLower().Contains("expiration"))
                         expirationIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("ssl version"))
-                        SSLIndex = columnIndex;
                     else if (cmp.ToLower().Contains("beast"))
                         beastIndex = columnIndex;
                     else if (cmp.ToLower().Contains("forward secrecy"))
                         forwardSecrecyIndex = columnIndex;
                     else if (cmp.ToLower().Contains("heartbleed"))
                         heartbleedIndex = columnIndex;
+                    #endregion
+
                     columnIndex += 1;
                 }
             }
@@ -85,8 +85,6 @@ namespace QSSLTool.FileParsers.Concretes
             // Get rows and add them as children of each header
             while (reader.Read())
             {
-                string ssl = getColumn(reader, SSLIndex);
-
                 HostEntry h = new HostEntry(getColumn(reader, urlIndex),
                     getColumn(reader, protocolIndex));
 
@@ -94,9 +92,11 @@ namespace QSSLTool.FileParsers.Concretes
                 h.SetRanking(getColumn(reader, rankingIndex));
                 h.SetFingerPrintCert(getColumn(reader, fingerPrintIndex));
                 h.SetExpirationDate(getColumn(reader, expirationIndex));
-                h.SetTLS(getColumn(reader, TLSIndex));
+                h.SetProtocolVersions(getColumn(reader, protocolVersionsIndex));
                 h.SetMD5(getColumn(reader, MD5Index));
-                h.SetSSL(getColumn(reader, MD5Index));
+                h.SetBeastVulnerarbility(getColumn(reader, beastIndex));
+                h.SetHeartbleed(getColumn(reader, heartbleedIndex));
+                h.SetForwardSecrecy(getColumn(reader, forwardSecrecyIndex));
 
                 if (!h.IsEmpty()) entries.Add(h);
             }

@@ -22,8 +22,11 @@ namespace QSSLTool
         private void setupViews()
         {
             PublishResultsCheckbox.Checked += PublishResultsChecked;
+            PublishResultsCheckbox.Unchecked += PublishResultsChecked;
             UseCacheCheckBox.Checked += UseCacheChecked;
+            UseCacheCheckBox.Unchecked += UseCacheChecked;
             IgnoreMismatchCheckBox.Checked += IgnoreMismatchChecked;
+            IgnoreMismatchCheckBox.Unchecked += IgnoreMismatchChecked;
 
             NegativeBGPicker.SelectedColorChanged += NegativeBGPickerColorChanged;
             NegativeFGPicker.SelectedColorChanged += NegativeFGPickerColorChanged;

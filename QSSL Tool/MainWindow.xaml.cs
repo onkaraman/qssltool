@@ -300,7 +300,7 @@ namespace QSSLTool
                 startAnimation("CurrentStatGrid_In");
 
                 List<HostEntry> hel = new List<HostEntry>();
-                HostEntry he = new HostEntry(url, "https");
+                HostEntry he = new HostEntry(url, "https", true);
                 hel.Add(he);
 
                 setupSSLAnalyzer(hel);

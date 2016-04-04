@@ -130,8 +130,11 @@ namespace QSSLTool.Queries
                 ret.SetRanking(a.endpoints[0].grade);
                 ret.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
                 ret.SetExpirationDate(DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter));
-                ret.SetTLS(DataFormatter.Static.TLSListToString(a.endpoints[0].Details.protocols));
+                ret.SetProtocolVersions(DataFormatter.Static.ProtocolVersionsToString(a.endpoints[0].Details.protocols));
                 ret.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
+                ret.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
+                ret.SetHeartbleed(a.endpoints[0].Details.heartbleed);
+                ret.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
                 return ret;
             }
             catch (Exception)

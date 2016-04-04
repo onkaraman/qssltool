@@ -25,9 +25,9 @@ namespace QSSLTool.FileParsers
         }
 
         /// <summary>
-        /// Takes a list of TLS protocols and converts it to a single string.
+        /// Takes a list of protocols and converts it to a single string.
         /// </summary>
-        public string TLSListToString(List<Protocol> protocols)
+        public string ProtocolVersionsToString(List<Protocol> protocols)
         {
             string s = "";
             foreach(Protocol p in protocols)

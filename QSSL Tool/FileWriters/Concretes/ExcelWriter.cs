@@ -143,7 +143,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(string.Format("G{0}", _cursor), entry.MD5.ToString(), detemineCellColoring(entry.MD5));
             addCell(string.Format("H{0}", _cursor), entry.Expiration.ToString(),
                 detemineCellColoring(entry.Expiration));
-            addCell(string.Format("I{0}", _cursor), entry.TLS.ToString(), detemineCellColoring(entry.TLS));
+            addCell(string.Format("I{0}", _cursor), entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
 
             _cursor += 1;
         }

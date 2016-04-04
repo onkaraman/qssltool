@@ -32,7 +32,7 @@ namespace QSSL_Tool_Testing
             Assert.AreEqual(he.Ranking.ToString(), "?");
             Assert.AreEqual(he.Protocol.ToString(), "?");
             Assert.AreEqual(he.FingerPrintCert.ToString(), "?");
-            Assert.AreEqual(he.TLS.ToString(), "?");
+            Assert.AreEqual(he.ProtocolVersions.ToString(), "?");
             Assert.AreEqual(he.RC4.ToString(), "?");
 
             Assert.IsNotNull(he.Differences);

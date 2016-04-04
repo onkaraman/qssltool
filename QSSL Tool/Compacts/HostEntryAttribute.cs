@@ -13,10 +13,9 @@
             Ranking,
             Fingerprint,
             Expiration,
-            TLS,
+            ProtocolVersions,
             RC4,
             MD5,
-            SSLVersions,
             Beast,
             ForwardSecrecy,
             Heartbleed
@@ -46,6 +45,7 @@
         /// </summary>
         public override bool Equals(object obj)
         {
+            if (obj == null) return false;
             HostEntryAttribute hea = (HostEntryAttribute)obj;
             if (hea.ToString().Equals(_content)) return true;
             return false;

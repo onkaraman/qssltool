@@ -31,7 +31,7 @@ namespace QSSL_Tool_Testing
             l.Add(a);
             l.Add(b);
 
-            string s = DataFormatter.Static.TLSListToString(l);
+            string s = DataFormatter.Static.ProtocolVersionsToString(l);
             Assert.IsTrue(s.Contains(a.version));
             Assert.IsTrue(s.Contains(b.version));
         }
