@@ -29,7 +29,7 @@ namespace QSSLTool.Compacts
         private HostEntryAttribute _md5;
         public HostEntryAttribute MD5 { get { return _md5; } }
         private HostEntryAttribute _beast;
-        public HostEntryAttribute Beast { get { return _beast; } }
+        public HostEntryAttribute BeastVuln { get { return _beast; } }
         private HostEntryAttribute _forwardSecrecy;
         public HostEntryAttribute ForwardSecrecy { get { return _forwardSecrecy; } }
         private HostEntryAttribute _heartbleed;
@@ -204,7 +204,7 @@ namespace QSSLTool.Compacts
             string str = "No";
             if (value) str = "Yes";
 
-            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed, str);
+            _heartbleed = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed, str);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace QSSLTool.Compacts
         /// Checks whether there are differences between the object and the passed object.
         /// If there are any, those will be added to the difference list of this object.
         /// </summary>
-        public void CheckDifferences(HostEntry other, bool compareAnyway)
+        public void CheckDifferences(HostEntry other)
         {
             try
             {
@@ -272,9 +272,9 @@ namespace QSSLTool.Compacts
 
                 if (_beast != null)
                 {
-                    if (!_beast.Equals(other.Beast))
+                    if (!_beast.Equals(other.BeastVuln))
                         _differences.Add(new AnalyzeDifference("Beast vuln.",
-                            getSummary(_beast, other.Beast)));
+                            getSummary(_beast, other.BeastVuln)));
                 }
 
                 if (_heartbleed != null)

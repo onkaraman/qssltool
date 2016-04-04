@@ -55,7 +55,11 @@ namespace QSSLTool.FileWriters.Concretes
             addCell("F1", "RC4 in use?", 15, 6);
             addCell("G1", "MD5 in use?", 15, 7);
             addCell("H1", "Expiration", 17, 8);
-            addCell("I1", "TLS", 23, 9);
+            addCell("I1", "Protocol versions", 23, 9);
+            addCell("J1", "Beast vulnerability", 23, 10);
+            addCell("K1", "Forward secrecy", 23, 11);
+            addCell("L1", "Heartbleed vulnerability", 23, 12);
+            //addCell("M1", "TLS", 23, 9);
         }
 
         private void addCell(string address, string content,
@@ -109,10 +113,10 @@ namespace QSSLTool.FileWriters.Concretes
 
         private void applyGeneralStyling()
         {
-            _sheet.Cells["A1:I1"].Style.Font.Bold = true;
-            _sheet.Cells["A1:I1"].Style.Font.Color.SetColor(Color.White);
-            _sheet.Cells["A1:I1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            _sheet.Cells["A1:I1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
+            _sheet.Cells["A1:L1"].Style.Font.Bold = true;
+            _sheet.Cells["A1:L1"].Style.Font.Color.SetColor(Color.White);
+            _sheet.Cells["A1:L1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            _sheet.Cells["A1:L1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
         }
 
         private void addRows()
@@ -144,7 +148,9 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(string.Format("H{0}", _cursor), entry.Expiration.ToString(),
                 detemineCellColoring(entry.Expiration));
             addCell(string.Format("I{0}", _cursor), entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
-
+            addCell(string.Format("J{0}", _cursor), entry.BeastVuln.ToString(), detemineCellColoring(entry.BeastVuln));
+            addCell(string.Format("K{0}", _cursor), entry.ForwardSecrecy.ToString(), detemineCellColoring(entry.ForwardSecrecy));
+            addCell(string.Format("L{0}", _cursor), entry.Heartbleed.ToString(), detemineCellColoring(entry.Heartbleed));
             _cursor += 1;
         }
 
@@ -181,7 +187,7 @@ namespace QSSLTool.FileWriters.Concretes
                 if (s.ToString().Contains("True")) return coloring.negative;
                 else if (s.ToString().Contains("False")) return coloring.positive;
             }
-            return coloring.none;
+            return coloring.neutral;
         }
 
         public string GetMessage()
