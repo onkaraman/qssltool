@@ -33,10 +33,15 @@ namespace QSSLTool.FileParsers.Concretes
             int expirationIndex = -1;
             int protocolVersionsIndex = -1;
             int RC4Index = -1;
-            int MD5Index = -1;
             int beastIndex = -1;
             int forwardSecrecyIndex = -1;
             int heartbleedIndex = -1;
+            int signatureAlgoIndex = -1;
+            int poodleIndex = -1;
+            int extendedValidIndex = -1;
+            int openSSLCCSIndex = -1;
+            int HTTPServerSigIndex = -1;
+            int serverHostnameIndex = -1;
 
             // Get headers
             reader.Read();
@@ -52,15 +57,13 @@ namespace QSSLTool.FileParsers.Concretes
                         ipIndex = columnIndex;
                     else if (cmp.Contains("URL"))
                         urlIndex = columnIndex;
-                    else if (cmp.Contains("TLS"))
+                    else if (cmp.ToLower().Contains("Protocol versions"))
                         protocolVersionsIndex = columnIndex;
-                    else if (cmp.Contains("MD5"))
-                        MD5Index = columnIndex;
                     else if (cmp.Contains("RC4"))
                         RC4Index = columnIndex;
                     else if (cmp.ToLower().Contains("ranking"))
                         rankingIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("protocol"))
+                    else if (cmp.ToLower().Equals("protocol"))
                         protocolIndex = columnIndex;
                     else if (cmp.ToLower().Contains("fingerprint"))
                         fingerPrintIndex = columnIndex;
@@ -72,6 +75,18 @@ namespace QSSLTool.FileParsers.Concretes
                         forwardSecrecyIndex = columnIndex;
                     else if (cmp.ToLower().Contains("heartbleed"))
                         heartbleedIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("signature algorithm"))
+                        signatureAlgoIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("poodle"))
+                        poodleIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("extended validation"))
+                        extendedValidIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("openssl ccs"))
+                        openSSLCCSIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("http server sig"))
+                        HTTPServerSigIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("server host name"))
+                        serverHostnameIndex = columnIndex;
                     #endregion
 
                     columnIndex += 1;

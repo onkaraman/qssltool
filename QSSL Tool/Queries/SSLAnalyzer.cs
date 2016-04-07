@@ -140,7 +140,6 @@ namespace QSSLTool.Queries
                 ret.SetExtendedValidation(a.endpoints[0].Details.cert.validationType);
                 ret.SetOpenSSLCCSVulnerable(a.endpoints[0].Details.openSslCcs);
                 ret.SetHTTPServerSignature(a.endpoints[0].Details.serverSignature);
-                ret.SetSSLTLSCompression(a.endpoints[0].Details.compressionMethods.ToString());
                 ret.SetServerHostName(a.endpoints[0].serverName);
                 return ret;
             }

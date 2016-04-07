@@ -44,8 +44,6 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute OpenSSLCCSVulnerable { get { return _openSSLCCSVulnerable; } }
         private HostEntryAttribute _httpServerSignature;
         public HostEntryAttribute HTTPServerSignature { get { return _httpServerSignature; } }
-        private HostEntryAttribute _TLSCompression;
-        public HostEntryAttribute TLSCompression { get { return _TLSCompression; } }
         private HostEntryAttribute _serverHostname;
         public HostEntryAttribute ServerHostname { get { return _serverHostname; } }
 
@@ -255,15 +253,6 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
-        /// Will set the public key pinning attribute of this host entry.
-        /// </summary>
-        public void SetSSLTLSCompression(string value)
-        {
-            if (value == null) value = "";
-            _TLSCompression = new HostEntryAttribute(HostEntryAttribute.Type.TLSCompression, value);
-        }
-
-        /// <summary>
         /// Will set the server host name of this host entry.
         /// </summary>
         public void SetServerHostName(string value)
@@ -297,10 +286,15 @@ namespace QSSLTool.Compacts
                 _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, other.Expiration)));
                 _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, other.RC4)));
                 _differences.Add(new AnalyzeDifference("Protocol versions", getSummary(_protocolVersions, other.ProtocolVersions)));
-                _differences.Add(new AnalyzeDifference("Beast vuln.", getSummary(_beast, other.BeastVulnerable)));
-                _differences.Add(new AnalyzeDifference("Heartbleed vuln.", getSummary(_heartbleed, other.Heartbleed)));
+                _differences.Add(new AnalyzeDifference("Beast vulnerability", getSummary(_beast, other.BeastVulnerable)));
                 _differences.Add(new AnalyzeDifference("Forward secrecy", getSummary(_forwardSecrecy, other.ForwardSecrecy)));
-
+                _differences.Add(new AnalyzeDifference("Heartbleed vulnerability", getSummary(_heartbleed, other.Heartbleed)));
+                _differences.Add(new AnalyzeDifference("Signature algorithm", getSummary(_signatureAlgorithm, other.SignatureAlgorithm)));
+                _differences.Add(new AnalyzeDifference("Poodle vulnerability", getSummary(_poodleVulnarable, other.PoodleVulnerable)));
+                _differences.Add(new AnalyzeDifference("Extended validation", getSummary(_extendedValidation, other.ExtendedValidation)));
+                _differences.Add(new AnalyzeDifference("OpenSSL CCS Vulnerability", getSummary(_openSSLCCSVulnerable, other.OpenSSLCCSVulnerable)));
+                _differences.Add(new AnalyzeDifference("HTTP Server signature", getSummary(_httpServerSignature, other.HTTPServerSignature)));
+                _differences.Add(new AnalyzeDifference("Server host name", getSummary(_serverHostname, other.ServerHostname)));
             }
             catch (Exception)
             {

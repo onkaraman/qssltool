@@ -81,6 +81,8 @@ namespace QSSLTool.FileWriters.Concretes
                 "Extended validation", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "OpenSSL CCS Vulnerable", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                "HTTP Server signature", 30, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Server host name", 35, ExcelColumnAdresser.Static.Index);
 
