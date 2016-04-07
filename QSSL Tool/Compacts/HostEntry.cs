@@ -29,11 +29,31 @@ namespace QSSLTool.Compacts
         private HostEntryAttribute _md5;
         public HostEntryAttribute MD5 { get { return _md5; } }
         private HostEntryAttribute _beast;
-        public HostEntryAttribute BeastVuln { get { return _beast; } }
+        public HostEntryAttribute BeastVulnerable { get { return _beast; } }
         private HostEntryAttribute _forwardSecrecy;
         public HostEntryAttribute ForwardSecrecy { get { return _forwardSecrecy; } }
         private HostEntryAttribute _heartbleed;
         public HostEntryAttribute Heartbleed { get { return _heartbleed; } }
+        private HostEntryAttribute _signatureAlgorithm;
+        public HostEntryAttribute SignatureAlgorithm { get { return _signatureAlgorithm; } }
+        private HostEntryAttribute _poodleVulnarable;
+        public HostEntryAttribute PoodleVulnerable { get { return _poodleVulnarable; } }
+        private HostEntryAttribute _extendedValidation;
+        public HostEntryAttribute ExtendedValidation { get { return _extendedValidation; } }
+        private HostEntryAttribute _openSSLCCSVulnerable;
+        public HostEntryAttribute OpenSSLCCSVulnerable { get { return _openSSLCCSVulnerable; } }
+        private HostEntryAttribute _longHandShakeIntolerance;
+        public HostEntryAttribute LongHandShakeIntolerance { get { return _longHandShakeIntolerance; } }
+        private HostEntryAttribute _TLSVersionIntolerance;
+        public HostEntryAttribute TLSVersionIntolerance { get { return _TLSVersionIntolerance; } }
+        private HostEntryAttribute _httpServerSignature;
+        public HostEntryAttribute HTTPServerSignature { get { return _httpServerSignature; } }
+        private HostEntryAttribute _publicKeyPinning;
+        public HostEntryAttribute PublicKeyPinning { get { return _publicKeyPinning; } }
+        private HostEntryAttribute _TLSCompression;
+        public HostEntryAttribute TLSCompression { get { return _TLSCompression; } }
+        private HostEntryAttribute _serverHostname;
+        public HostEntryAttribute ServerHostname { get { return _serverHostname; } }
 
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
@@ -48,8 +68,8 @@ namespace QSSLTool.Compacts
         /// with empty strings.</param>
         public HostEntry(string url, string protocol, bool fillEmpty = true)
         {
-            _URL = new HostEntryAttribute(HostEntryAttribute.AttributeType.URL, url);
-            _protocol = new HostEntryAttribute(HostEntryAttribute.AttributeType.Protocol, protocol);
+            _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
+            _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
             _differences = new List<AnalyzeDifference>();
 
             if (fillEmpty)
@@ -62,7 +82,7 @@ namespace QSSLTool.Compacts
                 SetRC4("");
                 SetMD5("");
                 SetBeastVulnerarbility(false);
-                SetHeartbleed(false);
+                SetHeartbleedVulnerability(false);
                 SetForwardSecrecy("");
             }
         }
@@ -73,7 +93,7 @@ namespace QSSLTool.Compacts
         public void SetIP(string value)
         {
             if (value == null) return;
-            _IP = new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, value);
+            _IP = new HostEntryAttribute(HostEntryAttribute.Type.IP, value);
         }
 
         /// <summary>
@@ -82,7 +102,7 @@ namespace QSSLTool.Compacts
         public void SetRanking(string value)
         {
             if (value == null) return;
-            _ranking = new HostEntryAttribute(HostEntryAttribute.AttributeType.Ranking, value);
+            _ranking = new HostEntryAttribute(HostEntryAttribute.Type.Ranking, value);
         }
 
         /// <summary>
@@ -92,7 +112,7 @@ namespace QSSLTool.Compacts
         public void SetFingerPrintCert(string value)
         {
             if (value == null) return;
-            _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.AttributeType.Fingerprint, value);
+            _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.Type.Fingerprint, value);
         }
 
         /// <summary>
@@ -101,7 +121,7 @@ namespace QSSLTool.Compacts
         public void SetExpirationDate(DateTime value)
         {
             if (value == null) return;
-            _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, value.ToString("dd.MM.yyyy"));
+            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value.ToString("dd.MM.yyyy"));
         }
 
         /// <summary>
@@ -110,7 +130,7 @@ namespace QSSLTool.Compacts
         public void SetExpirationDate(string value)
         {
             if (value == null) return;
-            _expiration = new HostEntryAttribute(HostEntryAttribute.AttributeType.Expiration, value);
+            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value);
         }
 
         /// <summary>
@@ -120,7 +140,7 @@ namespace QSSLTool.Compacts
         public void SetProtocolVersions(string value)
         {
             if (value == null) return;
-            _protocolVersions = new HostEntryAttribute(HostEntryAttribute.AttributeType.ProtocolVersions, value);
+            _protocolVersions = new HostEntryAttribute(HostEntryAttribute.Type.ProtocolVersions, value);
         }
 
         /// <summary>
@@ -130,7 +150,7 @@ namespace QSSLTool.Compacts
         public void SetRC4(string value)
         {
             if (value == null) return;
-            _RC4 = new HostEntryAttribute(HostEntryAttribute.AttributeType.RC4, value);
+            _RC4 = new HostEntryAttribute(HostEntryAttribute.Type.RC4, value);
         }
 
         /// <summary>
@@ -140,7 +160,7 @@ namespace QSSLTool.Compacts
         public void SetMD5(string value)
         {
             if (value == null) return;
-            _md5 = new HostEntryAttribute(HostEntryAttribute.AttributeType.MD5, "?");
+            _md5 = new HostEntryAttribute(HostEntryAttribute.Type.MD5, "?");
         }
 
         /// <summary>
@@ -151,7 +171,7 @@ namespace QSSLTool.Compacts
             string str = "No";
             if (value) str = "Yes";
 
-            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Beast, str);
+            _beast = new HostEntryAttribute(HostEntryAttribute.Type.BeastVulnerability, str);
         }
 
         /// <summary>
@@ -160,7 +180,7 @@ namespace QSSLTool.Compacts
         public void SetBeastVulnerarbility(string value)
         {
             if (value == null) return;
-            _beast = new HostEntryAttribute(HostEntryAttribute.AttributeType.Beast, value);
+            _beast = new HostEntryAttribute(HostEntryAttribute.Type.BeastVulnerability, value);
         }
 
         /// <summary>
@@ -169,7 +189,7 @@ namespace QSSLTool.Compacts
         public void SetForwardSecrecy(string value)
         {
             if (value == null) return;
-            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.AttributeType.ForwardSecrecy
+            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy
                 , value);
         }
 
@@ -182,29 +202,139 @@ namespace QSSLTool.Compacts
             if (value == 1) str = "(0) For at least one browser from simulator.";
             else if (value == 2) str = "(1) ECDHE suites, but not DHE.";
             else if (value == 4) str = "(2) Robust: ECDHE + DHE.";
-            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.AttributeType.ForwardSecrecy
+            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy
                 ,str);
         }
 
         /// <summary>
         /// Sets the heartbleed vulnerability for this host entry.
         /// </summary>
-        public void SetHeartbleed(string value)
+        public void SetHeartbleedVulnerability(string value)
         {
             if (value == null) return;
-            _heartbleed = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed
+            _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed
                 , value);
         }
 
         /// <summary>
         /// Sets the beast vulnerability of this host entry.
         /// </summary>
-        public void SetHeartbleed(bool value)
+        public void SetHeartbleedVulnerability(bool value)
         {
             string str = "No";
             if (value) str = "Yes";
 
-            _heartbleed = new HostEntryAttribute(HostEntryAttribute.AttributeType.Heartbleed, str);
+            _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed, str);
+        }
+
+        /// <summary>
+        /// Will set the signature algorithm of this host entry.
+        /// </summary>
+        public void SetSignatureAlgorithm(string value)
+        {
+            if (value != null)
+            {
+                _signatureAlgorithm = new HostEntryAttribute(HostEntryAttribute.Type.SignatureAlgorithm, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set whether this host entry is vulnerable to Poddle.
+        /// </summary>
+        public void SetPoodleVulnerability(string value)
+        {
+            if (value != null)
+            {
+                _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the extended validation of this host entry.
+        /// </summary>
+        public void SetExtendedValidation(string value)
+        {
+            if (value != null)
+            {
+                _extendedValidation = new HostEntryAttribute(HostEntryAttribute.Type.ExtendedValidation, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the OpenSSL CCS vulnerability of this host entry.
+        /// </summary>
+        public void SetOpenSSLCCSVulnerable(string value)
+        {
+            if (value != null)
+            {
+                _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the long handshake intolerance of this host entry.
+        /// </summary>
+        public void SetLongHandshakeIntolerance(string value)
+        {
+            if (value != null)
+            {
+                _longHandShakeIntolerance = new HostEntryAttribute(HostEntryAttribute.Type.LongHandshakeIntolerance, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the TLS version intolerance of this host entry.
+        /// </summary>
+        public void SetTLSVersionIntolerance(string value)
+        {
+            if (value != null)
+            {
+                _TLSVersionIntolerance = new HostEntryAttribute(HostEntryAttribute.Type.TLSVersionIntolerance, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the HTTP Server signature of this host entry.
+        /// </summary>
+        public void SetHTTPServerSignature(string value)
+        {
+            if (value != null)
+            {
+                _httpServerSignature = new HostEntryAttribute(HostEntryAttribute.Type.HTTPServerSignature, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the public key pinning attribute of this host entry.
+        /// </summary>
+        public void SetPublicKeyPinning(string value)
+        {
+            if (value != null)
+            {
+                _publicKeyPinning = new HostEntryAttribute(HostEntryAttribute.Type.PublicKeyPinning, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the public key pinning attribute of this host entry.
+        /// </summary>
+        public void SetSSLTLSCompression(string value)
+        {
+            if (value != null)
+            {
+                _TLSCompression = new HostEntryAttribute(HostEntryAttribute.Type.TLSCompression, value);
+            }
+        }
+
+        /// <summary>
+        /// Will set the server host name of this host entry.
+        /// </summary>
+        public void SetServerHostName(string value)
+        {
+            if (value != null)
+            {
+                _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
+            }
         }
 
         /// <summary>
@@ -272,9 +402,9 @@ namespace QSSLTool.Compacts
 
                 if (_beast != null)
                 {
-                    if (!_beast.Equals(other.BeastVuln))
+                    if (!_beast.Equals(other.BeastVulnerable))
                         _differences.Add(new AnalyzeDifference("Beast vuln.",
-                            getSummary(_beast, other.BeastVuln)));
+                            getSummary(_beast, other.BeastVulnerable)));
                 }
 
                 if (_heartbleed != null)

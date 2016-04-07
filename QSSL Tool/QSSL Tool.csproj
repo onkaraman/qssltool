@@ -148,6 +148,7 @@
     <Compile Include="Compacts\HostEntryAttribute.cs" />
     <Compile Include="Compacts\HostEntry.cs" />
     <Compile Include="FileParsers\DataFormatter.cs" />
+    <Compile Include="FileWriters\Concretes\ExcelColumnAdresser.cs" />
     <Compile Include="FileWriters\Concretes\ExcelWriter.cs" />
     <Compile Include="FiltersWindow.xaml.cs">
       <DependentUpon>FiltersWindow.xaml</DependentUpon>

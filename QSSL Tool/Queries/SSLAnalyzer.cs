@@ -133,8 +133,13 @@ namespace QSSLTool.Queries
                 ret.SetProtocolVersions(DataFormatter.Static.ProtocolVersionsToString(a.endpoints[0].Details.protocols));
                 ret.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
                 ret.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
-                ret.SetHeartbleed(a.endpoints[0].Details.heartbleed);
                 ret.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
+                ret.SetHeartbleedVulnerability(a.endpoints[0].Details.heartbleed);
+                ret.SetSignatureAlgorithm(a.endpoints[0].Details.cert.sigAlg);
+                ret.SetPoodleVulnerability(DataFormatter.Static.PoodleToString(a.endpoints[0].Details.poodle,
+                    a.endpoints[0].Details.poodleTls));
+                ret.SetExtendedValidation(DataFormatter.Static.ExtendedValidationToString(a.endpoints[0].Details.cert.validationType));
+                ret.SetOpenSSLCCSVulnerable(DataFormatter.Static.OpenSSLCCSToString(a.endpoints[0].Details.openSslCcs));
                 return ret;
             }
             catch (Exception)

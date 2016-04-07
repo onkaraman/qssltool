@@ -37,6 +37,40 @@ namespace QSSLTool.FileParsers
             return s;
         }
 
+        public string PoodleToString(bool poodleSSL, int poodleTLS)
+        {
+            string ssl = "Yes";
+            if (!poodleSSL) ssl = "No";
+
+            string tls = "Yes";
+            if (poodleTLS == -3) tls = "Timed out";
+            if (poodleTLS == -2) tls = "TLS not supported";
+            if (poodleTLS == -1) tls = "Test failed";
+            if (poodleTLS == 0) tls = "Unknown";
+            if (poodleTLS == 1) tls = "Not vulnerable";
+            if (poodleTLS == 2) tls = "Vulnerable"; 
+
+            return string.Format("SSL: {0}, TLS: {1}", ssl, tls);
+        }
+
+        public string ExtendedValidationToString(string value)
+        {
+            string ret = "No";
+            if (value.Equals("E")) ret = "Yes";
+            return ret;
+        }
+
+        public string OpenSSLCCSToString(int value)
+        {
+            string ret = "";
+            if (value == -1) ret = "Test failed";
+            if (value == 0) ret = "Unknown";
+            if (value == 1) ret = "Not vulnerable";
+            if (value == 2) ret = "Possibly vulnerable, but not exploitable";
+            if (value == 3) ret = "Nulnerable and exploitable";
+            return ret;
+        }
+
         public Color ColorHolderToColor(ColorHolder c)
         {
             return Color.FromArgb(c.A, c.R, c.G, c.B);

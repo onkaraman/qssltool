@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace QSSLTool.FileWriters.Concretes
 {
@@ -33,7 +34,7 @@ namespace QSSLTool.FileWriters.Concretes
             _sheet.View.ShowGridLines = true;
 
             addHeaders();
-            applyGeneralStyling();
+            applyHeaderStyling();
             addRows();
         }
 
@@ -45,35 +46,63 @@ namespace QSSLTool.FileWriters.Concretes
             _excelPackage.SaveAs(new FileInfo(_path));
         }
 
+        /// <summary>
+        /// Will add the headers for known host entry attribute types.
+        /// </summary>
         private void addHeaders()
         {
-            addCell("A1", "URL", 32, 1);
-            addCell("B1", "Ranking", 10, 2);
-            addCell("C1", "IP", 14, 3);
-            addCell("D1", "Protocol", 10, 4);
-            addCell("E1", "Fingerprint certificate", 30, 5);
-            addCell("F1", "RC4 in use?", 15, 6);
-            addCell("G1", "MD5 in use?", 15, 7);
-            addCell("H1", "Expiration", 17, 8);
-            addCell("I1", "Protocol versions", 23, 9);
-            addCell("J1", "Beast vulnerability", 23, 10);
-            addCell("K1", "Forward secrecy", 23, 11);
-            addCell("L1", "Heartbleed vulnerability", 23, 12);
-            //addCell("M1", "TLS", 23, 9);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "URL", 32, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Ranking", 10, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "IP", 14, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Protocol", 10, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Fingerprint certificate", 30, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "RC4 in use?", 15, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "MD5 in use?", 15, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Expiration", 17, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Protocol versions", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Beast vulnerability", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Forward secrecy", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Heartbleed vulnerability", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Signature algorithm", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Poodle vulnerable", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Extended validation", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "OpenSSL CCS Vulnerable", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Long handshake intolerance", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "TLS Version intolerance", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Public key pinning", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "SSL/TLS Compression", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+                "Server host name", 23, ExcelColumnAdresser.Static.Index);
+
+            addCustomHeaders();
         }
 
-        private void addCell(string address, string content,
-            int width = -1, int column = -1)
+        /// <summary>
+        /// Will add headers to the excel file, the parser couldn't fetch from the API.
+        /// </summary>
+        private void addCustomHeaders()
         {
-            _sheet.Cells[address].Value = content;
-            if (width > 0 || column > 0) _sheet.Column(column).Width = width;
-        }
 
-        private void addCell(string address, string content,
-            coloring col = coloring.none)
-        {
-            _sheet.Cells[address].Value = content;
-            applyCellStyling(address, col);
         }
 
         /// <summary>
@@ -111,12 +140,27 @@ namespace QSSLTool.FileWriters.Concretes
             _sheet.Cells[address].Style.Font.Color.SetColor(foreground);
         }
 
-        private void applyGeneralStyling()
+        private void applyHeaderStyling()
         {
-            _sheet.Cells["A1:L1"].Style.Font.Bold = true;
-            _sheet.Cells["A1:L1"].Style.Font.Color.SetColor(Color.White);
-            _sheet.Cells["A1:L1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            _sheet.Cells["A1:L1"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
+            string address = "A1:" + string.Format("{0}1", ExcelColumnAdresser.Static.Latest);
+            _sheet.Cells[address].Style.Font.Bold = true;
+            _sheet.Cells[address].Style.Font.Color.SetColor(Color.White);
+            _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
+        }
+
+        private void addCell(string address, string content,
+            int width = -1, int columnNr = -1)
+        {
+            _sheet.Cells[address].Value = content;
+            if (width > 0 || columnNr > 0) _sheet.Column(columnNr).Width = width;
+        }
+
+        private void addCell(string address, string content,
+            coloring col = coloring.none)
+        {
+            _sheet.Cells[address].Value = content;
+            applyCellStyling(address, col);
         }
 
         private void addRows()
@@ -126,7 +170,7 @@ namespace QSSLTool.FileWriters.Concretes
                 if (he.AppliesToFilters()) addRow(he);
                 else _filteredOut += 1;
             }
-
+    
         }
 
         /// <summary>
@@ -135,22 +179,56 @@ namespace QSSLTool.FileWriters.Concretes
         /// <param name="entry"></param>
         private void addRow(HostEntry entry)
         {
-            _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Name = "Arial";
-            _sheet.Cells[string.Format("A{0}:I{0}", _cursor)].Style.Font.Size = 9;
+            string address = string.Format("A{0}:{1}{2}", _cursor, ExcelColumnAdresser.Static.Latest, _cursor);
+            _sheet.Cells[string.Format(address, _cursor)].Style.Font.Name = "Arial";
+            _sheet.Cells[string.Format(address, _cursor)].Style.Font.Size = 9;
 
-            addCell(string.Format("A{0}", _cursor), entry.URL.ToString(), detemineCellColoring(entry.URL));
-            addCell(string.Format("B{0}", _cursor), entry.Ranking.ToString(), detemineCellColoring(entry.Ranking));
-            addCell(string.Format("C{0}", _cursor), entry.IP.ToString(), detemineCellColoring(entry.IP));
-            addCell(string.Format("D{0}", _cursor), entry.Protocol.ToString(), detemineCellColoring(entry.Protocol));
-            addCell(string.Format("E{0}", _cursor), entry.FingerPrintCert.ToString(), detemineCellColoring(entry.FingerPrintCert));
-            addCell(string.Format("F{0}", _cursor), entry.RC4.ToString(), detemineCellColoring(entry.RC4));
-            addCell(string.Format("G{0}", _cursor), entry.MD5.ToString(), detemineCellColoring(entry.MD5));
-            addCell(string.Format("H{0}", _cursor), entry.Expiration.ToString(),
-                detemineCellColoring(entry.Expiration));
-            addCell(string.Format("I{0}", _cursor), entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
-            addCell(string.Format("J{0}", _cursor), entry.BeastVuln.ToString(), detemineCellColoring(entry.BeastVuln));
-            addCell(string.Format("K{0}", _cursor), entry.ForwardSecrecy.ToString(), detemineCellColoring(entry.ForwardSecrecy));
-            addCell(string.Format("L{0}", _cursor), entry.Heartbleed.ToString(), detemineCellColoring(entry.Heartbleed));
+            ExcelColumnAdresser.Static.Reset();
+
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.URL.ToString(), detemineCellColoring(entry.URL));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.Ranking.ToString(), detemineCellColoring(entry.Ranking));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.IP.ToString(), detemineCellColoring(entry.IP));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.Protocol.ToString(), detemineCellColoring(entry.Protocol));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.FingerPrintCert.ToString(), detemineCellColoring(entry.FingerPrintCert));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.RC4.ToString(), detemineCellColoring(entry.RC4));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.MD5.ToString(), detemineCellColoring(entry.MD5));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.Expiration.ToString(), detemineCellColoring(entry.Expiration));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.BeastVulnerable.ToString(), detemineCellColoring(entry.BeastVulnerable));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.ForwardSecrecy.ToString(), detemineCellColoring(entry.ForwardSecrecy));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                entry.Heartbleed.ToString(), detemineCellColoring(entry.Heartbleed));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.SignatureAlgorithm.ToString(), detemineCellColoring(entry.SignatureAlgorithm));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.PoodleVulnerable.ToString(), detemineCellColoring(entry.PoodleVulnerable));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.ExtendedValidation.ToString(), detemineCellColoring(entry.ExtendedValidation));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.OpenSSLCCSVulnerable.ToString(), detemineCellColoring(entry.OpenSSLCCSVulnerable));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.LongHandShakeIntolerance.ToString(), detemineCellColoring(entry.LongHandShakeIntolerance));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.TLSVersionIntolerance.ToString(), detemineCellColoring(entry.TLSVersionIntolerance));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.HTTPServerSignature.ToString(), detemineCellColoring(entry.HTTPServerSignature));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.PublicKeyPinning.ToString(), detemineCellColoring(entry.PublicKeyPinning));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.TLSCompression.ToString(), detemineCellColoring(entry.TLSCompression));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
             _cursor += 1;
         }
 
@@ -160,36 +238,59 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         private coloring detemineCellColoring(HostEntryAttribute s)
         {
-            if (s.Attribute == HostEntryAttribute.AttributeType.Protocol)
+            if (s.Attribute == HostEntryAttribute.Type.Protocol)
             {
                 if (s.ToString().ToLower().Equals("http")) return coloring.negative;
                 return coloring.positive;
             }
-            else if (s.Attribute == HostEntryAttribute.AttributeType.Ranking)
+            else if (s.Attribute == HostEntryAttribute.Type.Ranking)
             {
                 if (s.ToString().ToLower().StartsWith("a")) return coloring.positive;
                 else if (s.ToString().ToLower().StartsWith("b")) return coloring.neutral;
                 else return coloring.negative;
             }
-            else if (s.Attribute == HostEntryAttribute.AttributeType.Fingerprint)
+            else if (s.Attribute == HostEntryAttribute.Type.Fingerprint)
             {
                 if (s.ToString().Contains("256")) return coloring.positive;
                 else return coloring.neutral;
             }
-            else if (s.Attribute == HostEntryAttribute.AttributeType.Expiration)
+            else if (s.Attribute == HostEntryAttribute.Type.Expiration)
             {
                 DateTime dt = DateTime.Parse(s.ToString());
                 if (dt > DateTime.Today.AddDays(10)) return coloring.positive;
                 else if (dt < DateTime.Today) return coloring.negative;
             }
-            else if (s.Attribute == HostEntryAttribute.AttributeType.RC4)
+            else if (s.Attribute == HostEntryAttribute.Type.RC4)
             {
                 if (s.ToString().Contains("True")) return coloring.negative;
                 else if (s.ToString().Contains("False")) return coloring.positive;
             }
+            else if (s.Attribute == HostEntryAttribute.Type.MD5)
+            {
+                if (s.ToString().Contains("Yes")) return coloring.negative;
+                else if (s.ToString().Contains("No")) return coloring.positive;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.BeastVulnerability)
+            {
+                if (s.ToString().Contains("Yes")) return coloring.negative;
+                else if (s.ToString().Contains("No")) return coloring.positive;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.ForwardSecrecy)
+            {
+                if (s.ToString().Contains("Yes")) return coloring.positive;
+                else if (s.ToString().Contains("No")) return coloring.negative;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.Heartbleed)
+            {
+                if (s.ToString().Contains("Yes")) return coloring.negative;
+                else if (s.ToString().Contains("No")) return coloring.positive;
+            }
             return coloring.neutral;
         }
 
+        /// <summary>
+        /// Will return a message which reports about the export of the excel file.
+        /// </summary>
         public string GetMessage()
         {
             string str = "Excel file has been exported.{0}";
@@ -200,5 +301,6 @@ namespace QSSLTool.FileWriters.Concretes
             else str = string.Format(str, "");
             return str;
         }
+
     }
 }

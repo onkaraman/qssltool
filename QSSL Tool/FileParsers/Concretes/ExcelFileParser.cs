@@ -95,7 +95,7 @@ namespace QSSLTool.FileParsers.Concretes
                 h.SetProtocolVersions(getColumn(reader, protocolVersionsIndex));
                 h.SetMD5(getColumn(reader, MD5Index));
                 h.SetBeastVulnerarbility(getColumn(reader, beastIndex));
-                h.SetHeartbleed(getColumn(reader, heartbleedIndex));
+                h.SetHeartbleedVulnerability(getColumn(reader, heartbleedIndex));
                 h.SetForwardSecrecy(getColumn(reader, forwardSecrecyIndex));
 
                 if (!h.IsEmpty()) entries.Add(h);

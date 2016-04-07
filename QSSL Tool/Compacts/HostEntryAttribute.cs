@@ -5,7 +5,7 @@
     /// </summary>
     public class HostEntryAttribute
     {
-        public enum AttributeType
+        public enum Type
         {
             IP,
             URL,
@@ -16,13 +16,23 @@
             ProtocolVersions,
             RC4,
             MD5,
-            Beast,
+            BeastVulnerability,
             ForwardSecrecy,
-            Heartbleed
+            Heartbleed,
+            SignatureAlgorithm,
+            PoodleVulnerable,
+            ExtendedValidation,
+            OpenSSLCCSVulnerable,
+            LongHandshakeIntolerance,
+            TLSVersionIntolerance,
+            HTTPServerSignature,
+            PublicKeyPinning,
+            TLSCompression,
+            ServerHostName
         }
 
-        private AttributeType _attribute;
-        public AttributeType Attribute
+        private Type _attribute;
+        public Type Attribute
         {
             get { return _attribute; }
         }
@@ -32,7 +42,7 @@
         /// Constructs a HostEntryAttribute. If the content is null, 
         /// a '?' will be applied for it.
         /// </summary>
-        public HostEntryAttribute(AttributeType attribute,
+        public HostEntryAttribute(Type attribute,
             string content)
         {
             _attribute = attribute;

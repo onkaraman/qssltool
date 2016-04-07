@@ -117,7 +117,7 @@ namespace QSSL_Tool_Testing
         {
             string ip = "1.1.1.1";
             HostEntryAttribute hea = 
-                new HostEntryAttribute(HostEntryAttribute.AttributeType.IP, 
+                new HostEntryAttribute(HostEntryAttribute.Type.IP, 
                 ip);
             Assert.AreEqual(ip, hea.ToString());
         }
@@ -126,7 +126,7 @@ namespace QSSL_Tool_Testing
         public void HostEntryAttribute_Negative()
         {
             HostEntryAttribute hea =
-                new HostEntryAttribute(HostEntryAttribute.AttributeType.IP,
+                new HostEntryAttribute(HostEntryAttribute.Type.IP,
                 null);
             Assert.AreEqual("?", hea.ToString());
         }
@@ -135,8 +135,8 @@ namespace QSSL_Tool_Testing
         public void HostEntryAttribute_Equals()
         {
             string ip = "1.1.1.1";
-            HostEntryAttribute.AttributeType type = 
-                HostEntryAttribute.AttributeType.IP;
+            HostEntryAttribute.Type type = 
+                HostEntryAttribute.Type.IP;
             HostEntryAttribute hea = new HostEntryAttribute(type, ip);
             HostEntryAttribute hea2 = new HostEntryAttribute(type, ip);
 
