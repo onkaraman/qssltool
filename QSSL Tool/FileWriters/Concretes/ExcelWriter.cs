@@ -64,35 +64,25 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "RC4 in use?", 15, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "MD5 in use?", 15, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Expiration", 17, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Protocol versions", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Beast vulnerability", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Forward secrecy", 23, ExcelColumnAdresser.Static.Index);
+                "Forward secrecy", 30, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Heartbleed vulnerability", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Signature algorithm", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Poodle vulnerable", 23, ExcelColumnAdresser.Static.Index);
+                "Poodle vulnerable", 25, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Extended validation", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "OpenSSL CCS Vulnerable", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Long handshake intolerance", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "TLS Version intolerance", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Public key pinning", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "SSL/TLS Compression", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Server host name", 23, ExcelColumnAdresser.Static.Index);
+                "Server host name", 35, ExcelColumnAdresser.Static.Index);
 
             addCustomHeaders();
         }
@@ -114,8 +104,8 @@ namespace QSSLTool.FileWriters.Concretes
 
             Color background = Color.White;
             Color foreground = Color.Black;
-            ColorHolder chbg = null;
-            ColorHolder chfg = null;
+            ColorHolder chbg = Settings.Static.ColorSettings.NoneBG;
+            ColorHolder chfg = Settings.Static.ColorSettings.NoneFG;
 
             if (col == coloring.neutral)
             {
@@ -198,8 +188,6 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.RC4.ToString(), detemineCellColoring(entry.RC4));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
-                entry.MD5.ToString(), detemineCellColoring(entry.MD5));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.Expiration.ToString(), detemineCellColoring(entry.Expiration));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
@@ -218,15 +206,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.OpenSSLCCSVulnerable.ToString(), detemineCellColoring(entry.OpenSSLCCSVulnerable));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry.LongHandShakeIntolerance.ToString(), detemineCellColoring(entry.LongHandShakeIntolerance));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry.TLSVersionIntolerance.ToString(), detemineCellColoring(entry.TLSVersionIntolerance));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.HTTPServerSignature.ToString(), detemineCellColoring(entry.HTTPServerSignature));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry.PublicKeyPinning.ToString(), detemineCellColoring(entry.PublicKeyPinning));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry.TLSCompression.ToString(), detemineCellColoring(entry.TLSCompression));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
             _cursor += 1;
@@ -285,7 +265,17 @@ namespace QSSLTool.FileWriters.Concretes
                 if (s.ToString().Contains("Yes")) return coloring.negative;
                 else if (s.ToString().Contains("No")) return coloring.positive;
             }
-            return coloring.neutral;
+            else if (s.Attribute == HostEntryAttribute.Type.OpenSSLCCSVulnerable)
+            {
+                if (s.ToString().Contains("Not")) return coloring.positive;
+                else return coloring.negative;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.OpenSSLCCSVulnerable)
+            {
+                if (s.ToString().Contains("Not")) return coloring.positive;
+                else return coloring.neutral;
+            }
+            return coloring.none;
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace QSSL_Tool_Testing
             he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now);
+            he.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             Assert.IsNotNull(he);
         }
@@ -46,7 +46,7 @@ namespace QSSL_Tool_Testing
             he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now);
+            he.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             Assert.IsTrue(he.IsEmpty());
         }
@@ -58,13 +58,13 @@ namespace QSSL_Tool_Testing
             a.SetIP("1.1.1.1");
             a.SetRanking("C");
             a.SetFingerPrintCert("SHA1");
-            a.SetExpirationDate(DateTime.Now);
+            a.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             HostEntry b = new HostEntry("demo.de", "https");
             b.SetIP("1.1.1.2");
             b.SetRanking("C");
             b.SetFingerPrintCert("SHA1");
-            b.SetExpirationDate(DateTime.Now);
+            b.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             a.CheckDifferences(b);
             Assert.IsTrue(a.Differences.Count == 2);
@@ -79,7 +79,7 @@ namespace QSSL_Tool_Testing
             he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now);
+            he.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             he.CheckDifferences(he);
             Assert.IsTrue(he.Differences.Count == 0);
@@ -92,7 +92,7 @@ namespace QSSL_Tool_Testing
             he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now);
+            he.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             he.AddDifference("a", "b");
             Assert.IsTrue(he.Differences.Count > 0);
@@ -105,7 +105,7 @@ namespace QSSL_Tool_Testing
             he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now);
+            he.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             he.AddDifference(null, "b");
             he.AddDifference("a", null);

@@ -24,7 +24,6 @@
             ExtendedValidation,
             OpenSSLCCSVulnerable,
             HTTPServerSignature,
-            PublicKeyPinning,
             TLSCompression,
             ServerHostName
         }
@@ -61,7 +60,8 @@
 
         public override string ToString()
         {
-            return _content;
+            if (_content != null) return _content;
+            else return "";
         }
 
         public override int GetHashCode()

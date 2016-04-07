@@ -1,4 +1,6 @@
-﻿using QSSLTool.Gateways;
+﻿using QSSLTool.FileParsers;
+using QSSLTool.Gateways;
+using SSLLabsApiWrapper.Models.Response.EndpointSubModels;
 using System;
 using System.Collections.Generic;
 
@@ -26,8 +28,6 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute ProtocolVersions { get { return _protocolVersions; } }
         private HostEntryAttribute _RC4;
         public HostEntryAttribute RC4 { get { return _RC4; } }
-        private HostEntryAttribute _md5;
-        public HostEntryAttribute MD5 { get { return _md5; } }
         private HostEntryAttribute _beast;
         public HostEntryAttribute BeastVulnerable { get { return _beast; } }
         private HostEntryAttribute _forwardSecrecy;
@@ -42,14 +42,8 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute ExtendedValidation { get { return _extendedValidation; } }
         private HostEntryAttribute _openSSLCCSVulnerable;
         public HostEntryAttribute OpenSSLCCSVulnerable { get { return _openSSLCCSVulnerable; } }
-        private HostEntryAttribute _longHandShakeIntolerance;
-        public HostEntryAttribute LongHandShakeIntolerance { get { return _longHandShakeIntolerance; } }
-        private HostEntryAttribute _TLSVersionIntolerance;
-        public HostEntryAttribute TLSVersionIntolerance { get { return _TLSVersionIntolerance; } }
         private HostEntryAttribute _httpServerSignature;
         public HostEntryAttribute HTTPServerSignature { get { return _httpServerSignature; } }
-        private HostEntryAttribute _publicKeyPinning;
-        public HostEntryAttribute PublicKeyPinning { get { return _publicKeyPinning; } }
         private HostEntryAttribute _TLSCompression;
         public HostEntryAttribute TLSCompression { get { return _TLSCompression; } }
         private HostEntryAttribute _serverHostname;
@@ -66,25 +60,11 @@ namespace QSSLTool.Compacts
         /// <param name="protocol">The URL protocol of the host.</param>
         /// <param name="fillEmpty">True if attributes such as IP should be filled
         /// with empty strings.</param>
-        public HostEntry(string url, string protocol, bool fillEmpty = true)
+        public HostEntry(string url, string protocol)
         {
             _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
             _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
             _differences = new List<AnalyzeDifference>();
-
-            if (fillEmpty)
-            {
-                SetIP("");
-                SetRanking("");
-                SetFingerPrintCert("");
-                SetExpirationDate(DateTime.Now);
-                SetProtocolVersions("");
-                SetRC4("");
-                SetMD5("");
-                SetBeastVulnerarbility(false);
-                SetHeartbleedVulnerability(false);
-                SetForwardSecrecy("");
-            }
         }
 
         /// <summary>
@@ -92,7 +72,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetIP(string value)
         {
-            if (value == null) return;
+            if (value == null) value = "";
             _IP = new HostEntryAttribute(HostEntryAttribute.Type.IP, value);
         }
 
@@ -101,7 +81,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetRanking(string value)
         {
-            if (value == null) return;
+            if (value == null) value = ""; ;
             _ranking = new HostEntryAttribute(HostEntryAttribute.Type.Ranking, value);
         }
 
@@ -118,10 +98,11 @@ namespace QSSLTool.Compacts
         /// <summary>
         /// Will set the expiration date for this host entry.
         /// </summary>
-        public void SetExpirationDate(DateTime value)
+        public void SetExpirationDate(long value)
         {
-            if (value == null) return;
-            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value.ToString("dd.MM.yyyy"));
+            if (value == 0) return;
+            DateTime dt = DataFormatter.Static.UnixToDateTime(value);
+            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, dt.ToString("dd.MM.yyyy"));
         }
 
         /// <summary>
@@ -137,6 +118,16 @@ namespace QSSLTool.Compacts
         /// Will set the TLS versions for this host entry.
         /// </summary>
         /// <param name="value"></param>
+        public void SetProtocolVersions(List<Protocol> protocols)
+        {
+            if (protocols == null) return;
+            string str = DataFormatter.Static.ProtocolVersionsToString(protocols);
+            _protocolVersions = new HostEntryAttribute(HostEntryAttribute.Type.ProtocolVersions, str);
+        }
+
+        /// <summary>
+        /// Will set the TLS versions for this host entry.
+        /// </summary>
         public void SetProtocolVersions(string value)
         {
             if (value == null) return;
@@ -151,16 +142,6 @@ namespace QSSLTool.Compacts
         {
             if (value == null) return;
             _RC4 = new HostEntryAttribute(HostEntryAttribute.Type.RC4, value);
-        }
-
-        /// <summary>
-        /// Will set the MD5 availability for this host entry.
-        /// </summary>
-        /// <param name="value"></param>
-        public void SetMD5(string value)
-        {
-            if (value == null) return;
-            _md5 = new HostEntryAttribute(HostEntryAttribute.Type.MD5, "?");
         }
 
         /// <summary>
@@ -190,7 +171,7 @@ namespace QSSLTool.Compacts
         {
             if (value == null) return;
             _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy
-                , value);
+                ,value);
         }
 
         /// <summary>
@@ -211,9 +192,9 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHeartbleedVulnerability(string value)
         {
-            if (value == null) return;
+            if (value == null) value = ""; ;
             _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed
-                , value);
+                ,value);
         }
 
         /// <summary>
@@ -232,21 +213,17 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetSignatureAlgorithm(string value)
         {
-            if (value != null)
-            {
-                _signatureAlgorithm = new HostEntryAttribute(HostEntryAttribute.Type.SignatureAlgorithm, value);
-            }
+            if (value == null) value = "";
+            _signatureAlgorithm = new HostEntryAttribute(HostEntryAttribute.Type.SignatureAlgorithm, value);
         }
 
         /// <summary>
         /// Will set whether this host entry is vulnerable to Poddle.
         /// </summary>
-        public void SetPoodleVulnerability(string value)
+        public void SetPoodleVulnerability(bool poodleSSL, int poodleTLS)
         {
-            if (value != null)
-            {
-                _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, value);
-            }
+            string str = DataFormatter.Static.PoodleToString(poodleSSL, poodleTLS);
+            _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, str);
         }
 
         /// <summary>
@@ -254,21 +231,18 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetExtendedValidation(string value)
         {
-            if (value != null)
-            {
-                _extendedValidation = new HostEntryAttribute(HostEntryAttribute.Type.ExtendedValidation, value);
-            }
+            string str = "Uknown";
+            if (value != null) str = DataFormatter.Static.ExtendedValidationToString(value);
+            _extendedValidation = new HostEntryAttribute(HostEntryAttribute.Type.ExtendedValidation, value);
         }
 
         /// <summary>
         /// Will set the OpenSSL CCS vulnerability of this host entry.
         /// </summary>
-        public void SetOpenSSLCCSVulnerable(string value)
+        public void SetOpenSSLCCSVulnerable(int value)
         {
-            if (value != null)
-            {
-                _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, value);
-            }
+            string str = DataFormatter.Static.OpenSSLCCSToString(value);
+            _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, str);
         }
 
         /// <summary>
@@ -276,21 +250,8 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHTTPServerSignature(string value)
         {
-            if (value != null)
-            {
-                _httpServerSignature = new HostEntryAttribute(HostEntryAttribute.Type.HTTPServerSignature, value);
-            }
-        }
-
-        /// <summary>
-        /// Will set the public key pinning attribute of this host entry.
-        /// </summary>
-        public void SetPublicKeyPinning(string value)
-        {
-            if (value != null)
-            {
-                _publicKeyPinning = new HostEntryAttribute(HostEntryAttribute.Type.PublicKeyPinning, value);
-            }
+            if (value == null) value = "";
+            _httpServerSignature = new HostEntryAttribute(HostEntryAttribute.Type.HTTPServerSignature, value);
         }
 
         /// <summary>
@@ -298,10 +259,8 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetSSLTLSCompression(string value)
         {
-            if (value != null)
-            {
-                _TLSCompression = new HostEntryAttribute(HostEntryAttribute.Type.TLSCompression, value);
-            }
+            if (value == null) value = "";
+            _TLSCompression = new HostEntryAttribute(HostEntryAttribute.Type.TLSCompression, value);
         }
 
         /// <summary>
@@ -309,10 +268,8 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetServerHostName(string value)
         {
-            if (value != null)
-            {
-                _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
-            }
+            if (value == null) value = "";
+            _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
         }
 
         /// <summary>
@@ -333,71 +290,16 @@ namespace QSSLTool.Compacts
         {
             try
             {
-                if (!_URL.ToString().ToLower().Equals(other.URL.ToString().ToLower()))
-                    _differences.Add(new AnalyzeDifference("URL", getSummary(_URL, other.URL)));
-
-                if (_IP != null)
-                {
-                    if (!_IP.Equals(other.IP))
-                        _differences.Add(new AnalyzeDifference("IP address",
-                            getSummary(_IP, other.IP)));
-                }
-
-                if (_ranking != null)
-                {
-                    if (!_ranking.Equals(other.Ranking))
-                        _differences.Add(new AnalyzeDifference("Ranking", 
-                            getSummary(_ranking, other.Ranking)));
-                }
-
-                if (_FingerPrintCert != null)
-                {
-                    if (!_FingerPrintCert.Equals(other.FingerPrintCert))
-                        _differences.Add(new AnalyzeDifference("Fingerprint cert.",
-                            getSummary(_FingerPrintCert, other.FingerPrintCert)));
-                }
-
-                if (_expiration != null)
-                {
-                    if (!_expiration.Equals(other.Expiration))
-                        _differences.Add(new AnalyzeDifference("Expiration",
-                            getSummary(_expiration, other.Expiration)));
-                }
-
-                if (_RC4 != null)
-                {
-                    if (!_RC4.Equals(other.RC4))
-                        _differences.Add(new AnalyzeDifference("RC4 support",
-                            getSummary(_RC4, other.RC4)));
-                }
-
-                if (_protocolVersions != null)
-                {
-                    if (!_protocolVersions.Equals(other.ProtocolVersions))
-                        _differences.Add(new AnalyzeDifference("Protocol versions",
-                            getSummary(_protocolVersions, other.ProtocolVersions)));
-                }
-
-                if (_beast != null)
-                {
-                    if (!_beast.Equals(other.BeastVulnerable))
-                        _differences.Add(new AnalyzeDifference("Beast vuln.",
-                            getSummary(_beast, other.BeastVulnerable)));
-                }
-
-                if (_heartbleed != null)
-                {
-                    if (!_heartbleed.Equals(other.Heartbleed))
-                        _differences.Add(new AnalyzeDifference("Heartbleed vuln.",
-                            getSummary(_heartbleed, other.Heartbleed)));
-                }
-
-                if (_forwardSecrecy != null)
-                {
-                    if (!_forwardSecrecy.Equals(other.ForwardSecrecy))
-                        _differences.Add(new AnalyzeDifference("Forward secrecy",
-                            getSummary(_forwardSecrecy, other.ForwardSecrecy)));
-                }
+                _differences.Add(new AnalyzeDifference("URL", getSummary(_URL, other.URL)));
+                _differences.Add(new AnalyzeDifference("IP address", getSummary(_IP, other.IP)));
+                _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, other.Ranking)));
+                _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, other.FingerPrintCert)));
+                _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, other.Expiration)));
+                _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, other.RC4)));
+                _differences.Add(new AnalyzeDifference("Protocol versions", getSummary(_protocolVersions, other.ProtocolVersions)));
+                _differences.Add(new AnalyzeDifference("Beast vuln.", getSummary(_beast, other.BeastVulnerable)));
+                _differences.Add(new AnalyzeDifference("Heartbleed vuln.", getSummary(_heartbleed, other.Heartbleed)));
+                _differences.Add(new AnalyzeDifference("Forward secrecy", getSummary(_forwardSecrecy, other.ForwardSecrecy)));
 
             }
             catch (Exception)
@@ -424,8 +326,9 @@ namespace QSSLTool.Compacts
         /// </summary>
         private string getSummary(HostEntryAttribute before, HostEntryAttribute now)
         {
-            if (before.ToString().Length > 1) return string.Format("Changed from {0} to {1}", before, now);
-            else return string.Format("Discovered as {0}", now);
+            if (before == null) return string.Format("Discovered as {0}", now);
+            else if (before.ToString().Length > 1) return string.Format("Changed from {0} to {1}", before, now);
+            return "Assessment failed";
         }
 
         /// <summary>

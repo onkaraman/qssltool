@@ -93,7 +93,6 @@ namespace QSSLTool.FileParsers.Concretes
                 h.SetFingerPrintCert(getColumn(reader, fingerPrintIndex));
                 h.SetExpirationDate(getColumn(reader, expirationIndex));
                 h.SetProtocolVersions(getColumn(reader, protocolVersionsIndex));
-                h.SetMD5(getColumn(reader, MD5Index));
                 h.SetBeastVulnerarbility(getColumn(reader, beastIndex));
                 h.SetHeartbleedVulnerability(getColumn(reader, heartbleedIndex));
                 h.SetForwardSecrecy(getColumn(reader, forwardSecrecyIndex));

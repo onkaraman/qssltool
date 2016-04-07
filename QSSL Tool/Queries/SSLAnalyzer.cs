@@ -75,9 +75,9 @@ namespace QSSLTool.Queries
 
                 Analyze a = _service.AutomaticAnalyze(url, 
                     Settings.Static.AnalyzerSettings.Publish, 
-                    SSLLabsApiService.StartNew.On,
+                    SSLLabsApiService.StartNew.Ignore,
                     Settings.Static.AnalyzerSettings.FromCache, 
-                    1, 
+                    10, 
                     SSLLabsApiService.All.On,
                     Settings.Static.AnalyzerSettings.IgnoreMismatch, 
                     200, _waitInterval);
@@ -129,17 +129,19 @@ namespace QSSLTool.Queries
                 ret.SetIP(a.endpoints[0].ipAddress);
                 ret.SetRanking(a.endpoints[0].grade);
                 ret.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
-                ret.SetExpirationDate(DataFormatter.Static.UnixToDateTime(a.endpoints[0].Details.cert.notAfter));
-                ret.SetProtocolVersions(DataFormatter.Static.ProtocolVersionsToString(a.endpoints[0].Details.protocols));
+                ret.SetExpirationDate(a.endpoints[0].Details.cert.notAfter);
+                ret.SetProtocolVersions(a.endpoints[0].Details.protocols);
                 ret.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
                 ret.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
                 ret.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
                 ret.SetHeartbleedVulnerability(a.endpoints[0].Details.heartbleed);
                 ret.SetSignatureAlgorithm(a.endpoints[0].Details.cert.sigAlg);
-                ret.SetPoodleVulnerability(DataFormatter.Static.PoodleToString(a.endpoints[0].Details.poodle,
-                    a.endpoints[0].Details.poodleTls));
-                ret.SetExtendedValidation(DataFormatter.Static.ExtendedValidationToString(a.endpoints[0].Details.cert.validationType));
-                ret.SetOpenSSLCCSVulnerable(DataFormatter.Static.OpenSSLCCSToString(a.endpoints[0].Details.openSslCcs));
+                ret.SetPoodleVulnerability(a.endpoints[0].Details.poodle, a.endpoints[0].Details.poodleTls);
+                ret.SetExtendedValidation(a.endpoints[0].Details.cert.validationType);
+                ret.SetOpenSSLCCSVulnerable(a.endpoints[0].Details.openSslCcs);
+                ret.SetHTTPServerSignature(a.endpoints[0].Details.serverSignature);
+                ret.SetSSLTLSCompression(a.endpoints[0].Details.compressionMethods.ToString());
+                ret.SetServerHostName(a.endpoints[0].serverName);
                 return ret;
             }
             catch (Exception)
