@@ -23,8 +23,6 @@
             PoodleVulnerable,
             ExtendedValidation,
             OpenSSLCCSVulnerable,
-            LongHandshakeIntolerance,
-            TLSVersionIntolerance,
             HTTPServerSignature,
             PublicKeyPinning,
             TLSCompression,

@@ -272,28 +272,6 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
-        /// Will set the long handshake intolerance of this host entry.
-        /// </summary>
-        public void SetLongHandshakeIntolerance(string value)
-        {
-            if (value != null)
-            {
-                _longHandShakeIntolerance = new HostEntryAttribute(HostEntryAttribute.Type.LongHandshakeIntolerance, value);
-            }
-        }
-
-        /// <summary>
-        /// Will set the TLS version intolerance of this host entry.
-        /// </summary>
-        public void SetTLSVersionIntolerance(string value)
-        {
-            if (value != null)
-            {
-                _TLSVersionIntolerance = new HostEntryAttribute(HostEntryAttribute.Type.TLSVersionIntolerance, value);
-            }
-        }
-
-        /// <summary>
         /// Will set the HTTP Server signature of this host entry.
         /// </summary>
         public void SetHTTPServerSignature(string value)
