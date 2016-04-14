@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 
 namespace QSSLTool.FileWriters.Concretes
 {
@@ -15,6 +14,7 @@ namespace QSSLTool.FileWriters.Concretes
     public class ExcelWriter
     {
         private enum coloring { positive, neutral, negative, none }
+        private int _customAttributeCount;
         private int _cursor;
         private int _filteredOut;
         public int FilteredOut { get { return _filteredOut; } }
@@ -28,7 +28,8 @@ namespace QSSLTool.FileWriters.Concretes
             _cursor = 2;
             _path = path;
             _hosts = hosts;
-
+            _customAttributeCount = _hosts[0].CustomAttributes.Count;
+        
             _excelPackage = new ExcelPackage();
             _sheet = _excelPackage.Workbook.Worksheets.Add("A");
             _sheet.View.ShowGridLines = true;
@@ -70,7 +71,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Beast vulnerability", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Forward secrecy", 30, ExcelColumnAdresser.Static.Index);
+                "Forward secrecy", 35, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Heartbleed vulnerability", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
@@ -97,7 +98,7 @@ namespace QSSLTool.FileWriters.Concretes
             foreach(HostEntryAttribute hea in _hosts[0].CustomAttributes)
             {
                 addCell(ExcelColumnAdresser.Static.NextIndexed(1),
-                hea.CustomName, 35, ExcelColumnAdresser.Static.Index);
+                hea.CustomName, 33, ExcelColumnAdresser.Static.Index);
             }
         }
 
@@ -180,7 +181,7 @@ namespace QSSLTool.FileWriters.Concretes
         {
             string address = string.Format("A{0}:{1}{2}", _cursor, ExcelColumnAdresser.Static.Latest, _cursor);
             _sheet.Cells[string.Format(address, _cursor)].Style.Font.Name = "Arial";
-            _sheet.Cells[string.Format(address, _cursor)].Style.Font.Size = 9;
+            _sheet.Cells[string.Format(address, _cursor)].Style.Font.Size = 8;
 
             ExcelColumnAdresser.Static.Reset();
 
@@ -222,7 +223,7 @@ namespace QSSLTool.FileWriters.Concretes
             foreach (HostEntryAttribute hea in entry.CustomAttributes)
             {
                 addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
-                    hea.ToString(), detemineCellColoring(entry.ServerHostname));
+                    hea.ToString(), detemineCellColoring(entry.CustomAttributes[0]));
             }
             _cursor += 1;
         }
@@ -298,10 +299,14 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         public string GetMessage()
         {
-            string str = "Excel file has been exported.{0}";
+            string str = "Excel file has been exported. {0}";
             if (_filteredOut > 0)
             {
                 str = string.Format(str, " " + _filteredOut + " items have been filtered out.");
+            }
+            else if (_customAttributeCount > 0)
+            {
+                str = string.Format(str, " " + _customAttributeCount + " attributes have been transferred.");
             }
             else str = string.Format(str, "");
             return str;

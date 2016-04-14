@@ -83,15 +83,20 @@ namespace QSSLTool.Queries
                     200, _waitInterval);
 
                 HostEntry fresh = extractInfoFromAnalysis(a, _current);
-                _current.CheckDifferences(fresh);
-                _current = addMetaNotes(a, _current);
-                _analyzedEntries.Add(fresh);
+                if (fresh != null)
+                {
+                    _current.CheckDifferences(fresh);
+                    _current = addMetaNotes(a, _current);
+                    fresh.AddCustomAttribute(_current.CustomAttributes);
+                    _analyzedEntries.Add(fresh);
+                }
 
                 if (_stopSignal)
                 {
                     _stopSignal = false;
                     break;
                 }
+
                 notify();
             }
 
@@ -145,7 +150,7 @@ namespace QSSLTool.Queries
             }
             catch (Exception)
             {
-                return he;
+                return null;
             }
         }
 

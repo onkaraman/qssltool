@@ -286,9 +286,13 @@ namespace QSSLTool.Compacts
         public void AddCustomAttribute(string name, string value)
         {
             var attr = new HostEntryAttribute(HostEntryAttribute.Type.CustomAttribute, value, name);
-            if (!_customAttributes.Contains(attr)) _customAttributes.Add(attr);
+            _customAttributes.Add(attr);
         }
 
+        public void AddCustomAttribute(List<HostEntryAttribute> range)
+        {
+            _customAttributes.AddRange(range);
+        }
 
         /// <summary>
         /// Checks if a host entry is empty by looking at the IP address and URL.
