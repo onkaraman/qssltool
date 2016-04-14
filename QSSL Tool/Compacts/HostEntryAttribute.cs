@@ -25,7 +25,8 @@
             OpenSSLCCSVulnerable,
             HTTPServerSignature,
             TLSCompression,
-            ServerHostName
+            ServerHostName,
+            CustomAttribute
         }
 
         private Type _attribute;
@@ -34,17 +35,20 @@
             get { return _attribute; }
         }
         private string _content;
+        private string _customName;
+        public string CustomName { get { return _customName; } }
 
         /// <summary>
         /// Constructs a HostEntryAttribute. If the content is null, 
         /// a '?' will be applied for it.
         /// </summary>
         public HostEntryAttribute(Type attribute,
-            string content)
+            string content, string customName = null)
         {
             _attribute = attribute;
             _content = content;
             if (_content == null) _content = "?";
+            if (customName != null) _customName = customName;
         }
 
         /// <summary>

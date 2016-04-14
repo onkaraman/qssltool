@@ -94,7 +94,11 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         private void addCustomHeaders()
         {
-
+            foreach(HostEntryAttribute hea in _hosts[0].CustomAttributes)
+            {
+                addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                hea.CustomName, 35, ExcelColumnAdresser.Static.Index);
+            }
         }
 
         /// <summary>
@@ -155,6 +159,10 @@ namespace QSSLTool.FileWriters.Concretes
             applyCellStyling(address, col);
         }
 
+        /// <summary>
+        /// Will run through the list of host entries and add each attribute
+        /// to the current row.
+        /// </summary>
         private void addRows()
         {
             foreach (HostEntry he in _hosts)
@@ -162,7 +170,6 @@ namespace QSSLTool.FileWriters.Concretes
                 if (he.AppliesToFilters()) addRow(he);
                 else _filteredOut += 1;
             }
-    
         }
 
         /// <summary>
@@ -211,6 +218,12 @@ namespace QSSLTool.FileWriters.Concretes
                 entry.HTTPServerSignature.ToString(), detemineCellColoring(entry.HTTPServerSignature));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
+
+            foreach (HostEntryAttribute hea in entry.CustomAttributes)
+            {
+                addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                    hea.ToString(), detemineCellColoring(entry.ServerHostname));
+            }
             _cursor += 1;
         }
 

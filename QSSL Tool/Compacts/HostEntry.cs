@@ -47,6 +47,8 @@ namespace QSSLTool.Compacts
         private HostEntryAttribute _serverHostname;
         public HostEntryAttribute ServerHostname { get { return _serverHostname; } }
 
+        private List<HostEntryAttribute> _customAttributes;
+        public List<HostEntryAttribute> CustomAttributes { get { return _customAttributes; } }
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
         #endregion
@@ -61,7 +63,9 @@ namespace QSSLTool.Compacts
         public HostEntry(string url, string protocol)
         {
             _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
+            if (protocol == null) protocol = "https";
             _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
+            _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
         }
 
@@ -89,7 +93,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetFingerPrintCert(string value)
         {
-            if (value == null) return;
+            if (value == null) value = "";
             _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.Type.Fingerprint, value);
         }
 
@@ -98,7 +102,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetExpirationDate(long value)
         {
-            if (value == 0) return;
+            if (value == 0) value = 0;
             DateTime dt = DataFormatter.Static.UnixToDateTime(value);
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, dt.ToString("dd.MM.yyyy"));
         }
@@ -108,7 +112,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetExpirationDate(string value)
         {
-            if (value == null) return;
+            if (value == null) DateTime.Now.ToString("dd.MM.yyyy");
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value);
         }
 
@@ -128,7 +132,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetProtocolVersions(string value)
         {
-            if (value == null) return;
+            if (value == null) value = "";
             _protocolVersions = new HostEntryAttribute(HostEntryAttribute.Type.ProtocolVersions, value);
         }
 
@@ -138,7 +142,7 @@ namespace QSSLTool.Compacts
         /// <param name="value"></param>
         public void SetRC4(string value)
         {
-            if (value == null) return;
+            if (value == null) value = "";
             _RC4 = new HostEntryAttribute(HostEntryAttribute.Type.RC4, value);
         }
 
@@ -167,7 +171,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetForwardSecrecy(string value)
         {
-            if (value == null) return;
+            if (value == null) value = "";
             _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy
                 ,value);
         }
@@ -190,7 +194,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHeartbleedVulnerability(string value)
         {
-            if (value == null) value = ""; ;
+            if (value == null) value = "";
             _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed
                 ,value);
         }
@@ -225,6 +229,15 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
+        /// Will set whether this host entry is vulnerable to Poddle.
+        /// </summary>
+        public void SetPoodleVulnerability(string value)
+        {
+            if (value == null) value = "";
+            _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, value);
+        }
+
+        /// <summary>
         /// Will set the extended validation of this host entry.
         /// </summary>
         public void SetExtendedValidation(string value)
@@ -244,6 +257,15 @@ namespace QSSLTool.Compacts
         }
 
         /// <summary>
+        /// Will set the OpenSSL CCS vulnerability of this host entry.
+        /// </summary>
+        public void SetOpenSSLCCSVulnerable(string value)
+        {
+            if (value == null) value = "";
+            _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, value);
+        }
+
+        /// <summary>
         /// Will set the HTTP Server signature of this host entry.
         /// </summary>
         public void SetHTTPServerSignature(string value)
@@ -260,6 +282,13 @@ namespace QSSLTool.Compacts
             if (value == null) value = "";
             _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
         }
+
+        public void AddCustomAttribute(string name, string value)
+        {
+            var attr = new HostEntryAttribute(HostEntryAttribute.Type.CustomAttribute, value, name);
+            if (!_customAttributes.Contains(attr)) _customAttributes.Add(attr);
+        }
+
 
         /// <summary>
         /// Checks if a host entry is empty by looking at the IP address and URL.
@@ -292,7 +321,7 @@ namespace QSSLTool.Compacts
                 _differences.Add(new AnalyzeDifference("Signature algorithm", getSummary(_signatureAlgorithm, other.SignatureAlgorithm)));
                 _differences.Add(new AnalyzeDifference("Poodle vulnerability", getSummary(_poodleVulnarable, other.PoodleVulnerable)));
                 _differences.Add(new AnalyzeDifference("Extended validation", getSummary(_extendedValidation, other.ExtendedValidation)));
-                _differences.Add(new AnalyzeDifference("OpenSSL CCS Vulnerability", getSummary(_openSSLCCSVulnerable, other.OpenSSLCCSVulnerable)));
+                _differences.Add(new AnalyzeDifference("OpenSSL CCS vulnerability", getSummary(_openSSLCCSVulnerable, other.OpenSSLCCSVulnerable)));
                 _differences.Add(new AnalyzeDifference("HTTP Server signature", getSummary(_httpServerSignature, other.HTTPServerSignature)));
                 _differences.Add(new AnalyzeDifference("Server host name", getSummary(_serverHostname, other.ServerHostname)));
             }

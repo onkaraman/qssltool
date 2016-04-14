@@ -45,7 +45,7 @@ namespace QSSLTool.Queries
         {
             _service = service;
             _entries = entries;
-            _estRuntime = 95;
+            _estRuntime = 120;
             _waitInterval = 3;
             _analyzedEntries = new List<HostEntry>();
         }
@@ -75,7 +75,7 @@ namespace QSSLTool.Queries
 
                 Analyze a = _service.AutomaticAnalyze(url, 
                     Settings.Static.AnalyzerSettings.Publish, 
-                    SSLLabsApiService.StartNew.Ignore,
+                    SSLLabsApiService.StartNew.On,
                     Settings.Static.AnalyzerSettings.FromCache, 
                     10, 
                     SSLLabsApiService.All.On,

@@ -140,6 +140,11 @@ namespace QSSLTool
                 _singleQueryStarted = false;
                 stopMassQuery();
                 startAnimation("OptionsGrid_In");
+                if (_sslAnalyzer.AnalyzedEntries.Count <= 0)
+                {
+                    ExportExcelButton.IsEnabled = false;
+                    ExportExcelButton.Content = "Errors occured";
+                }
             });
         }
 
@@ -378,7 +383,6 @@ namespace QSSLTool
         private void ExportExcelButtonClick(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dia = new SaveFileDialog();
-
             dia.Filter = "Excel files (*.xlsx)|*.xlsx";
 
             if (dia.ShowDialog() == true)
