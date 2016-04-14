@@ -77,7 +77,7 @@ namespace QSSLTool.Queries
                     Settings.Static.AnalyzerSettings.Publish, 
                     SSLLabsApiService.StartNew.On,
                     Settings.Static.AnalyzerSettings.FromCache, 
-                    10, 
+                    24, 
                     SSLLabsApiService.All.On,
                     Settings.Static.AnalyzerSettings.IgnoreMismatch, 
                     200, _waitInterval);

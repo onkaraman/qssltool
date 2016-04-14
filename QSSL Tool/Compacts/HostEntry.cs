@@ -396,7 +396,8 @@ namespace QSSLTool.Compacts
 
             if (!ExportFilter.Static.RankingFilter.Equals("*"))
             {
-                if (!ExportFilter.Static.RankingFilter.StartsWith(_ranking.ToString())) return false;
+                if (_ranking.ToString().Length <= 0) return false;
+                if (!_ranking.ToString().StartsWith(ExportFilter.Static.RankingFilter)) return false;
             }
             return true;
         }

@@ -98,7 +98,7 @@ namespace QSSLTool.FileWriters.Concretes
             foreach(HostEntryAttribute hea in _hosts[0].CustomAttributes)
             {
                 addCell(ExcelColumnAdresser.Static.NextIndexed(1),
-                hea.CustomName, 33, ExcelColumnAdresser.Static.Index);
+                hea.CustomName, 25, ExcelColumnAdresser.Static.Index);
             }
         }
 
