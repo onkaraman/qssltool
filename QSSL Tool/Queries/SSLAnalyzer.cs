@@ -171,7 +171,7 @@ namespace QSSLTool.Queries
         /// </summary>
         public int EstimateRuntime(DateTime dt)
         {
-            int seconds = dt.Second + (dt.Minute * 60);
+            int seconds = dt.Second + (dt.Minute * 60) + (3600 * dt.Hour);
             if (_done > 2 && _updateEstimate)
             {
                 // Estimate runtime for a single analysis.

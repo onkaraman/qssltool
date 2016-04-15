@@ -353,8 +353,9 @@ namespace QSSLTool.Compacts
         /// </summary>
         private string getSummary(HostEntryAttribute before, HostEntryAttribute now)
         {
-            if (before == null) return string.Format("Discovered as {0}", now);
-            else if (before.ToString().Length > 1) return string.Format("Changed from {0} to {1}", before, now);
+            if ((before == null || before.ToString().Length <= 1)
+                && now.ToString().Length >= 1) return string.Format("Discovered as {0}", now);
+            else if (before.ToString().Length >= 1 && now.ToString().Length >= 1) return string.Format("Changed from {0} to {1}", before, now);
             return "Assessment failed";
         }
 

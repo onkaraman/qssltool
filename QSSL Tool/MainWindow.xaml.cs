@@ -145,6 +145,11 @@ namespace QSSLTool
                     ExportExcelButton.IsEnabled = false;
                     ExportExcelButton.Content = "Errors occured";
                 }
+                else
+                {
+                    ExportExcelButton.IsEnabled = true;
+                    ExportExcelButton.Content = "Export";
+                }
             });
         }
 
@@ -369,6 +374,7 @@ namespace QSSLTool
         {
             if (!_massQueryStarted)
             {
+                OptionsGrid.Opacity = 0;
                 StartButton.Content = "Stop";
                 startAnimation("CurrentStatGrid_In");
                 setupSSLAnalyzer(_parserDelegator.GetHostEntries());
