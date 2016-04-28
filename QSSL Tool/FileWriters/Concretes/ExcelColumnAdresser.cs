@@ -22,6 +22,10 @@ namespace QSSLTool.FileWriters.Concretes
                 return _latest;
             }
         }
+
+        /// <summary>
+        /// Will return the most recent column address.
+        /// </summary>
         public string Latest
         { get { return _latest; } }
 
@@ -49,6 +53,7 @@ namespace QSSLTool.FileWriters.Concretes
 
         /// <summary>
         /// Will return the next character with the passed index.
+        /// Will increment the index after this call.
         /// Example: A1
         /// </summary>
         public string NextIndexed(int index)

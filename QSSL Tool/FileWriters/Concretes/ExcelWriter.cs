@@ -19,6 +19,7 @@ namespace QSSLTool.FileWriters.Concretes
         private int _filteredOut;
         public int FilteredOut { get { return _filteredOut; } }
         private string _path;
+        private string _lastParsedColumn;
         private List<HostEntry> _hosts;
         private ExcelPackage _excelPackage;
         private ExcelWorksheet _sheet;
@@ -87,6 +88,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Server host name", 35, ExcelColumnAdresser.Static.Index);
 
+            _lastParsedColumn = ExcelColumnAdresser.Static.Latest;
             addCustomHeaders();
         }
 
@@ -137,12 +139,19 @@ namespace QSSLTool.FileWriters.Concretes
             _sheet.Cells[address].Style.Font.Color.SetColor(foreground);
         }
 
+        /// <summary>
+        /// Will apply the styling for the headers by coloring them.
+        /// Custom headers will be colored differently.
+        /// </summary>
         private void applyHeaderStyling()
         {
             string address = "A1:" + string.Format("{0}1", ExcelColumnAdresser.Static.Latest);
             _sheet.Cells[address].Style.Font.Bold = true;
             _sheet.Cells[address].Style.Font.Color.SetColor(Color.White);
             _sheet.Cells[address].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(136, 161, 177));
+
+            address = "A1:" + string.Format("{0}1", _lastParsedColumn);
             _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
         }
 

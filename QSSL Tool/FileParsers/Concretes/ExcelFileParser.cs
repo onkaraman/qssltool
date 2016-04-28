@@ -57,53 +57,36 @@ namespace QSSLTool.FileParsers.Concretes
                     string cmp = reader.GetString(columnIndex);
 
                     #region Column finding
-                    if (cmp.Equals("IP") && ipIndex == -1)
-                        ipIndex = columnIndex;
-                    else if (cmp.Contains("URL") && urlIndex == -1)
-                        urlIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("protocol versions")
-                        && protocolVersionsIndex == -1)
+                    if (cmp.Equals("IP") && ipIndex == -1) ipIndex = columnIndex;
+                    else if (cmp.Contains("URL") && urlIndex == -1) urlIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("protocol versions") && protocolVersionsIndex == -1)
                         protocolVersionsIndex = columnIndex;
-                    else if (cmp.Contains("RC4") && RC4Index == -1)
-                        RC4Index = columnIndex;
-                    else if (cmp.ToLower().Contains("ranking")
-                        && rankingIndex == -1)
+                    else if (cmp.Contains("RC4") && RC4Index == -1) RC4Index = columnIndex;
+                    else if (cmp.ToLower().Contains("ranking") && rankingIndex == -1)
                         rankingIndex = columnIndex;
-                    else if (cmp.ToLower().Equals("protocol")
-                        && protocolIndex == -1)
+                    else if (cmp.ToLower().Equals("protocol") && protocolIndex == -1)
                         protocolIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("fingerprint")
-                        && fingerPrintIndex == -1)
+                    else if (cmp.ToLower().Contains("fingerprint") && fingerPrintIndex == -1)
                         fingerPrintIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("expiration")
-                        && expirationIndex == -1)
+                    else if (cmp.ToLower().Contains("expiration") && expirationIndex == -1)
                         expirationIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("beast")
-                        && beastIndex == -1)
+                    else if (cmp.ToLower().Contains("beast") && beastIndex == -1)
                         beastIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("forward secrecy")
-                        && forwardSecrecyIndex == -1)
+                    else if (cmp.ToLower().Contains("forward secrecy") && forwardSecrecyIndex == -1)
                         forwardSecrecyIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("heartbleed")
-                        && heartbleedIndex == -1)
+                    else if (cmp.ToLower().Contains("heartbleed") && heartbleedIndex == -1)
                         heartbleedIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("signature algorithm")
-                        && signatureAlgoIndex == -1)
+                    else if (cmp.ToLower().Contains("signature algorithm") && signatureAlgoIndex == -1)
                         signatureAlgoIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("poodle")
-                        && poodleIndex == -1)
+                    else if (cmp.ToLower().Contains("poodle") && poodleIndex == -1)
                         poodleIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("extended validation")
-                        && extendedValidIndex == -1)
+                    else if (cmp.ToLower().Contains("extended validation") && extendedValidIndex == -1)
                         extendedValidIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("openssl ccs")
-                        && openSSLCCSIndex == -1)
+                    else if (cmp.ToLower().Contains("openssl ccs") && openSSLCCSIndex == -1)
                         openSSLCCSIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("http server sig")
-                        && HTTPServerSigIndex == -1)
+                    else if (cmp.ToLower().Contains("http server sig") && HTTPServerSigIndex == -1)
                         HTTPServerSigIndex = columnIndex;
-                    else if (cmp.ToLower().Contains("server host name")
-                        && serverHostnameIndex == -1)
+                    else if (cmp.ToLower().Contains("server host name") && serverHostnameIndex == -1)
                         serverHostnameIndex = columnIndex;
                     else
                     {
