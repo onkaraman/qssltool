@@ -253,7 +253,7 @@ namespace QSSLTool
             if (!_singleQueryStarted)
             {
                 msg = string.Format("{0}/{1} hosts analyzed",
-                _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count-1);
+                _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count);
             }
             else msg = "Single host analysis";
             string hostsChecked = msg;
@@ -343,11 +343,11 @@ namespace QSSLTool
                 try
                 {
                     _parserDelegator.Delegate(dia.FileName);
+                    OptionsGrid.Opacity = 0;
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Couldn't open file. Is another process accessing it?",
-                        "QSSL Tool");
+                    MessageBox.Show("Couldn't open file. Is another process accessing it?", "QSSL Tool");
                     stopMassQuery();
                 }
             }
@@ -362,7 +362,6 @@ namespace QSSLTool
             {
                 ProgressBar.Visibility = Visibility.Collapsed;
                 StartButton.Visibility = Visibility.Visible;
-
             });
         }
 

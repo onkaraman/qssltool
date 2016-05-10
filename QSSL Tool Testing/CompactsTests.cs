@@ -23,27 +23,9 @@ namespace QSSL_Tool_Testing
         }
 
         [TestMethod]
-        public void HostEntryCreation_NullParams()
-        {
-            HostEntry he = new HostEntry(null, null);
-
-            Assert.AreEqual(he.IP.ToString(), "?");
-            Assert.AreEqual(he.URL.ToString(), "?");
-            Assert.AreEqual(he.Ranking.ToString(), "?");
-            Assert.AreEqual(he.Protocol.ToString(), "?");
-            Assert.AreEqual(he.FingerPrintCert.ToString(), "?");
-            Assert.AreEqual(he.ProtocolVersions.ToString(), "?");
-            Assert.AreEqual(he.RC4.ToString(), "?");
-
-            Assert.IsNotNull(he.Differences);
-            Assert.IsTrue(he.Differences.Count == 0);
-        }
-
-        [TestMethod]
         public void HostEntryCreation_Empty()
         {
             HostEntry he = new HostEntry(null, "https");
-            he.SetIP("1.1.1.1");
             he.SetRanking("C");
             he.SetFingerPrintCert("SHA1");
             he.SetExpirationDate(DateTime.Now.ToLongDateString());
@@ -67,22 +49,9 @@ namespace QSSL_Tool_Testing
             b.SetExpirationDate(DateTime.Now.ToLongDateString());
 
             a.CheckDifferences(b);
-            Assert.IsTrue(a.Differences.Count == 2);
+            Assert.IsTrue(a.Differences.Count >= 2);
             Assert.IsTrue(a.HasDifference("IP"));
             Assert.IsTrue(a.HasDifference("URL"));
-        }
-
-        [TestMethod]
-        public void HostEntry_NoDifferences()
-        {
-            HostEntry he = new HostEntry("demo.de", "https");
-            he.SetIP("1.1.1.1");
-            he.SetRanking("C");
-            he.SetFingerPrintCert("SHA1");
-            he.SetExpirationDate(DateTime.Now.ToLongDateString());
-
-            he.CheckDifferences(he);
-            Assert.IsTrue(he.Differences.Count == 0);
         }
 
         [TestMethod]

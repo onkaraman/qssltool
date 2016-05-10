@@ -47,7 +47,7 @@
         {
             _attribute = attribute;
             _content = content;
-            if (_content == null) _content = "?";
+            if (_content == null) _content = "Assessment failed";
             if (customName != null) _customName = customName;
         }
 

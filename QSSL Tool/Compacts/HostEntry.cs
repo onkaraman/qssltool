@@ -12,6 +12,7 @@ namespace QSSLTool.Compacts
     public class HostEntry
     {
         #region Fields
+        private string _assessmentFailed;
         private HostEntryAttribute _IP;
         public HostEntryAttribute IP { get { return _IP; } }
         private HostEntryAttribute _URL;
@@ -67,6 +68,7 @@ namespace QSSLTool.Compacts
             _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
             _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
+            _assessmentFailed = "Assessment failed";
         }
 
         /// <summary>
@@ -74,7 +76,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetIP(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _IP = new HostEntryAttribute(HostEntryAttribute.Type.IP, value);
         }
 
@@ -83,7 +85,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetRanking(string value)
         {
-            if (value == null) value = ""; ;
+            if (value == null) value = _assessmentFailed;
             _ranking = new HostEntryAttribute(HostEntryAttribute.Type.Ranking, value);
         }
 
@@ -93,7 +95,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetFingerPrintCert(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.Type.Fingerprint, value);
         }
 
@@ -132,7 +134,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetProtocolVersions(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _protocolVersions = new HostEntryAttribute(HostEntryAttribute.Type.ProtocolVersions, value);
         }
 
@@ -142,7 +144,7 @@ namespace QSSLTool.Compacts
         /// <param name="value"></param>
         public void SetRC4(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _RC4 = new HostEntryAttribute(HostEntryAttribute.Type.RC4, value);
         }
 
@@ -162,7 +164,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetBeastVulnerarbility(string value)
         {
-            if (value == null) return;
+            if (value == null) value = _assessmentFailed;
             _beast = new HostEntryAttribute(HostEntryAttribute.Type.BeastVulnerability, value);
         }
 
@@ -171,9 +173,8 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetForwardSecrecy(string value)
         {
-            if (value == null) value = "";
-            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy
-                ,value);
+            if (value == null) value = _assessmentFailed;
+            _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy, value);
         }
 
         /// <summary>
@@ -194,7 +195,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHeartbleedVulnerability(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed
                 ,value);
         }
@@ -215,7 +216,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetSignatureAlgorithm(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _signatureAlgorithm = new HostEntryAttribute(HostEntryAttribute.Type.SignatureAlgorithm, value);
         }
 
@@ -233,7 +234,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetPoodleVulnerability(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, value);
         }
 
@@ -261,7 +262,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetOpenSSLCCSVulnerable(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, value);
         }
 
@@ -270,7 +271,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHTTPServerSignature(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _httpServerSignature = new HostEntryAttribute(HostEntryAttribute.Type.HTTPServerSignature, value);
         }
 
@@ -279,7 +280,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetServerHostName(string value)
         {
-            if (value == null) value = "";
+            if (value == null) value = _assessmentFailed;
             _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
         }
 
@@ -300,7 +301,9 @@ namespace QSSLTool.Compacts
         /// </summary>
         public bool IsEmpty()
         {
-            if (_IP.ToString().Length < 3 && _URL.ToString().Length < 3) return true;
+            if (_IP.ToString().Equals(_assessmentFailed) 
+                && _URL.ToString().Equals(_assessmentFailed)) return true;
+            else if (_IP.ToString().Length < 3 && _URL.ToString().Length <= 1) return true;
             return false;
         }
         
@@ -355,7 +358,9 @@ namespace QSSLTool.Compacts
         {
             if ((before == null || before.ToString().Length <= 1)
                 && now.ToString().Length >= 1) return string.Format("Discovered as {0}", now);
-            else if (before.ToString().Length >= 1 && now.ToString().Length >= 1) return string.Format("Changed from {0} to {1}", before, now);
+            else if (before.ToString().Length >= 1 && now.ToString().Length >= 1
+                && !before.Equals(now)) return string.Format("Changed from {0} to {1}", before, now);
+            else if (before.Equals(now)) return string.Format("Unchanged: {0}", now);
             return "Assessment failed";
         }
 
