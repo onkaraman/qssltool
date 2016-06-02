@@ -1,6 +1,8 @@
 ﻿using QSSLTool.Compacts;
 using QSSLTool.FileParsers;
 using QSSLTool.Gateways;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
@@ -27,6 +29,7 @@ namespace QSSLTool
             UseCacheCheckBox.Unchecked += UseCacheChecked;
             IgnoreMismatchCheckBox.Checked += IgnoreMismatchChecked;
             IgnoreMismatchCheckBox.Unchecked += IgnoreMismatchChecked;
+            WarningDaysTB.TextChanged += WarningDaysTBTextChanged;
 
             NegativeBGPicker.SelectedColorChanged += NegativeBGPickerColorChanged;
             NegativeFGPicker.SelectedColorChanged += NegativeFGPickerColorChanged;
@@ -38,6 +41,8 @@ namespace QSSLTool
 
         private void restoreCheckBoxes()
         {
+            WarningDaysTB.Text = Settings.Static.AnalyzerSettings.WarningDays.ToString();
+
             if (Settings.Static.AnalyzerSettings.FromCache
                 == SSLLabsApiWrapper.SSLLabsApiService.FromCache.On)
             {
@@ -75,6 +80,19 @@ namespace QSSLTool
                 DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NegativeBG);
             NegativeFGPicker.SelectedColor =
                 DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NegativeFG);
+        }
+
+        private void WarningDaysTBTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            try
+            {
+                Settings.Static.AnalyzerSettings.WarningDays = 
+                    int.Parse(WarningDaysTB.Text);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         #region Checkbox events
@@ -135,7 +153,7 @@ namespace QSSLTool
             Color sel = (Color)NegativeBGPicker.SelectedColor;
             Settings.Static.ColorSettings.NegativeBG = new ColorHolder(sel.A, sel.R, sel.G, sel.B);
             NegativeSampleTB.Background = new SolidColorBrush(sel);
-            #endregion
         }
+        #endregion
     }
 }

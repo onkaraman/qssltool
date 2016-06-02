@@ -6,12 +6,14 @@ namespace QSSLTool.Gateways
     [Serializable]
     public class AnalyzerSettings
     {
+        public int WarningDays;
         public SSLLabsApiService.Publish Publish;
         public SSLLabsApiService.FromCache FromCache;
         public SSLLabsApiService.IgnoreMismatch IgnoreMismatch;
 
         public AnalyzerSettings()
         {
+            WarningDays = 35;
             Publish = SSLLabsApiService.Publish.Off;
             FromCache = SSLLabsApiService.FromCache.Off;
             IgnoreMismatch = SSLLabsApiService.IgnoreMismatch.On;
