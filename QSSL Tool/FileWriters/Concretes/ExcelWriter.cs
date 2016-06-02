@@ -224,7 +224,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.Expiration.ToString(), detemineCellColoring(entry.Expiration));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry.WarningExpiration.ToString(), detemineCellColoring(entry.Expiration));
+                entry.WarningExpiration.ToString(), detemineCellColoring(entry.WarningExpiration, entry));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
@@ -258,7 +258,7 @@ namespace QSSLTool.FileWriters.Concretes
         /// Will determine the coloring of the cell based on the content it holds
         /// for its type.
         /// </summary>
-        private coloring detemineCellColoring(HostEntryAttribute s)
+        private coloring detemineCellColoring(HostEntryAttribute s, HostEntry he = null)
         {
             if (s.Attribute == HostEntryAttribute.Type.Protocol)
             {
@@ -281,6 +281,11 @@ namespace QSSLTool.FileWriters.Concretes
                 DateTime dt = DateTime.Parse(s.ToString());
                 if (dt > DateTime.Today.AddDays(10)) return coloring.positive;
                 else if (dt < DateTime.Today) return coloring.negative;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.WarningExpiration)
+            {
+                if (he.WarningExpired) return coloring.negative;
+                else return coloring.positive;
             }
             else if (s.Attribute == HostEntryAttribute.Type.RC4)
             {

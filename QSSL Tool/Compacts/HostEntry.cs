@@ -117,7 +117,8 @@ namespace QSSLTool.Compacts
             if (value == 0) value = 0;
             DateTime dt = DataFormatter.Static.UnixToDateTime(value);
             DateTime warningDate = dt.Subtract(TimeSpan.FromDays(_warningDays));
-            _warningExpired = warningDate <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
+
+            _warningExpired = DateTime.Now <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
 
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, 
                 dt.ToString("dd.MM.yyyy"));
