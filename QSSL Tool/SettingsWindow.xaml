@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:QSSLTool"
         mc:Ignorable="d"
         Title="QSSL Tool Settings"
-        Height="507"
+        Height="565"
         Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico"
@@ -15,9 +15,8 @@
     <Grid>
         <Grid x:Name="SettingsAnalyzerGrid"
               Background="{DynamicResource General Grid Background}"
-              Height="137"
-              VerticalAlignment="Top"
-              d:LayoutOverrides="Height">
+              Height="195.833"
+              VerticalAlignment="Top">
             <TextBlock x:Name="AnalyzerLabel"
                        Margin="10,10,10,0"
                        TextWrapping="Wrap"
@@ -50,12 +49,36 @@
                       Padding="4,2,0,0"
                       VerticalAlignment="Top"
                       ToolTip="Set to &quot;on&quot; to proceed with assessments even when the server certificate doesn't match the assessment hostname. Set to off by default. Please note that this parameter is ignored if a cached report is returned." />
+            <TextBox x:Name="WarningDaysTB"
+                     HorizontalAlignment="Left"
+                     Height="23.333"
+                     Margin="11.334,155.655,0,0"
+                     TextWrapping="Wrap"
+                     Text="35"
+                     VerticalAlignment="Top"
+                     Width="39"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     Foreground="#FF3399FF"
+                     FontSize="13.333" />
+            <TextBlock x:Name="WarningTBLabel"
+                       Margin="10,132.191,0,0"
+                       TextWrapping="Wrap"
+                       Text="Days for warning expiration"
+                       TextDecorations="{x:Null}"
+                       Foreground="{DynamicResource General Font Foreground}"
+                       VerticalAlignment="Top"
+                       ToolTip=""
+                       HorizontalAlignment="Left"
+                       Width="174.667"
+                       Padding="2,0,0,0"
+                       FontSize="12.667" />
         </Grid>
         <Grid x:Name="ExportSettingsGrid"
               Background="{DynamicResource General Grid Background}"
               Height="302.333"
               VerticalAlignment="Top"
-              Margin="0,152,0,0"
+              Margin="0,209.5,0,0"
               d:LayoutOverrides="LeftMargin, RightMargin">
             <Grid.RowDefinitions>
                 <RowDefinition />
