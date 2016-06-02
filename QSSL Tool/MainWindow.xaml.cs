@@ -1,13 +1,12 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using Microsoft.Win32;
 using QSSLTool.Compacts;
 using QSSLTool.FileWriters.Concretes;
 using QSSLTool.Gateways;
 using QSSLTool.Queries;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;

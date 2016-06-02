@@ -13,6 +13,7 @@
             Ranking,
             Fingerprint,
             Expiration,
+            WarningExpiration,
             ProtocolVersions,
             RC4,
             MD5,

@@ -1,8 +1,8 @@
-﻿using QSSLTool.FileParsers;
+﻿using System;
+using System.Collections.Generic;
+using QSSLTool.FileParsers;
 using QSSLTool.Gateways;
 using SSLLabsApiWrapper.Models.Response.EndpointSubModels;
-using System;
-using System.Collections.Generic;
 
 namespace QSSLTool.Compacts
 {
@@ -12,7 +12,12 @@ namespace QSSLTool.Compacts
     public class HostEntry
     {
         #region Fields
+        private bool _warningExpired;
+        public bool WarningExpired { get { return _warningExpired; } }
+        private int _warningDays;
         private string _assessmentFailed;
+
+        #region HostEntryAttributes
         private HostEntryAttribute _IP;
         public HostEntryAttribute IP { get { return _IP; } }
         private HostEntryAttribute _URL;
@@ -25,6 +30,8 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute FingerPrintCert { get { return _FingerPrintCert; } }
         private HostEntryAttribute _expiration;
         public HostEntryAttribute Expiration { get { return _expiration; } }
+        private HostEntryAttribute _warningExpiration;
+        public HostEntryAttribute WarningExpiration { get { return _warningExpiration; } }
         private HostEntryAttribute _protocolVersions;
         public HostEntryAttribute ProtocolVersions { get { return _protocolVersions; } }
         private HostEntryAttribute _RC4;
@@ -53,6 +60,7 @@ namespace QSSLTool.Compacts
         private List<AnalyzeDifference> _differences;
         public List<AnalyzeDifference> Differences { get { return _differences; } }
         #endregion
+        #endregion
 
         /// <summary>
         /// Will construct a new HostEntry object.
@@ -63,12 +71,14 @@ namespace QSSLTool.Compacts
         /// with empty strings.</param>
         public HostEntry(string url, string protocol)
         {
-            _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
             if (protocol == null) protocol = "https";
             _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
+
+            _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
             _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
             _assessmentFailed = "Assessment failed";
+            _warningDays = 35;
         }
 
         /// <summary>
@@ -106,7 +116,14 @@ namespace QSSLTool.Compacts
         {
             if (value == 0) value = 0;
             DateTime dt = DataFormatter.Static.UnixToDateTime(value);
-            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, dt.ToString("dd.MM.yyyy"));
+            DateTime warningDate = dt.Subtract(TimeSpan.FromDays(_warningDays));
+            _warningExpired = warningDate <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
+
+            _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, 
+                dt.ToString("dd.MM.yyyy"));
+
+            _warningExpiration = new HostEntryAttribute(HostEntryAttribute.Type.WarningExpiration,
+                warningDate.ToString("dd.MM.yyyy"));
         }
 
         /// <summary>
@@ -115,7 +132,12 @@ namespace QSSLTool.Compacts
         public void SetExpirationDate(string value)
         {
             if (value == null) DateTime.Now.ToString("dd.MM.yyyy");
+            DateTime warningDate = DateTime.Parse(value).Subtract(TimeSpan.FromSeconds(_warningDays));
+            _warningExpired = warningDate <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
+
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value);
+            _warningExpiration = new HostEntryAttribute(HostEntryAttribute.Type.WarningExpiration,
+                warningDate.ToString("dd.MM.yyyy"));
         }
 
         /// <summary>
@@ -320,6 +342,7 @@ namespace QSSLTool.Compacts
                 _differences.Add(new AnalyzeDifference("Ranking", getSummary(_ranking, other.Ranking)));
                 _differences.Add(new AnalyzeDifference("Fingerprint cert.", getSummary(_FingerPrintCert, other.FingerPrintCert)));
                 _differences.Add(new AnalyzeDifference("Expiration", getSummary(_expiration, other.Expiration)));
+                _differences.Add(new AnalyzeDifference("Warning expiration", getSummary(_warningExpiration, other.WarningExpiration)));
                 _differences.Add(new AnalyzeDifference("RC4 support", getSummary(_RC4, other.RC4)));
                 _differences.Add(new AnalyzeDifference("Protocol versions", getSummary(_protocolVersions, other.ProtocolVersions)));
                 _differences.Add(new AnalyzeDifference("Beast vulnerability", getSummary(_beast, other.BeastVulnerable)));

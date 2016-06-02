@@ -67,6 +67,8 @@ namespace QSSLTool.FileWriters.Concretes
                 "RC4 in use?", 15, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Expiration", 17, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                "Warning expiration", 22, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Protocol versions", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
@@ -155,6 +157,13 @@ namespace QSSLTool.FileWriters.Concretes
             _sheet.Cells[address].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(103, 125, 139));
         }
 
+        /// <summary>
+        /// Will add a cell to the spreadsheet to export with the passed address with given context.
+        /// </summary>
+        /// <param name="address">Where to add the cell.</param>
+        /// <param name="content">What to write in it.</param>
+        /// <param name="width">The width of the column of the cell.</param>
+        /// <param name="columnNr">The number of the column.</param>
         private void addCell(string address, string content,
             int width = -1, int columnNr = -1)
         {
@@ -162,6 +171,12 @@ namespace QSSLTool.FileWriters.Concretes
             if (width > 0 || columnNr > 0) _sheet.Column(columnNr).Width = width;
         }
 
+        /// <summary>
+        /// Will add a cell to the spreadsheet to export with the passed address with given context.
+        /// </summary>
+        /// <param name="address">Where to add the cell.</param>
+        /// <param name="content">What to write in it.</param>
+        /// <param name="col">What coloring to apply for that cell.</param>
         private void addCell(string address, string content,
             coloring col = coloring.none)
         {
@@ -208,6 +223,8 @@ namespace QSSLTool.FileWriters.Concretes
                 entry.RC4.ToString(), detemineCellColoring(entry.RC4));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.Expiration.ToString(), detemineCellColoring(entry.Expiration));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.WarningExpiration.ToString(), detemineCellColoring(entry.Expiration));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
                 entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
