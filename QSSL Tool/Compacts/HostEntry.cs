@@ -14,7 +14,6 @@ namespace QSSLTool.Compacts
         #region Fields
         private bool _warningExpired;
         public bool WarningExpired { get { return _warningExpired; } }
-        private int _warningDays;
         private string _assessmentFailed;
 
         #region HostEntryAttributes
@@ -78,7 +77,6 @@ namespace QSSLTool.Compacts
             _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
             _assessmentFailed = "Assessment failed";
-            _warningDays = 35;
         }
 
         /// <summary>
@@ -116,9 +114,9 @@ namespace QSSLTool.Compacts
         {
             if (value == 0) value = 0;
             DateTime dt = DataFormatter.Static.UnixToDateTime(value);
-            DateTime warningDate = dt.Subtract(TimeSpan.FromDays(_warningDays));
+            DateTime warningDate = dt.Subtract(TimeSpan.FromDays(Settings.Static.AnalyzerSettings.WarningDays));
 
-            _warningExpired = DateTime.Now <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
+            _warningExpired = DateTime.Now <= DateTime.Today.Subtract(TimeSpan.FromDays(Settings.Static.AnalyzerSettings.WarningDays));
 
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, 
                 dt.ToString("dd.MM.yyyy"));
@@ -133,8 +131,10 @@ namespace QSSLTool.Compacts
         public void SetExpirationDate(string value)
         {
             if (value == null) DateTime.Now.ToString("dd.MM.yyyy");
-            DateTime warningDate = DateTime.Parse(value).Subtract(TimeSpan.FromSeconds(_warningDays));
-            _warningExpired = warningDate <= DateTime.Today.Subtract(TimeSpan.FromDays(_warningDays));
+            DateTime warningDate = 
+                DateTime.Parse(value).Subtract(TimeSpan.FromSeconds(Settings.Static.AnalyzerSettings.WarningDays));
+            _warningExpired = 
+                warningDate <= DateTime.Today.Subtract(TimeSpan.FromDays(Settings.Static.AnalyzerSettings.WarningDays));
 
             _expiration = new HostEntryAttribute(HostEntryAttribute.Type.Expiration, value);
             _warningExpiration = new HostEntryAttribute(HostEntryAttribute.Type.WarningExpiration,
