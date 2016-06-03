@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QSSLTool"
         mc:Ignorable="d"
         Title="QSSL Tool Filters"
-        Height="282.312"
+        Height="245.646"
         Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico">
@@ -52,7 +52,7 @@
         <Grid x:Name="ExpirationFilterGrid"
               Background="{DynamicResource General Grid Background}"
               Margin="0,94.666,0,0"
-              Height="135.5"
+              Height="110.833"
               VerticalAlignment="Top">
             <TextBlock x:Name="ExpirationFilterLabel"
                        Margin="10,10,162.667,0"
@@ -72,51 +72,14 @@
                       Width="151.396"
                       Height="25.067"
                       VerticalAlignment="Top" />
-            <CheckBox x:Name="WillExpireCheckBox"
-                      Content="Will expire after"
-                      Margin="10,69.523,0,0"
+            <CheckBox x:Name="WarningCheckBox"
+                      Content="Warned expirations"
+                      Margin="10,69.523,104.604,0"
                       Foreground="{DynamicResource General Font Foreground}"
                       FontSize="14.667"
                       Style="{DynamicResource DefaultCheckBoxStyle}"
-                      HorizontalAlignment="Left"
-                      Width="138.729"
                       Height="24.4"
                       VerticalAlignment="Top" />
-            <TextBox x:Name="ExpireDaysTextBox"
-                     Margin="39.729,98.923,0,0"
-                     TextWrapping="Wrap"
-                     Text="999"
-                     Background="{x:Null}"
-                     Foreground="#FF007ACC"
-                     Padding="1,2,0,0"
-                     FontSize="14.667"
-                     CaretBrush="#FF007ACC"
-                     Height="26.577"
-                     VerticalAlignment="Top"
-                     Style="{DynamicResource DefaultTextBoxStyle}"
-                     HorizontalAlignment="Left"
-                     Width="38.667"
-                     HorizontalContentAlignment="Center" />
-            <ComboBox x:Name="ExpireComboBox"
-                      Margin="87.062,0,0,10"
-                      VerticalAlignment="Bottom"
-                      Height="26.617"
-                      HorizontalAlignment="Left"
-                      Width="74.334"
-                      Background="{DynamicResource General Grid Background}"
-                      Foreground="{DynamicResource General Font Foreground}"
-                      FontSize="13.333"
-                      Padding="6,4,5,3">
-                <ComboBoxItem Content="Days"
-                              IsSelected="True"
-                              Foreground="{DynamicResource General Font Foreground}" />
-                <ComboBoxItem Content="Weeks"
-                              Foreground="{DynamicResource General Font Foreground}" />
-                <ComboBoxItem Content="Months"
-                              Foreground="{DynamicResource General Font Foreground}" />
-                <ComboBoxItem Content="Years"
-                              Foreground="{DynamicResource General Font Foreground}" />
-            </ComboBox>
         </Grid>
     </Grid>
 </Window>

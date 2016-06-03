@@ -409,19 +409,9 @@ namespace QSSLTool.Compacts
                 if (DateTime.Parse(_expiration.ToString()) >= DateTime.Now)
                     return false; 
             }
-            else if (ExportFilter.Static.ExpireTimeFrame > 0)
+            else if (ExportFilter.Static.WarningExpired)
             {
-                DateTime now = DateTime.Now;
-                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("days"))
-                    now = now.AddDays(ExportFilter.Static.ExpireTimeFrame);
-                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("weeks"))
-                    now = now.AddDays(ExportFilter.Static.ExpireTimeFrame*7);
-                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("months"))
-                    now = now.AddMonths(ExportFilter.Static.ExpireTimeFrame);
-                if (ExportFilter.Static.ExpireTimeUnit.ToLower().Equals("years"))
-                    now = now.AddYears(ExportFilter.Static.ExpireTimeFrame);
-
-                if (DateTime.Parse(_expiration.ToString()) <= now) return false;
+                if (!_warningExpired) return false;
             }
 
             if (!ExportFilter.Static.RankingFilter.Equals("*"))

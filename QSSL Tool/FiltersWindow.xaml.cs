@@ -1,11 +1,10 @@
 ﻿using QSSLTool.Gateways;
-using System;
 using System.Windows;
 
 namespace QSSLTool
 {
     /// <summary>
-    /// Interaction logic for FiltersWindow.xaml
+    /// Will apply the UI input to the global filter settings for the export.
     /// </summary>
     public partial class FiltersWindow : Window
     {
@@ -17,13 +16,13 @@ namespace QSSLTool
 
         private void setupViews()
         {
-            ExpireDaysTextBox.MaxLength = 3;
             restore();
 
             RankingFilterComboBox.SelectionChanged += GradeFilterComboBoxSelection;
             AlreadyExpiredCheckBox.Checked += AlreadyExpiredCheckBoxChecked;
-            WillExpireCheckBox.Checked += WillExpireCheckBoxChecked;
-            ExpireDaysTextBox.TextChanged += ExpireDaysTextBoxTextChanged;
+            AlreadyExpiredCheckBox.Unchecked += AlreadyExpiredCheckBoxUnchecked;
+            WarningCheckBox.Checked += WarningCheckBoxChecked;
+            WarningCheckBox.Unchecked += WarningCheckBoxUnchecked;
         }
 
         /// <summary>
@@ -31,25 +30,9 @@ namespace QSSLTool
         /// </summary>
         private void restore()
         {
-            if (ExportFilter.Static.AlreadyExpired)
-            {
-                AlreadyExpiredCheckBoxChecked(null, null);
-                setExpiredSettings(false);
-            }
-            else if (ExportFilter.Static.ExpireTimeFrame > 0)
-            {
-                ExpireDaysTextBox.Text = ExportFilter.Static.ExpireTimeFrame.ToString();
-                WillExpireCheckBox.IsChecked = true;
+            if (ExportFilter.Static.AlreadyExpired) AlreadyExpiredCheckBoxChecked(null, null);
 
-                if (ExpireComboBox.Text.ToLower().Equals("days"))
-                    ExpireComboBox.SelectedItem = ExpireComboBox.Items[0];
-                if (ExpireComboBox.Text.ToLower().Equals("weeks"))
-                    ExpireComboBox.SelectedItem = ExpireComboBox.Items[1];
-                if (ExpireComboBox.Text.ToLower().Equals("months"))
-                    ExpireComboBox.SelectedItem = ExpireComboBox.Items[2];
-                if (ExpireComboBox.Text.ToLower().Equals("years"))
-                    ExpireComboBox.SelectedItem = ExpireComboBox.Items[3];
-            }
+            if (ExportFilter.Static.WarningExpired) WarningCheckBoxChecked(null, null);
 
             if (ExportFilter.Static.RankingFilter.Contains("*"))
                 RankingFilterComboBox.SelectedIndex = 0;
@@ -70,47 +53,23 @@ namespace QSSLTool
 
         private void AlreadyExpiredCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            WillExpireCheckBox.IsChecked = false;
-            setExpiredSettings(false);
-            ExportFilter.Static.SetAlreadyExpired(true);
+            ExportFilter.Static.AlreadyExpired = true;
         }
 
-        private void WillExpireCheckBoxChecked(object sender, RoutedEventArgs e)
+        private void AlreadyExpiredCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            ExpireDaysTextBoxTextChanged(null, null);
-            AlreadyExpiredCheckBox.IsChecked = false;
-            setExpiredSettings(true);
+            ExportFilter.Static.AlreadyExpired = false;
         }
 
-        /// <summary>
-        /// Applies the settings to the export only with positive numbers.
-        /// </summary>
-        private void ExpireDaysTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void WarningCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (ExpireDaysTextBox.Text.Length <= 0) ExpireDaysTextBox.Text = "";
-                else
-                {
-                    int i = int.Parse(ExpireDaysTextBox.Text);
-                    if (i < 0)
-                    {
-                        i = -i;
-                        ExpireDaysTextBox.Text = i.ToString();
-                    }
-                    ExportFilter.Static.SetAlreadyExpired(false, i, ExpireComboBox.Text);
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Only numbers allowed.", "QSSL Tool");
-            }
+            ExportFilter.Static.WarningExpired = true;
         }
 
-        private void setExpiredSettings(bool set)
+        private void WarningCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
-            ExpireDaysTextBox.IsEnabled = set;
-            ExpireComboBox.IsEnabled = set;
+            ExportFilter.Static.WarningExpired = false;
         }
+
     }
 }
