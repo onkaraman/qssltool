@@ -330,15 +330,10 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         public string GetMessage()
         {
-            string str = "Excel file has been exported. {0}";
-            if (_filteredOut > 0)
-            {
-                str += string.Format("\n{0} items filtered out.", _filteredOut);
-            }
-            if (_customAttributeCount > 0)
-            {
-                str += string.Format("\n{0} attributes transferred.", _customAttributeCount);
-            }
+            string str = string.Format("File has been exported with {0} entries.", _hosts.Count);
+
+            if (_filteredOut > 0) str += string.Format("\n{0} items filtered out.", _filteredOut);
+            if (_customAttributeCount > 0) str += string.Format("\n{0} attributes transferred.", _customAttributeCount);
             else str = string.Format(str, "");
             return str;
         }
