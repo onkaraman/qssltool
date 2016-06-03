@@ -333,11 +333,11 @@ namespace QSSLTool.FileWriters.Concretes
             string str = "Excel file has been exported. {0}";
             if (_filteredOut > 0)
             {
-                str = string.Format(str, " " + _filteredOut + " items have been filtered out.");
+                str += string.Format("\n{0} items filtered out.", _filteredOut);
             }
-            else if (_customAttributeCount > 0)
+            if (_customAttributeCount > 0)
             {
-                str = string.Format(str, " " + _customAttributeCount + " attributes have been transferred.");
+                str += string.Format("\n{0} attributes transferred.", _customAttributeCount);
             }
             else str = string.Format(str, "");
             return str;

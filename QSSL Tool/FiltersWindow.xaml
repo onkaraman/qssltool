@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:QSSLTool"
         mc:Ignorable="d"
         Title="QSSL Tool Filters"
-        Height="245.646"
+        Height="252.979"
         Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico">
     <Grid Background="{DynamicResource General Background}"
-          Margin="0,0,0,-0.5"
-          Height="259.812"
+          Margin="0,0,0,-3.166"
+          Height="227.145"
           VerticalAlignment="Top">
         <Grid x:Name="RankingFilterGrid"
               Height="80.667"
