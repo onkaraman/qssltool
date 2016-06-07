@@ -130,7 +130,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetExpirationDate(string value)
         {
-            if (value == null) DateTime.Now.ToString("dd.MM.yyyy");
+            if (value == null) value = DateTime.Now.ToString("dd.MM.yyyy");
             DateTime warningDate = 
                 DateTime.Parse(value).Subtract(TimeSpan.FromSeconds(Settings.Static.AnalyzerSettings.WarningDays));
             _warningExpired = 
@@ -417,7 +417,8 @@ namespace QSSLTool.Compacts
             if (!ExportFilter.Static.RankingFilter.Equals("*"))
             {
                 if (_ranking.ToString().Length <= 0) return false;
-                if (!_ranking.ToString().StartsWith(ExportFilter.Static.RankingFilter)) return false;
+                if (!_ranking.ToString().StartsWith(ExportFilter.Static.RankingFilter)
+                    || _ranking.ToString().Contains("failed")) return false;
             }
             return true;
         }

@@ -1,5 +1,8 @@
-﻿using QSSLTool.Gateways;
+﻿using QSSLTool.Compacts;
+using QSSLTool.Gateways;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace QSSLTool
 {
@@ -16,6 +19,8 @@ namespace QSSLTool
 
         private void setupViews()
         {
+            RankingFilterComboBox.ItemsSource = null;
+            RankingFilterComboBox.ItemsSource = generateItems();
             restore();
 
             RankingFilterComboBox.SelectionChanged += GradeFilterComboBoxSelection;
@@ -23,6 +28,25 @@ namespace QSSLTool
             AlreadyExpiredCheckBox.Unchecked += AlreadyExpiredCheckBoxUnchecked;
             WarningCheckBox.Checked += WarningCheckBoxChecked;
             WarningCheckBox.Unchecked += WarningCheckBoxUnchecked;
+        }
+
+        /// <summary>
+        /// Will generate a list of combobox items to filter out host 
+        /// entries by their rankings.
+        /// </summary>
+        /// <returns></returns>
+        private List<string> generateItems()
+        {
+            List<string> cbi = new List<string>
+            {
+                string.Format("* Everything ({0})", ExportFilter.Static.GradeCount[3]),
+                string.Format("Only As ({0})", ExportFilter.Static.GradeCount[0]),
+                string.Format("Only Bs ({0})", ExportFilter.Static.GradeCount[1]),
+                string.Format("Only Cs ({0})", ExportFilter.Static.GradeCount[2]),
+                string.Format("Lower than Cs ({0})", ExportFilter.Static.GradeCount[4])
+            };
+
+            return cbi;
         }
 
         /// <summary>

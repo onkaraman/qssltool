@@ -37,17 +37,6 @@
                   Background="{DynamicResource General Grid Background}"
                   Foreground="{DynamicResource General Font Foreground}"
                   FontSize="13.333">
-            <ComboBoxItem Content="* Everything"
-                          IsSelected="True"
-                          Foreground="{DynamicResource General Font Foreground}" />
-            <ComboBoxItem Content="Only As"
-                          Foreground="{DynamicResource General Font Foreground}" />
-            <ComboBoxItem Content="Only Bs"
-                          Foreground="{DynamicResource General Font Foreground}" />
-            <ComboBoxItem Content="Only Cs"
-                          Foreground="{DynamicResource General Font Foreground}" />
-            <ComboBoxItem Content="Lower than C"
-                          Foreground="{DynamicResource General Font Foreground}" />
         </ComboBox>
         <Grid x:Name="ExpirationFilterGrid"
               Background="{DynamicResource General Grid Background}"

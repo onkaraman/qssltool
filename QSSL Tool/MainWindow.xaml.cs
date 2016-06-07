@@ -110,7 +110,7 @@ namespace QSSLTool
 
         /// <summary>
         /// Will prepare the UI for animations by setting opacities
-        /// of various UI elements to zero.
+        /// of the current stat, recent outcome and options grid to zero.
         /// </summary>
         private void prepareAnimations()
         {
@@ -126,30 +126,6 @@ namespace QSSLTool
             _sslAnalyzer.OnAnalyzeComplete += OnAnalyzeComplete;
             _sslAnalyzer.Start();
             ProgressBar.Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// This method will be called once an analysis is complete.
-        /// An animation will be triggered.
-        /// </summary>
-        private void OnAnalyzeComplete()
-        {
-            Dispatcher.Invoke(delegate ()
-            {
-                _singleQueryStarted = false;
-                stopMassQuery();
-                startAnimation("OptionsGrid_In");
-                if (_sslAnalyzer.AnalyzedEntries.Count <= 0)
-                {
-                    ExportExcelButton.IsEnabled = false;
-                    ExportExcelButton.Content = "Errors occured";
-                }
-                else
-                {
-                    ExportExcelButton.IsEnabled = true;
-                    ExportExcelButton.Content = "Export";
-                }
-            });
         }
 
         /// <summary>
@@ -202,6 +178,31 @@ namespace QSSLTool
                 RecentOutcomeLabel.Text = string.Format("Recent outcome for {0}",
                         _sslAnalyzer.RecentlyAnalyzed.URL);
                 DifferenceListBox.ItemsSource = _sslAnalyzer.RecentlyAnalyzed.Differences;
+                ExportFilter.Static.EnumerateGrades(_sslAnalyzer.AnalyzedEntries);
+            });
+        }
+
+        /// <summary>
+        /// This method will be called once an analysis is complete.
+        /// An animation will be triggered.
+        /// </summary>
+        private void OnAnalyzeComplete()
+        {
+            Dispatcher.Invoke(delegate ()
+            {
+                _singleQueryStarted = false;
+                stopMassQuery();
+                startAnimation("OptionsGrid_In");
+                if (_sslAnalyzer.AnalyzedEntries.Count <= 0)
+                {
+                    ExportExcelButton.IsEnabled = false;
+                    ExportExcelButton.Content = "Errors occured";
+                }
+                else
+                {
+                    ExportExcelButton.IsEnabled = true;
+                    ExportExcelButton.Content = "Export";
+                }
             });
         }
 
@@ -333,6 +334,7 @@ namespace QSSLTool
             bool? clicked = dia.ShowDialog();
             if (clicked == true)
             {
+                prepareAnimations();
                 AnalyzeButton.IsEnabled = false;
                 OpenFileButton.IsEnabled = false;
                 URLField.IsEnabled = false;
@@ -381,7 +383,11 @@ namespace QSSLTool
                 setupRunTimer();
                 _massQueryStarted = true;
             }
-            else stopMassQuery();
+            else
+            {
+                stopMassQuery();
+                OnAnalyzeComplete();
+            }
         }
 
         private void ExportExcelButtonClick(object sender, RoutedEventArgs e)
