@@ -63,12 +63,12 @@ namespace QSSLTool
             if (inf.Online)
             {
                 ConnectionDot.Fill = new SolidColorBrush(Color.FromArgb(255, 90, 209, 8));
-                ConnectionStatusText.Text = "Connected to API (ssllabs.com)";
+                ConnectionStatusText.Text = Properties.Resources.connectedToAPI;
             }
             else
             {
                 ConnectionDot.Fill = new SolidColorBrush(Color.FromArgb(255, 209, 17, 8));
-                ConnectionStatusText.Text = "Not connected to API";
+                ConnectionStatusText.Text = Properties.Resources.notConnectedToAPI;
                 AnalyzeButton.Visibility = Visibility.Collapsed;
                 OpenFileButton.Visibility = Visibility.Collapsed;
             }
@@ -140,7 +140,7 @@ namespace QSSLTool
             OpenFileButton.IsEnabled = true;
             URLField.IsEnabled = true;
             URLField.Text = "https://";
-            StartButton.Content = "Start";
+            StartButton.Content = Properties.Resources.start;
             StartButton.Visibility = Visibility.Collapsed;
             ProgressBar.Visibility = Visibility.Collapsed;
             prepareAnimations();
@@ -177,7 +177,7 @@ namespace QSSLTool
             Dispatcher.Invoke(delegate ()
             {
                 if (RecentOutcomeGrid.Opacity == 0) startAnimation("RecentOutcomeGrid_In");
-                RecentOutcomeLabel.Text = string.Format("Recent outcome for {0}",
+                RecentOutcomeLabel.Text = string.Format(Properties.Resources.recentOutcome,
                         _sslAnalyzer.RecentlyAnalyzed.URL);
                 DifferenceListBox.ItemsSource = _sslAnalyzer.RecentlyAnalyzed.Differences;
                 ExportFilter.Static.EnumerateGrades(_sslAnalyzer.AnalyzedEntries);
@@ -199,13 +199,13 @@ namespace QSSLTool
                 if (_sslAnalyzer.AnalyzedEntries.Count <= 0)
                 {
                     ExportExcelButton.IsEnabled = false;
-                    ExportExcelButton.Content = "Errors occured";
+                    ExportExcelButton.Content = Properties.Resources.errorsOccurred;
                 }
                 else
                 {
                     ExportExcelButton.IsEnabled = true;
                     FiltersButton.IsEnabled = true;
-                    ExportExcelButton.Content = "Export";
+                    ExportExcelButton.Content = Properties.Resources.export;
                 }
             });
         }
@@ -240,7 +240,7 @@ namespace QSSLTool
             DateTime est = new DateTime();
             est = est.AddSeconds(_sslAnalyzer.EstimateRuntime(_dateTimeNow));
 
-            string elapsed = string.Format("Elapsed time: {0} / {1}",
+            string elapsed = string.Format(Properties.Resources.elapsedTime,
                 _dateTimeNow.ToString("HH:mm:ss"),
                 est.ToString("HH:mm:ss"));
 
@@ -256,10 +256,10 @@ namespace QSSLTool
             string msg = "";
             if (!_singleQueryStarted)
             {
-                msg = string.Format("{0}/{1} hosts analyzed",
+                msg = string.Format(Properties.Resources.hostsAnalyzed,
                 _sslAnalyzer.Done, _parserDelegator.GetHostEntries().Count);
             }
-            else msg = "Single host analysis";
+            else msg = Properties.Resources.singleAnalysis;
             string hostsChecked = msg;
 
             HostsCheckedLabel.Text = hostsChecked;
@@ -324,7 +324,7 @@ namespace QSSLTool
             }
             else
             {
-                MessageBox.Show("URL has to be a proper HTTPS address.", "QSSL Tool");
+                MessageBox.Show(Properties.Resources.urlMustBeHttps, "QSSL Tool");
             }
         }
 
@@ -352,7 +352,8 @@ namespace QSSLTool
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Couldn't open file. Is another process accessing it?", "QSSL Tool");
+                    MessageBox.Show(Properties.Resources.couldntOpenFile, 
+                        "QSSL Tool");
                     stopMassQuery();
                 }
             }
@@ -417,7 +418,8 @@ namespace QSSLTool
         {
             if (_singleQueryStarted || _massQueryStarted)
             {
-                MessageBox.Show("Cannot enter settings while an analysis is happening", "QSSL Tool");
+                MessageBox.Show(Properties.Resources.cannotEnterSettings, 
+                    "QSSL Tool");
             }
             else
             {

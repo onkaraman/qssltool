@@ -22,7 +22,7 @@ namespace QSSLTool.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace QSSLTool.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QSSLTool.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,129 @@ namespace QSSLTool.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot enter settings while an analysis is happening..
+        /// </summary>
+        public static string cannotEnterSettings {
+            get {
+                return ResourceManager.GetString("cannotEnterSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected to API (ssllabs.com).
+        /// </summary>
+        public static string connectedToAPI {
+            get {
+                return ResourceManager.GetString("connectedToAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t open file. Is another process accessing it?.
+        /// </summary>
+        public static string couldntOpenFile {
+            get {
+                return ResourceManager.GetString("couldntOpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elapsed time: {0} / {1}.
+        /// </summary>
+        public static string elapsedTime {
+            get {
+                return ResourceManager.GetString("elapsedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occurred.
+        /// </summary>
+        public static string errorsOccurred {
+            get {
+                return ResourceManager.GetString("errorsOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string export {
+            get {
+                return ResourceManager.GetString("export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}/{1} hosts analyzed.
+        /// </summary>
+        public static string hostsAnalyzed {
+            get {
+                return ResourceManager.GetString("hostsAnalyzed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not connected to API (ssllabs.com).
+        /// </summary>
+        public static string notConnectedToAPI {
+            get {
+                return ResourceManager.GetString("notConnectedToAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent outcome for {0}.
+        /// </summary>
+        public static string recentOutcome {
+            get {
+                return ResourceManager.GetString("recentOutcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Single host analysis.
+        /// </summary>
+        public static string singleAnalysis {
+            get {
+                return ResourceManager.GetString("singleAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string start {
+            get {
+                return ResourceManager.GetString("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        public static string stop {
+            get {
+                return ResourceManager.GetString("stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL has to be a proper HTTPS address..
+        /// </summary>
+        public static string urlMustBeHttps {
+            get {
+                return ResourceManager.GetString("urlMustBeHttps", resourceCulture);
             }
         }
     }

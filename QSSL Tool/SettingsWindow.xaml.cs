@@ -9,9 +9,9 @@ using Xceed.Wpf.Toolkit;
 
 namespace QSSLTool
 {
+
     public partial class SettingsWindow : Window
     {
-
         public SettingsWindow()
         {
             InitializeComponent();
