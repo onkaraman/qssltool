@@ -61,6 +61,33 @@ namespace QSSLTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already expired.
+        /// </summary>
+        public static string alreadyExpired {
+            get {
+                return ResourceManager.GetString("alreadyExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Already expired ({0}).
+        /// </summary>
+        public static string alreadyExpiredCount {
+            get {
+                return ResourceManager.GetString("alreadyExpiredCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Analyzer Settings.
+        /// </summary>
+        public static string analyzerSettings {
+            get {
+                return ResourceManager.GetString("analyzerSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot enter settings while an analysis is happening..
         /// </summary>
         public static string cannotEnterSettings {
@@ -88,6 +115,15 @@ namespace QSSLTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Days for warning Expiration.
+        /// </summary>
+        public static string daysForWarning {
+            get {
+                return ResourceManager.GetString("daysForWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elapsed time: {0} / {1}.
         /// </summary>
         public static string elapsedTime {
@@ -106,11 +142,29 @@ namespace QSSLTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expiration filter.
+        /// </summary>
+        public static string expirationFilter {
+            get {
+                return ResourceManager.GetString("expirationFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string export {
             get {
                 return ResourceManager.GetString("export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export settings.
+        /// </summary>
+        public static string exportSettings {
+            get {
+                return ResourceManager.GetString("exportSettings", resourceCulture);
             }
         }
         
@@ -124,11 +178,164 @@ namespace QSSLTool.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore certificate name mismatch.
+        /// </summary>
+        public static string ignoreMismatch {
+            get {
+                return ResourceManager.GetString("ignoreMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negative color (background).
+        /// </summary>
+        public static string negativeColorBackground {
+            get {
+                return ResourceManager.GetString("negativeColorBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negative color (foreground).
+        /// </summary>
+        public static string negativeColorForeground {
+            get {
+                return ResourceManager.GetString("negativeColorForeground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negative sample.
+        /// </summary>
+        public static string negativeSample {
+            get {
+                return ResourceManager.GetString("negativeSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral color (background).
+        /// </summary>
+        public static string neutralColorBackground {
+            get {
+                return ResourceManager.GetString("neutralColorBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral color (foreground).
+        /// </summary>
+        public static string neutralColorForeground {
+            get {
+                return ResourceManager.GetString("neutralColorForeground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral sample.
+        /// </summary>
+        public static string neutralSample {
+            get {
+                return ResourceManager.GetString("neutralSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not connected to API (ssllabs.com).
         /// </summary>
         public static string notConnectedToAPI {
             get {
                 return ResourceManager.GetString("notConnectedToAPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive color (background).
+        /// </summary>
+        public static string positiveColorBackground {
+            get {
+                return ResourceManager.GetString("positiveColorBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive color (foreground).
+        /// </summary>
+        public static string positiveColorForeground {
+            get {
+                return ResourceManager.GetString("positiveColorForeground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive sample.
+        /// </summary>
+        public static string positiveSample {
+            get {
+                return ResourceManager.GetString("positiveSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publish results.
+        /// </summary>
+        public static string publishResults {
+            get {
+                return ResourceManager.GetString("publishResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * Everything ({0}).
+        /// </summary>
+        public static string rankingEverything {
+            get {
+                return ResourceManager.GetString("rankingEverything", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranking filter.
+        /// </summary>
+        public static string rankingFilter {
+            get {
+                return ResourceManager.GetString("rankingFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only As ({0}).
+        /// </summary>
+        public static string rankingOnlyAs {
+            get {
+                return ResourceManager.GetString("rankingOnlyAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only Bs ({0}).
+        /// </summary>
+        public static string rankingOnlyBs {
+            get {
+                return ResourceManager.GetString("rankingOnlyBs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only Cs ({0}).
+        /// </summary>
+        public static string rankingOnlyCs {
+            get {
+                return ResourceManager.GetString("rankingOnlyCs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lower than Cs ({0}).
+        /// </summary>
+        public static string rankingOnlyLower {
+            get {
+                return ResourceManager.GetString("rankingOnlyLower", resourceCulture);
             }
         }
         
@@ -174,6 +381,33 @@ namespace QSSLTool.Properties {
         public static string urlMustBeHttps {
             get {
                 return ResourceManager.GetString("urlMustBeHttps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use cached results.
+        /// </summary>
+        public static string useCachedResults {
+            get {
+                return ResourceManager.GetString("useCachedResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warned expirations.
+        /// </summary>
+        public static string warnedExpirations {
+            get {
+                return ResourceManager.GetString("warnedExpirations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warned expirations ({0}).
+        /// </summary>
+        public static string warnedExpiredCount {
+            get {
+                return ResourceManager.GetString("warnedExpiredCount", resourceCulture);
             }
         }
     }

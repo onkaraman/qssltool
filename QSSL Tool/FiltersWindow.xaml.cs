@@ -16,6 +16,7 @@ namespace QSSLTool
             InitializeComponent();
             setupViews();
             assignEvents();
+            restore();
         }
 
         /// <summary>
@@ -25,11 +26,19 @@ namespace QSSLTool
         {
             RankingFilterComboBox.ItemsSource = null;
             RankingFilterComboBox.ItemsSource = generateItems();
-            AlreadyExpiredCheckBox.Content = string.Format("Already expired ({0})",
+            AlreadyExpiredCheckBox.Content = string.Format(Properties.Resources.alreadyExpiredCount,
                 ExportFilter.Static.ExpiredCount);
-            WarningCheckBox.Content = string.Format("Warned expirations ({0})",
+            WarningCheckBox.Content = string.Format(Properties.Resources.warnedExpiredCount,
                 ExportFilter.Static.WarningCount);
-            restore();
+        }
+
+        /// <summary>
+        /// Will localize the UI according to the user's regional settings
+        /// </summary>
+        private void localize()
+        {
+            RankingFilterLabel.Text = Properties.Resources.rankingFilter;
+            ExpirationFilterLabel.Text = Properties.Resources.expirationFilter;
         }
 
         /// <summary>
@@ -53,11 +62,16 @@ namespace QSSLTool
         {
             List<string> cbi = new List<string>
             {
-                string.Format("* Everything ({0})", ExportFilter.Static.GradeCount[3]),
-                string.Format("Only As ({0})", ExportFilter.Static.GradeCount[0]),
-                string.Format("Only Bs ({0})", ExportFilter.Static.GradeCount[1]),
-                string.Format("Only Cs ({0})", ExportFilter.Static.GradeCount[2]),
-                string.Format("Lower than Cs ({0})", ExportFilter.Static.GradeCount[4])
+                string.Format(Properties.Resources.rankingEverything, 
+                    ExportFilter.Static.GradeCount[3]),
+                string.Format(Properties.Resources.rankingOnlyAs, 
+                    ExportFilter.Static.GradeCount[0]),
+                string.Format(Properties.Resources.rankingOnlyBs, 
+                    ExportFilter.Static.GradeCount[1]),
+                string.Format(Properties.Resources.rankingOnlyCs, 
+                    ExportFilter.Static.GradeCount[2]),
+                string.Format(Properties.Resources.rankingOnlyLower, 
+                    ExportFilter.Static.GradeCount[4])
             };
 
             return cbi;

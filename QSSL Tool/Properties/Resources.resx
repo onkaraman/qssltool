@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="alreadyExpired" xml:space="preserve">
+    <value>Already expired</value>
+    <comment>Already expired</comment>
+  </data>
+  <data name="alreadyExpiredCount" xml:space="preserve">
+    <value>Already expired ({0})</value>
+    <comment>Already expired ({0})</comment>
+  </data>
+  <data name="analyzerSettings" xml:space="preserve">
+    <value>Analyzer Settings</value>
+    <comment>Analyzer Settings</comment>
+  </data>
   <data name="cannotEnterSettings" xml:space="preserve">
     <value>Cannot enter settings while an analysis is happening.</value>
     <comment>Cannot enter settings while an analysis is happening</comment>
@@ -129,6 +141,10 @@
     <value>Couldn't open file. Is another process accessing it?</value>
     <comment>Couldn't open file. Is another process accessing it?</comment>
   </data>
+  <data name="daysForWarning" xml:space="preserve">
+    <value>Days for warning Expiration</value>
+    <comment>Days for warning Expiration</comment>
+  </data>
   <data name="elapsedTime" xml:space="preserve">
     <value>Elapsed time: {0} / {1}</value>
     <comment>Elapsed time: {0} / {1}</comment>
@@ -137,17 +153,93 @@
     <value>Error occurred</value>
     <comment>Error occurred</comment>
   </data>
+  <data name="expirationFilter" xml:space="preserve">
+    <value>Expiration filter</value>
+    <comment>Expiration filter</comment>
+  </data>
   <data name="export" xml:space="preserve">
     <value>Export</value>
     <comment>Export</comment>
+  </data>
+  <data name="exportSettings" xml:space="preserve">
+    <value>Export settings</value>
+    <comment>Export settings</comment>
   </data>
   <data name="hostsAnalyzed" xml:space="preserve">
     <value>{0}/{1} hosts analyzed</value>
     <comment>{0}/{1} hosts analyzed</comment>
   </data>
+  <data name="ignoreMismatch" xml:space="preserve">
+    <value>Ignore certificate name mismatch</value>
+    <comment>Ignore certificate name mismatch</comment>
+  </data>
+  <data name="negativeColorBackground" xml:space="preserve">
+    <value>Negative color (background)</value>
+    <comment>Negative color (background)</comment>
+  </data>
+  <data name="negativeColorForeground" xml:space="preserve">
+    <value>Negative color (foreground)</value>
+    <comment>Negative color (foreground)</comment>
+  </data>
+  <data name="negativeSample" xml:space="preserve">
+    <value>Negative sample</value>
+    <comment>Negative sample</comment>
+  </data>
+  <data name="neutralColorBackground" xml:space="preserve">
+    <value>Neutral color (background)</value>
+    <comment>Neutral color (background)</comment>
+  </data>
+  <data name="neutralColorForeground" xml:space="preserve">
+    <value>Neutral color (foreground)</value>
+    <comment>Neutral color (foreground)</comment>
+  </data>
+  <data name="neutralSample" xml:space="preserve">
+    <value>Neutral sample</value>
+    <comment>Neutral sample</comment>
+  </data>
   <data name="notConnectedToAPI" xml:space="preserve">
     <value>Not connected to API (ssllabs.com)</value>
     <comment>Not connected to API (ssllabs.com)</comment>
+  </data>
+  <data name="positiveColorBackground" xml:space="preserve">
+    <value>Positive color (background)</value>
+    <comment>Positive color (background)</comment>
+  </data>
+  <data name="positiveColorForeground" xml:space="preserve">
+    <value>Positive color (foreground)</value>
+    <comment>Positive color (foreground)</comment>
+  </data>
+  <data name="positiveSample" xml:space="preserve">
+    <value>Positive sample</value>
+    <comment>Positive sample</comment>
+  </data>
+  <data name="publishResults" xml:space="preserve">
+    <value>Publish results</value>
+    <comment>Publish results</comment>
+  </data>
+  <data name="rankingEverything" xml:space="preserve">
+    <value>* Everything ({0})</value>
+    <comment>* Everything ({0})</comment>
+  </data>
+  <data name="rankingFilter" xml:space="preserve">
+    <value>Ranking filter</value>
+    <comment>Ranking filter</comment>
+  </data>
+  <data name="rankingOnlyAs" xml:space="preserve">
+    <value>Only As ({0})</value>
+    <comment>Only As ({0})</comment>
+  </data>
+  <data name="rankingOnlyBs" xml:space="preserve">
+    <value>Only Bs ({0})</value>
+    <comment>Only Bs ({0})</comment>
+  </data>
+  <data name="rankingOnlyCs" xml:space="preserve">
+    <value>Only Cs ({0})</value>
+    <comment>Only Cs ({0})</comment>
+  </data>
+  <data name="rankingOnlyLower" xml:space="preserve">
+    <value>Lower than Cs ({0})</value>
+    <comment>Lower than Cs ({0})</comment>
   </data>
   <data name="recentOutcome" xml:space="preserve">
     <value>Recent outcome for {0}</value>
@@ -168,5 +260,17 @@
   <data name="urlMustBeHttps" xml:space="preserve">
     <value>URL has to be a proper HTTPS address.</value>
     <comment>URL has to be a proper HTTPS address.</comment>
+  </data>
+  <data name="useCachedResults" xml:space="preserve">
+    <value>Use cached results</value>
+    <comment>Use cached results</comment>
+  </data>
+  <data name="warnedExpirations" xml:space="preserve">
+    <value>Warned expirations</value>
+    <comment>Warned expirations</comment>
+  </data>
+  <data name="warnedExpiredCount" xml:space="preserve">
+    <value>Warned expirations ({0})</value>
+    <comment>Warned expirations ({0})</comment>
   </data>
 </root>

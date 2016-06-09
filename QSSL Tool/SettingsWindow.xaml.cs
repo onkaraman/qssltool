@@ -5,23 +5,49 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
 
 namespace QSSLTool
 {
-
+    /// <summary>
+    /// This class takes care of the settings window of the app.
+    /// </summary>
     public partial class SettingsWindow : Window
     {
         public SettingsWindow()
         {
             InitializeComponent();
-
+            localize();
             restoreCheckBoxes();
-            setupViews();
+            assignEvents();
             restoreColors();
         }
 
-        private void setupViews()
+        /// <summary>
+        /// Will localize the UI according to the user's regional settings.
+        /// </summary>
+        private void localize()
+        {
+            AnalyzerLabel.Text = Properties.Resources.analyzerSettings;
+            PublishResultsCheckbox.Content = Properties.Resources.publishResults;
+            UseCacheCheckBox.Content = Properties.Resources.useCachedResults;
+            IgnoreMismatchCheckBox.Content = Properties.Resources.ignoreMismatch;
+            WarningTBLabel.Text = Properties.Resources.daysForWarning;
+            ExportSettingsLabel.Text = Properties.Resources.exportSettings;
+            NeutralBGColorLabel.Text = Properties.Resources.neutralColorBackground;
+            NeutralFGColorLabel.Text = Properties.Resources.neutralColorForeground;
+            PositiveBGLabel.Text = Properties.Resources.positiveColorBackground;
+            PositiveFGLabel.Text = Properties.Resources.positiveColorForeground;
+            NegativeBGLabel.Text = Properties.Resources.negativeColorBackground;
+            NegativeFGLabel.Text = Properties.Resources.negativeColorForeground;
+            NeutralSampleTB.Text = Properties.Resources.neutralSample;
+            PositiveSampleTB.Text = Properties.Resources.positiveSample;
+            NegativeSampleTB.Text = Properties.Resources.negativeSample;
+        }
+
+        /// <summary>
+        /// Will assign events for the UI controls.
+        /// </summary>
+        private void assignEvents()
         {
             PublishResultsCheckbox.Checked += PublishResultsChecked;
             PublishResultsCheckbox.Unchecked += PublishResultsChecked;
@@ -39,6 +65,9 @@ namespace QSSLTool
             NeutralFGPicker.SelectedColorChanged += NeutralFGPickerColorChanged;
         }
 
+        /// <summary>
+        /// Will restore the user settings from the last session.
+        /// </summary>
         private void restoreCheckBoxes()
         {
             WarningDaysTB.Text = Settings.Static.AnalyzerSettings.WarningDays.ToString();
@@ -66,6 +95,9 @@ namespace QSSLTool
 
         }
 
+        /// <summary>
+        /// Will restore the color settings from the last session.
+        /// </summary>
         private void restoreColors()
         {
             NeutralBGPicker.SelectedColor =
@@ -82,6 +114,9 @@ namespace QSSLTool
                 DataFormatter.Static.ColorHolderToColor(Settings.Static.ColorSettings.NegativeFG);
         }
 
+        /// <summary>
+        /// Will try to apply the entered warning days for upcoming expirations.
+        /// </summary>
         private void WarningDaysTBTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             try
