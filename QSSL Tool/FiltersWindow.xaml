@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QSSLTool"
         mc:Ignorable="d"
         Title="QSSL Tool Filters"
-        Height="252.979"
+        Height="245.646"
         Width="402"
         ResizeMode="CanMinimize"
         Icon="Icons/qssl_icon_32.ico">
@@ -29,11 +29,11 @@
                    HorizontalAlignment="Left"
                    Width="96" />
         <ComboBox x:Name="RankingFilterComboBox"
-                  Margin="10,44.509,0,0"
+                  Margin="10,45,0,0"
                   VerticalAlignment="Top"
-                  Height="23.733"
+                  Height="23"
                   HorizontalAlignment="Left"
-                  Width="117.5"
+                  Width="157"
                   Background="{DynamicResource General Grid Background}"
                   Foreground="{DynamicResource General Font Foreground}"
                   FontSize="13.333">
@@ -53,12 +53,10 @@
                        Foreground="{DynamicResource General Font Foreground}" />
             <CheckBox x:Name="AlreadyExpiredCheckBox"
                       Content="Already expired"
-                      Margin="10,39.456,0,0"
+                      Margin="10,39.456,104.604,0"
                       Foreground="{DynamicResource General Font Foreground}"
                       FontSize="14.667"
                       Style="{DynamicResource DefaultCheckBoxStyle}"
-                      HorizontalAlignment="Left"
-                      Width="151.396"
                       Height="25.067"
                       VerticalAlignment="Top" />
             <CheckBox x:Name="WarningCheckBox"

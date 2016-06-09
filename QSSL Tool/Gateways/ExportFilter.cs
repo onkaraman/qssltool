@@ -10,12 +10,37 @@ namespace QSSLTool.Gateways
     /// </summary>
     public class ExportFilter : LazyStatic<ExportFilter>
     {
+        /// <summary>
+        /// Will be true when the user wants only expired hosts
+        /// to be exported.
+        /// </summary>
         public bool AlreadyExpired;
+        /// <summary>
+        /// Will be true when the users only hosts to be exported
+        /// which will expire soon, according to settings.
+        /// </summary>
         public bool WarningExpired;
         private string _rankingFilter;
+        /// <summary>
+        /// Will contain the grade/ranking the user wants the hosts to be filtered by.
+        /// </summary>
         public string RankingFilter { get { return _rankingFilter; } }
         private int[] _gradeCount;
+        /// <summary>
+        /// Contains the count of each grade of the analyzed hosts.
+        /// [0] = a, [1] = b, [2] = c, [3] = total, [4], lower than c.
+        /// </summary>
         public int [] GradeCount { get { return _gradeCount; } }
+        private int _expiredCount;
+        /// <summary>
+        /// Will return the count of hosts which are already expired.
+        /// </summary>
+        public int ExpiredCount { get { return _expiredCount; } }
+        private int _warningCount;
+        /// <summary>
+        /// Will return the count of hosts which will expire soon according to settings.
+        /// </summary>
+        public int WarningCount { get { return _warningCount; } }        
 
         public ExportFilter()
         {
@@ -43,6 +68,9 @@ namespace QSSLTool.Gateways
                 else if (he.Ranking.ToString().Contains("B")) b += 1;
                 else if (he.Ranking.ToString().Contains("C")) c += 1;
                 else lower += 1;
+
+                if (he.Expired) _expiredCount += 1;
+                if (he.WarningExpired) _warningCount += 1;
             }
 
             everything = a + b + c + lower;

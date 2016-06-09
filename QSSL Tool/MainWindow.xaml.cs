@@ -117,6 +117,8 @@ namespace QSSLTool
             CurrentStatGrid.Opacity = 0;
             RecentOutcomeGrid.Opacity = 0;
             OptionsGrid.Opacity = 0;
+            FiltersButton.IsEnabled = false;
+            ExportExcelButton.IsEnabled = false;
         }
 
         private void setupSSLAnalyzer(List<HostEntry> hel)
@@ -192,6 +194,7 @@ namespace QSSLTool
             {
                 _singleQueryStarted = false;
                 stopMassQuery();
+
                 startAnimation("OptionsGrid_In");
                 if (_sslAnalyzer.AnalyzedEntries.Count <= 0)
                 {
@@ -201,6 +204,7 @@ namespace QSSLTool
                 else
                 {
                     ExportExcelButton.IsEnabled = true;
+                    FiltersButton.IsEnabled = true;
                     ExportExcelButton.Content = "Export";
                 }
             });

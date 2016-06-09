@@ -14,6 +14,13 @@ namespace QSSLTool.Compacts
         #region Fields
         private bool _warningExpired;
         public bool WarningExpired { get { return _warningExpired; } }
+        public bool Expired
+        {
+            get
+            {
+                return (DateTime.Parse(_expiration.ToString()) >= DateTime.Now);
+            }
+        }
         private string _assessmentFailed;
 
         #region HostEntryAttributes
@@ -404,15 +411,8 @@ namespace QSSLTool.Compacts
         /// <returns></returns>
         public bool AppliesToFilters()
         {
-            if (ExportFilter.Static.AlreadyExpired)
-            {
-                if (DateTime.Parse(_expiration.ToString()) >= DateTime.Now)
-                    return false; 
-            }
-            else if (ExportFilter.Static.WarningExpired)
-            {
-                if (!_warningExpired) return false;
-            }
+            if (ExportFilter.Static.AlreadyExpired && Expired) return false;
+            else if (ExportFilter.Static.WarningExpired && _warningExpired) return false;
 
             if (!ExportFilter.Static.RankingFilter.Equals("*"))
             {

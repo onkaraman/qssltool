@@ -15,14 +15,28 @@ namespace QSSLTool
         {
             InitializeComponent();
             setupViews();
+            assignEvents();
         }
 
+        /// <summary>
+        /// Will prepare the UI by restoring user settings.
+        /// </summary>
         private void setupViews()
         {
             RankingFilterComboBox.ItemsSource = null;
             RankingFilterComboBox.ItemsSource = generateItems();
+            AlreadyExpiredCheckBox.Content = string.Format("Already expired ({0})",
+                ExportFilter.Static.ExpiredCount);
+            WarningCheckBox.Content = string.Format("Warned expirations ({0})",
+                ExportFilter.Static.WarningCount);
             restore();
+        }
 
+        /// <summary>
+        /// Will assign events to the UI controls.
+        /// </summary>
+        private void assignEvents()
+        {
             RankingFilterComboBox.SelectionChanged += GradeFilterComboBoxSelection;
             AlreadyExpiredCheckBox.Checked += AlreadyExpiredCheckBoxChecked;
             AlreadyExpiredCheckBox.Unchecked += AlreadyExpiredCheckBoxUnchecked;
@@ -70,29 +84,44 @@ namespace QSSLTool
                 RankingFilterComboBox.SelectedIndex = 4;
         }
 
+        /// <summary>
+        /// Will set the ranking the user wants the results to be filtered by.
+        /// </summary>
         private void GradeFilterComboBoxSelection(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             ExportFilter.Static.SetRankingOnly(RankingFilterComboBox.Items[RankingFilterComboBox.SelectedIndex].ToString());  
         }
 
+        /// <summary>
+        /// Will set the export filter to only export the host entries which 
+        /// are already expired.
+        /// </summary>
         private void AlreadyExpiredCheckBoxChecked(object sender, RoutedEventArgs e)
         {
             ExportFilter.Static.AlreadyExpired = true;
+            AlreadyExpiredCheckBox.IsChecked = true;
         }
 
         private void AlreadyExpiredCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
             ExportFilter.Static.AlreadyExpired = false;
+            AlreadyExpiredCheckBox.IsChecked = false; ;
         }
 
+        /// <summary>
+        /// Will set the export filter to only export the host entries which 
+        /// will expire soon according to settings.
+        /// </summary>
         private void WarningCheckBoxChecked(object sender, RoutedEventArgs e)
         {
             ExportFilter.Static.WarningExpired = true;
+            WarningCheckBox.IsChecked = true;
         }
 
         private void WarningCheckBoxUnchecked(object sender, RoutedEventArgs e)
         {
             ExportFilter.Static.WarningExpired = false;
+            WarningCheckBox.IsChecked = false;
         }
 
     }
