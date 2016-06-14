@@ -1,16 +1,23 @@
 ## QSSL Tool
-A Qualys SSL Checker-Client for non-commercial mass queries.
+An automated Qualys SSL Checker-Client (vulnerability scanner) for non-commercial mass queries.
+
 Last edited on 24.05.2016.
 
 **Requirements**    
 .NET Framework 4.5.2
 
+**Download**
+
+You can download the precompiled version directly from my OneDrive folder [right here](https://onedrive.live.com/redir?resid=141F81505A5B6387!87936&authkey=!AMeFSMDfV0Zo3SQ&ithint=folder%2czip). I will update this folder every time a new version is done.
+
 **Content**
 01. Quick guide
 02. How to format Excel files
 03. Tips
+04. Example files
 
-###01. Quick guide
+### 01. Quick guide
+
 With this tool you can check your website for security according to the standards of the (API) [Qualys SSL Test](https://www.ssllabs.com/ssltest/)
 
 There are two ways to do this:
@@ -36,7 +43,7 @@ When running a mass query, the tool will
 Once this is done (65 websites = 1.5 hours, in my case) you can easily export your result into an Excel file.
 
 
-###02. How to format Excel files
+### 02. How to format Excel files
 
 The QSSL Tool is able to parse `.xls` and `.xlsx`-Excel files.
 In order to make sure that your Excel spread sheet gets parsed properly, you need to label your header columns (first row columns) with following containing key words (all case sensitive):
@@ -59,7 +66,12 @@ In order to make sure that your Excel spread sheet gets parsed properly, you nee
 - *Server host name*
 - *Expiration*
 
-###03. Tips
+### 03. Tips
 
  1. When making mass queries, the tool will keep values in *custom fields*. Custom fields are those not included in Chapter 02. Example: You have an extra "Responsible person" column, which will not be checked against the Qualys API. The value in that column : row will be kept for the export.
  2. You can re-query an export file.
+
+### 04. Example files
+I have prepared an Excel file which you can just load into the tool and let it run. Obviously you can modify this Excel file to your needs and start automated tests that way.
+
+The files are located in the same OneDrive folder as the tool itself is. You can go to the OneDrive folder 
