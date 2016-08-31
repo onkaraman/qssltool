@@ -86,11 +86,11 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "OpenSSL CCS Vulnerable", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1),
-                "HTTP Server signature", 30, ExcelColumnAdresser.Static.Index);
+                "HTTP Server signature", 35, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "Server host name", 35, ExcelColumnAdresser.Static.Index);
+                "Server host name", 30, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1),
-                "3DES Cipher Presence", 35, ExcelColumnAdresser.Static.Index);
+                "3DES Cipher Presence", 25, ExcelColumnAdresser.Static.Index);
 
             _lastParsedColumn = ExcelColumnAdresser.Static.Latest;
             addCustomHeaders();
@@ -248,7 +248,7 @@ namespace QSSLTool.FileWriters.Concretes
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
-                entry._3DES.ToString(), detemineCellColoring(entry.ServerHostname));
+                entry._3DES.ToString(), detemineCellColoring(entry._3DES));
 
             foreach (HostEntryAttribute hea in entry.CustomAttributes)
             {

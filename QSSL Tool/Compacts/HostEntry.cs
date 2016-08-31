@@ -322,6 +322,9 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void Set3DESPresence(string value)
         {
+            value = value.ToLower();
+            value = value[0].ToString().ToUpper() + value.Substring(1);
+
             if (!value.Equals("True") && !value.Equals("False"))
                 throw new Exception("3DES Cipher presence must either be 'True' or 'False'.");
             __3DES = new HostEntryAttribute(HostEntryAttribute.Type._3DES, value);
