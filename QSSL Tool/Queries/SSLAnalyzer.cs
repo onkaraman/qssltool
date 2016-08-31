@@ -3,8 +3,10 @@ using QSSLTool.FileParsers;
 using QSSLTool.Gateways;
 using SSLLabsApiWrapper;
 using SSLLabsApiWrapper.Models.Response;
+using SSLLabsApiWrapper.Models.Response.EndpointSubModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 namespace QSSLTool.Queries
@@ -128,30 +130,45 @@ namespace QSSLTool.Queries
         /// </summary>
         private HostEntry extractInfoFromAnalysis(Analyze a, HostEntry he)
         {
+            HostEntry extracted = new HostEntry(he.URL.ToString(), he.Protocol.ToString());
             try
             {
-                HostEntry ret = new HostEntry(he.URL.ToString(), he.Protocol.ToString());
-                ret.SetIP(a.endpoints[0].ipAddress);
-                ret.SetRanking(a.endpoints[0].grade);
-                ret.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
-                ret.SetExpirationDate(a.endpoints[0].Details.cert.notAfter);
-                ret.SetProtocolVersions(a.endpoints[0].Details.protocols);
-                ret.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
-                ret.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
-                ret.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
-                ret.SetHeartbleedVulnerability(a.endpoints[0].Details.heartbleed);
-                ret.SetSignatureAlgorithm(a.endpoints[0].Details.cert.sigAlg);
-                ret.SetPoodleVulnerability(a.endpoints[0].Details.poodle, a.endpoints[0].Details.poodleTls);
-                ret.SetExtendedValidation(a.endpoints[0].Details.cert.validationType);
-                ret.SetOpenSSLCCSVulnerable(a.endpoints[0].Details.openSslCcs);
-                ret.SetHTTPServerSignature(a.endpoints[0].Details.serverSignature);
-                ret.SetServerHostName(a.endpoints[0].serverName);
-                return ret;
+                extracted.SetIP(a.endpoints[0].ipAddress);
+                extracted.SetRanking(a.endpoints[0].grade);
+                extracted.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
+                extracted.SetExpirationDate(a.endpoints[0].Details.cert.notAfter);
+                extracted.SetProtocolVersions(a.endpoints[0].Details.protocols);
+                extracted.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
+                extracted.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
+                extracted.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
+                extracted.SetHeartbleedVulnerability(a.endpoints[0].Details.heartbleed);
+                extracted.SetSignatureAlgorithm(a.endpoints[0].Details.cert.sigAlg);
+                extracted.SetPoodleVulnerability(a.endpoints[0].Details.poodle, a.endpoints[0].Details.poodleTls);
+                extracted.SetExtendedValidation(a.endpoints[0].Details.cert.validationType);
+                extracted.SetOpenSSLCCSVulnerable(a.endpoints[0].Details.openSslCcs);
+                extracted.SetHTTPServerSignature(a.endpoints[0].Details.serverSignature);
+                extracted.SetServerHostName(a.endpoints[0].serverName);
+                extracted.Set3DESPresence(check3DESCipherPresence(a.endpoints[0].Details.suites));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                Debug.WriteLine(ex);
             }
+            return extracted;
+        }
+
+        /// <summary>
+        /// Will text if a 3DES Cipher suite is present.
+        /// </summary>
+        /// <param name="suites"></param>
+        /// <returns></returns>
+        private string check3DESCipherPresence(Suites suites)
+        {
+            foreach (List cipher in suites.list)
+            {
+                if (cipher.name.Equals("TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA")) return "True";
+            }
+            return "False";
         }
 
         /// <summary>

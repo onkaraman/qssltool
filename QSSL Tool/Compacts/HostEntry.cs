@@ -316,15 +316,15 @@ namespace QSSLTool.Compacts
             if (value == null) value = _assessmentFailedMessage;
             _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
         }
+
         /// <summary>
         /// Will set the TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA cipher presence. 
         /// </summary>
-        public void Set3DESPresence(bool value)
+        public void Set3DESPresence(string value)
         {
-            string stringValue = "";
-            if (!value) stringValue = _assessmentFailedMessage;
-            else stringValue = "✓";
-            _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type._3DES, stringValue);
+            if (!value.Equals("True") && !value.Equals("False"))
+                throw new Exception("3DES Cipher presence must either be 'True' or 'False'.");
+            __3DES = new HostEntryAttribute(HostEntryAttribute.Type._3DES, value);
         }
         #endregion
 
@@ -376,6 +376,7 @@ namespace QSSLTool.Compacts
                 _differences.Add(new AnalyzeDifference("OpenSSL CCS vulnerability", getSummary(_openSSLCCSVulnerable, other.OpenSSLCCSVulnerable)));
                 _differences.Add(new AnalyzeDifference("HTTP Server signature", getSummary(_httpServerSignature, other.HTTPServerSignature)));
                 _differences.Add(new AnalyzeDifference("Server host name", getSummary(_serverHostname, other.ServerHostname)));
+                _differences.Add(new AnalyzeDifference("3DES cipher presence", getSummary(__3DES, other._3DES)));
             }
             catch (Exception)
             {
@@ -404,7 +405,7 @@ namespace QSSLTool.Compacts
             if ((before == null || before.ToString().Length <= 1)
                 && now.ToString().Length >= 1) return string.Format("Discovered as {0}", now);
             else if (before.ToString().Length >= 1 && now.ToString().Length >= 1
-                && !before.Equals(now)) return string.Format("Changed from {0} to {1}", before, now);
+                && !before.Equals(now)) return string.Format("Detection from {0} to {1}", before, now);
             else if (before.Equals(now)) return string.Format("Unchanged: {0}", now);
             return "Assessment failed";
         }

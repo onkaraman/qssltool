@@ -64,6 +64,9 @@
             return false;
         }
 
+        /// <summary>
+        /// Will return the content of the attribute.
+        /// </summary>
         public override string ToString()
         {
             if (_content != null) return _content;

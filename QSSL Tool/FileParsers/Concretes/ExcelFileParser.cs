@@ -46,6 +46,7 @@ namespace QSSLTool.FileParsers.Concretes
             int openSSLCCSIndex = -1;
             int HTTPServerSigIndex = -1;
             int serverHostnameIndex = -1;
+            int _3DESCipherIndex = -1;
 
             // Get headers
             reader.Read();
@@ -88,6 +89,8 @@ namespace QSSLTool.FileParsers.Concretes
                         HTTPServerSigIndex = columnIndex;
                     else if (cmp.ToLower().Contains("server host name") && serverHostnameIndex == -1)
                         serverHostnameIndex = columnIndex;
+                    else if (cmp.ToLower().Contains("3des cipher presence") && _3DESCipherIndex == -1)
+                        _3DESCipherIndex = columnIndex;
                     else
                     {
                         _customAttributes[columnIndex] = cmp;
@@ -122,6 +125,7 @@ namespace QSSLTool.FileParsers.Concretes
                 h.SetOpenSSLCCSVulnerable(getColumn(reader, openSSLCCSIndex));
                 h.SetHTTPServerSignature(getColumn(reader, HTTPServerSigIndex));
                 h.SetServerHostName(getColumn(reader, serverHostnameIndex));
+                h.Set3DESPresence(getColumn(reader, _3DESCipherIndex));
                 
                 foreach (DictionaryEntry entry in _customAttributes)
                 {

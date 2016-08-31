@@ -89,6 +89,8 @@ namespace QSSLTool.FileWriters.Concretes
                 "HTTP Server signature", 30, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
                 "Server host name", 35, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                "3DES Cipher Presence", 35, ExcelColumnAdresser.Static.Index);
 
             _lastParsedColumn = ExcelColumnAdresser.Static.Latest;
             addCustomHeaders();
@@ -245,6 +247,8 @@ namespace QSSLTool.FileWriters.Concretes
                 entry.HTTPServerSignature.ToString(), detemineCellColoring(entry.HTTPServerSignature));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry._3DES.ToString(), detemineCellColoring(entry.ServerHostname));
 
             foreach (HostEntryAttribute hea in entry.CustomAttributes)
             {
@@ -321,6 +325,11 @@ namespace QSSLTool.FileWriters.Concretes
             {
                 if (s.ToString().Contains("Not")) return coloring.positive;
                 else return coloring.neutral;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type._3DES)
+            {
+                if (s.ToString().Contains("True")) return coloring.negative;
+                else return coloring.positive;
             }
             return coloring.none;
         }
