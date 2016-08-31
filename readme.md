@@ -11,10 +11,10 @@ Last edited on 24.05.2016.
 You can download the precompiled version directly from my OneDrive folder [right here](https://onedrive.live.com/redir?resid=141F81505A5B6387!87936&authkey=!AMeFSMDfV0Zo3SQ&ithint=folder%2czip). I will update this folder every time a new version is done.
 
 **Content**
-01. Quick guide
-02. How to format Excel files
-03. Tips
-04. Example files
+1. Quick guide
+2. How to format Excel files
+3. Tips
+4. Example files
 
 ### 01. Quick guide
 
@@ -74,4 +74,4 @@ In order to make sure that your Excel spread sheet gets parsed properly, you nee
 ### 04. Example files
 I have prepared an Excel file which you can just load into the tool and let it run. Obviously you can modify this Excel file to your needs and start automated tests that way.
 
-The files are located in the same OneDrive folder as the tool itself is. You can go to the OneDrive folder 
+The files are located in the same OneDrive folder as the tool itself is. You can go to the OneDrive folder [with this link](https://onedrive.live.com/redir?resid=141F81505A5B6387!87936&authkey=!AMeFSMDfV0Zo3SQ&ithint=folder%2czip).

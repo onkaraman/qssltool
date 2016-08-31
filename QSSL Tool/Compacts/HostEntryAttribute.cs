@@ -27,7 +27,8 @@
             HTTPServerSignature,
             TLSCompression,
             ServerHostName,
-            CustomAttribute
+            CustomAttribute,
+            _3DES
         }
 
         private Type _attribute;

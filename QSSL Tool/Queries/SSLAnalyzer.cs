@@ -73,7 +73,7 @@ namespace QSSLTool.Queries
                 string url = string.Format("{0}://{1}", 
                     _current.Protocol.ToString().ToLower(), _current.URL);
 
-                Analyze a = _service.AutomaticAnalyze(url, 
+                Analyze analyzed = _service.AutomaticAnalyze(url, 
                     Settings.Static.AnalyzerSettings.Publish, 
                     SSLLabsApiService.StartNew.On,
                     Settings.Static.AnalyzerSettings.FromCache, 
@@ -82,11 +82,11 @@ namespace QSSLTool.Queries
                     Settings.Static.AnalyzerSettings.IgnoreMismatch, 
                     200, _waitInterval);
 
-                HostEntry fresh = extractInfoFromAnalysis(a, _current);
+                HostEntry fresh = extractInfoFromAnalysis(analyzed, _current);
                 if (fresh != null)
                 {
                     _current.CheckDifferences(fresh);
-                    _current = addMetaNotes(a, _current);
+                    _current = addMetaNotes(analyzed, _current);
                     fresh.AddCustomAttribute(_current.CustomAttributes);
                     _analyzedEntries.Add(fresh);
                 }

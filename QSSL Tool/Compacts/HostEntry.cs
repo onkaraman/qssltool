@@ -21,7 +21,7 @@ namespace QSSLTool.Compacts
                 return (DateTime.Parse(_expiration.ToString()) >= DateTime.Now);
             }
         }
-        private string _assessmentFailed;
+        private string _assessmentFailedMessage;
 
         #region HostEntryAttributes
         private HostEntryAttribute _IP;
@@ -60,6 +60,8 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute HTTPServerSignature { get { return _httpServerSignature; } }
         private HostEntryAttribute _serverHostname;
         public HostEntryAttribute ServerHostname { get { return _serverHostname; } }
+        private HostEntryAttribute __3DES;
+        public HostEntryAttribute _3DES { get { return __3DES; } }
 
         private List<HostEntryAttribute> _customAttributes;
         public List<HostEntryAttribute> CustomAttributes { get { return _customAttributes; } }
@@ -83,15 +85,16 @@ namespace QSSLTool.Compacts
             _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
             _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
-            _assessmentFailed = "Assessment failed";
+            _assessmentFailedMessage = "Assessment failed";
         }
 
+        #region Attribute Setters
         /// <summary>
         /// Will set the IP address for this host entry.
         /// </summary>
         public void SetIP(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _IP = new HostEntryAttribute(HostEntryAttribute.Type.IP, value);
         }
 
@@ -100,7 +103,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetRanking(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _ranking = new HostEntryAttribute(HostEntryAttribute.Type.Ranking, value);
         }
 
@@ -110,7 +113,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetFingerPrintCert(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _FingerPrintCert = new HostEntryAttribute(HostEntryAttribute.Type.Fingerprint, value);
         }
 
@@ -164,7 +167,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetProtocolVersions(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _protocolVersions = new HostEntryAttribute(HostEntryAttribute.Type.ProtocolVersions, value);
         }
 
@@ -174,7 +177,7 @@ namespace QSSLTool.Compacts
         /// <param name="value"></param>
         public void SetRC4(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _RC4 = new HostEntryAttribute(HostEntryAttribute.Type.RC4, value);
         }
 
@@ -194,7 +197,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetBeastVulnerarbility(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _beast = new HostEntryAttribute(HostEntryAttribute.Type.BeastVulnerability, value);
         }
 
@@ -203,7 +206,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetForwardSecrecy(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _forwardSecrecy = new HostEntryAttribute(HostEntryAttribute.Type.ForwardSecrecy, value);
         }
 
@@ -225,7 +228,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHeartbleedVulnerability(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _heartbleed = new HostEntryAttribute(HostEntryAttribute.Type.Heartbleed
                 ,value);
         }
@@ -246,7 +249,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetSignatureAlgorithm(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _signatureAlgorithm = new HostEntryAttribute(HostEntryAttribute.Type.SignatureAlgorithm, value);
         }
 
@@ -264,7 +267,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetPoodleVulnerability(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _poodleVulnarable = new HostEntryAttribute(HostEntryAttribute.Type.PoodleVulnerable, value);
         }
 
@@ -292,7 +295,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetOpenSSLCCSVulnerable(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _openSSLCCSVulnerable = new HostEntryAttribute(HostEntryAttribute.Type.OpenSSLCCSVulnerable, value);
         }
 
@@ -301,7 +304,7 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetHTTPServerSignature(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _httpServerSignature = new HostEntryAttribute(HostEntryAttribute.Type.HTTPServerSignature, value);
         }
 
@@ -310,9 +313,20 @@ namespace QSSLTool.Compacts
         /// </summary>
         public void SetServerHostName(string value)
         {
-            if (value == null) value = _assessmentFailed;
+            if (value == null) value = _assessmentFailedMessage;
             _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type.ServerHostName, value);
         }
+        /// <summary>
+        /// Will set the TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA cipher presence. 
+        /// </summary>
+        public void Set3DESPresence(bool value)
+        {
+            string stringValue = "";
+            if (!value) stringValue = _assessmentFailedMessage;
+            else stringValue = "✓";
+            _serverHostname = new HostEntryAttribute(HostEntryAttribute.Type._3DES, stringValue);
+        }
+        #endregion
 
         public void AddCustomAttribute(string name, string value)
         {
@@ -331,8 +345,8 @@ namespace QSSLTool.Compacts
         /// </summary>
         public bool IsEmpty()
         {
-            if (_IP.ToString().Equals(_assessmentFailed) 
-                && _URL.ToString().Equals(_assessmentFailed)) return true;
+            if (_IP.ToString().Equals(_assessmentFailedMessage) 
+                && _URL.ToString().Equals(_assessmentFailedMessage)) return true;
             else if (_IP.ToString().Length < 3 && _URL.ToString().Length <= 1) return true;
             return false;
         }
