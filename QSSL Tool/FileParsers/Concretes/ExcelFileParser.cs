@@ -91,7 +91,7 @@ namespace QSSLTool.FileParsers.Concretes
                         serverHostnameIndex = columnIndex;
                     else if (cmp.ToLower().Contains("3des cipher presence") && _3DESCipherIndex == -1)
                         _3DESCipherIndex = columnIndex;
-                    else
+                    else if (!cmp.ToLower().Equals("warning expiration"))
                     {
                         _customAttributes[columnIndex] = cmp;
                     }
