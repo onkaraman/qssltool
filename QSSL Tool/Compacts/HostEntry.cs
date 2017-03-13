@@ -18,7 +18,8 @@ namespace QSSLTool.Compacts
         {
             get
             {
-                return (DateTime.Parse(_expiration.ToString()) >= DateTime.Now);
+                if (_expiration == null) return false;
+                else return (DateTime.Parse(_expiration.ToString()) >= DateTime.Now);
             }
         }
         private string _assessmentFailedMessage;
@@ -79,10 +80,11 @@ namespace QSSLTool.Compacts
         /// with empty strings.</param>
         public HostEntry(string url, string protocol)
         {
-            if (protocol == null) protocol = "https";
-            _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
+            //if (protocol == null) protocol = "https";
+            //_protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, protocol);
+            _protocol = new HostEntryAttribute(HostEntryAttribute.Type.Protocol, "https");
 
-            _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url);
+            _URL = new HostEntryAttribute(HostEntryAttribute.Type.URL, url.Trim());
             _customAttributes = new List<HostEntryAttribute>();
             _differences = new List<AnalyzeDifference>();
             _assessmentFailedMessage = "Assessment failed";
@@ -443,6 +445,11 @@ namespace QSSLTool.Compacts
                     || _ranking.ToString().Contains("failed")) return false;
             }
             return true;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} ({1})", _URL, _ranking);
         }
     }
 }

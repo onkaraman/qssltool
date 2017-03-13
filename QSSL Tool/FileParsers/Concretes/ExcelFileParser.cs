@@ -106,7 +106,7 @@ namespace QSSLTool.FileParsers.Concretes
             }
 
             // Get rows and add them as children of each header
-            while (reader.Read())
+            while (reader.Read() && reader.GetString(urlIndex) != null)
             {
                 HostEntry h = new HostEntry(getColumn(reader, urlIndex),
                     getColumn(reader, protocolIndex));

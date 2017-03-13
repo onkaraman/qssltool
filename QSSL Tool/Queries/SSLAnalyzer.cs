@@ -77,7 +77,7 @@ namespace QSSLTool.Queries
 
                 Analyze analyzed = _service.AutomaticAnalyze(url, 
                     Settings.Static.AnalyzerSettings.Publish, 
-                    SSLLabsApiService.StartNew.On,
+                    SSLLabsApiService.StartNew.Ignore,
                     Settings.Static.AnalyzerSettings.FromCache, 
                     24, 
                     SSLLabsApiService.All.On,

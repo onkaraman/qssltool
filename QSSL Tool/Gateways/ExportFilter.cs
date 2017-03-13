@@ -63,17 +63,21 @@ namespace QSSLTool.Gateways
 
             foreach (HostEntry he in analyzed)
             {
-                if (he.Ranking.ToString().Contains("A")
-                    && !he.Ranking.ToString().Contains("failed")) a += 1;
-                else if (he.Ranking.ToString().Contains("B")) b += 1;
-                else if (he.Ranking.ToString().Contains("C")) c += 1;
-                else lower += 1;
+                if (he.Ranking == null) everything += 1;
+                else
+                {
+                    if (he.Ranking.ToString().Contains("A")
+                        && !he.Ranking.ToString().Contains("failed")) a += 1;
+                    else if (he.Ranking.ToString().Contains("B")) b += 1;
+                    else if (he.Ranking.ToString().Contains("C")) c += 1;
+                    else lower += 1;
+                }
 
                 if (he.Expired) _expiredCount += 1;
                 if (he.WarningExpired) _warningCount += 1;
             }
 
-            everything = a + b + c + lower;
+            everything += a + b + c + lower;
             _gradeCount = new int[] { a, b, c, everything, lower };
         }
 
