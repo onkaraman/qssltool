@@ -32,7 +32,7 @@ namespace QSSLTool
             this.Closed += MainWindowClosed;
             MainPageWindow.Title = getWindowTitle();
 
-            _service = new SSLLabsApiService("https://api.ssllabs.com/api/v2");
+            _service = new SSLLabsApiService("https://api.ssllabs.com/api/v3");
             _parserDelegator = new ParserDelegator();
             ParserDelegator.OnParseComplete += ParserDelegatorOnParseComplete;
 

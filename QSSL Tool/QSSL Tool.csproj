@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QSSLTool</RootNamespace>
     <AssemblyName>QSSL Tool</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>C:\Users\Onur\Desktop\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -94,10 +95,6 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SSLLabsApiWrapper, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SSLLabsApiWrapper.1.0.8.0\lib\net45\SSLLabsApiWrapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -143,6 +140,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="API\Domain\RequestModelFactory.cs" />
+    <Compile Include="API\Domain\ResponsePopulation.cs" />
+    <Compile Include="API\Domain\UrlValidation.cs" />
+    <Compile Include="API\External\SSLLabsApi.cs" />
+    <Compile Include="API\Interfaces\IApiProvider.cs" />
+    <Compile Include="API\Interfaces\IBaseResponse.cs" />
+    <Compile Include="API\Models\RequestModel.cs" />
+    <Compile Include="API\Models\Response\Analyze.cs" />
+    <Compile Include="API\Models\Response\BaseModel.cs" />
+    <Compile Include="API\Models\Response\BaseSubModels\Error.cs" />
+    <Compile Include="API\Models\Response\BaseSubModels\Header.cs" />
+    <Compile Include="API\Models\Response\BaseSubModels\Wrapper.cs" />
+    <Compile Include="API\Models\Response\Endpoint.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Cert.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Cert2.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Chain.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Client.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Details.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Key.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\List.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Protocol.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Result.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Sims.cs" />
+    <Compile Include="API\Models\Response\EndpointSubModels\Suites.cs" />
+    <Compile Include="API\Models\Response\Info.cs" />
+    <Compile Include="API\Models\Response\StatusCodes.cs" />
+    <Compile Include="API\Models\Response\StatusCodesSubModels\StatusDetails.cs" />
+    <Compile Include="API\Models\WebResponseModel.cs" />
+    <Compile Include="API\SSLLabsApiService.cs" />
     <Compile Include="Compacts\AnalyzeDifference.cs" />
     <Compile Include="Compacts\ColorHolder.cs" />
     <Compile Include="Compacts\HostEntryAttribute.cs" />
@@ -331,7 +357,6 @@
       <FileType>Satellite</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -135,20 +135,20 @@ namespace QSSLTool.Queries
             {
                 extracted.SetIP(a.endpoints[0].ipAddress);
                 extracted.SetRanking(a.endpoints[0].grade);
-                extracted.SetFingerPrintCert(a.endpoints[0].Details.cert.sigAlg);
-                extracted.SetExpirationDate(a.endpoints[0].Details.cert.notAfter);
-                extracted.SetProtocolVersions(a.endpoints[0].Details.protocols);
-                extracted.SetRC4(a.endpoints[0].Details.supportsRc4.ToString());
-                extracted.SetBeastVulnerarbility(a.endpoints[0].Details.vulnBeast);
-                extracted.SetForwardSecrecy(a.endpoints[0].Details.forwardSecrecy);
-                extracted.SetHeartbleedVulnerability(a.endpoints[0].Details.heartbleed);
-                extracted.SetSignatureAlgorithm(a.endpoints[0].Details.cert.sigAlg);
-                extracted.SetPoodleVulnerability(a.endpoints[0].Details.poodle, a.endpoints[0].Details.poodleTls);
-                extracted.SetExtendedValidation(a.endpoints[0].Details.cert.validationType);
-                extracted.SetOpenSSLCCSVulnerable(a.endpoints[0].Details.openSslCcs);
-                extracted.SetHTTPServerSignature(a.endpoints[0].Details.serverSignature);
+                extracted.SetFingerPrintCert(a.endpoints[0].details.cert.sigAlg);
+                extracted.SetExpirationDate(a.endpoints[0].details.cert.notAfter);
+                extracted.SetProtocolVersions(a.endpoints[0].details.protocols);
+                extracted.SetRC4(a.endpoints[0].details.supportsRc4.ToString());
+                extracted.SetBeastVulnerarbility(a.endpoints[0].details.vulnBeast);
+                extracted.SetForwardSecrecy(a.endpoints[0].details.forwardSecrecy);
+                extracted.SetHeartbleedVulnerability(a.endpoints[0].details.heartbleed);
+                extracted.SetSignatureAlgorithm(a.endpoints[0].details.cert.sigAlg);
+                extracted.SetPoodleVulnerability(a.endpoints[0].details.poodle, a.endpoints[0].details.poodleTls);
+                extracted.SetExtendedValidation(a.endpoints[0].details.cert.validationType);
+                extracted.SetOpenSSLCCSVulnerable(a.endpoints[0].details.openSslCcs);
+                extracted.SetHTTPServerSignature(a.endpoints[0].details.serverSignature);
                 extracted.SetServerHostName(a.endpoints[0].serverName);
-                extracted.Set3DESPresence(check3DESCipherPresence(a.endpoints[0].Details.suites));
+                //extracted.Set3DESPresence(check3DESCipherPresence(a.endpoints[0].details.suites));
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QSSL Tool", "QSSL Tool\QSSL Tool.csproj", "{12040721-4B68-4A60-AC70-BBAB03C06D2E}"
 EndProject
@@ -10,19 +10,52 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|x64.Build.0 = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Debug|x86.Build.0 = Debug|Any CPU
 		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|ARM.Build.0 = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|x64.ActiveCfg = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|x64.Build.0 = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|x86.ActiveCfg = Release|Any CPU
+		{12040721-4B68-4A60-AC70-BBAB03C06D2E}.Release|x86.Build.0 = Release|Any CPU
 		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|ARM.Build.0 = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|x64.Build.0 = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Debug|x86.Build.0 = Debug|Any CPU
 		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|ARM.ActiveCfg = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|ARM.Build.0 = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|x64.ActiveCfg = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|x64.Build.0 = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|x86.ActiveCfg = Release|Any CPU
+		{496DD583-A8FB-4823-9DAF-A8E7006EA857}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75846471-D2DD-4BF6-BA53-90351C010768}
 	EndGlobalSection
 EndGlobal
