@@ -148,7 +148,8 @@ namespace QSSLTool.Queries
                 extracted.SetOpenSSLCCSVulnerable(a.endpoints[0].details.openSslCcs);
                 extracted.SetHTTPServerSignature(a.endpoints[0].details.serverSignature);
                 extracted.SetServerHostName(a.endpoints[0].serverName);
-                //extracted.Set3DESPresence(check3DESCipherPresence(a.endpoints[0].details.suites));
+                extracted.Set3DESPresence(check3DESCipherPresence(a.endpoints[0].details.suites));
+                extracted.SetBleichenBacher(a.endpoints[0].details.bleichenbacher);
             }
             catch (Exception ex)
             {
@@ -162,11 +163,15 @@ namespace QSSLTool.Queries
         /// </summary>
         /// <param name="suites"></param>
         /// <returns></returns>
-        private string check3DESCipherPresence(Suites suites)
+        private string check3DESCipherPresence(List<Suites> suites)
         {
-            foreach (List cipher in suites.list)
+            foreach(Suites suite in suites)
             {
-                if (cipher.name.Equals("TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA")) return "True";
+                foreach (List cipher in suite.list)
+                {
+                    if (cipher.name.Equals("TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA"))
+                        return "True";
+                }
             }
             return "False";
         }

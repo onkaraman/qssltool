@@ -63,6 +63,8 @@ namespace QSSLTool.Compacts
         public HostEntryAttribute ServerHostname { get { return _serverHostname; } }
         private HostEntryAttribute __3DES;
         public HostEntryAttribute _3DES { get { return __3DES; } }
+        private HostEntryAttribute _bleichenbacher;
+        public HostEntryAttribute Bleichenbacher { get { return _bleichenbacher; } }
 
         private List<HostEntryAttribute> _customAttributes;
         public List<HostEntryAttribute> CustomAttributes { get { return _customAttributes; } }
@@ -335,7 +337,21 @@ namespace QSSLTool.Compacts
                 throw new Exception("3DES Cipher presence must either be 'True' or 'False'.");
             __3DES = new HostEntryAttribute(HostEntryAttribute.Type._3DES, value);
         }
+        
+        public void SetBleichenBacher(string value)
+        {
+            if (value == null) value = _assessmentFailedMessage;
+            else if (value == "-1") value = "test failed";
+            else if (value == "0") value = "unknown";
+            else if (value == "1") value = "not vulnerable";
+            else if (value == "2") value = "vulnerable (weak oracle)";
+            else if (value == "3") value = "vulnerable (strong oracle)";
+            else if (value == "4") value = " inconsistent results";
+
+            _bleichenbacher = new HostEntryAttribute(HostEntryAttribute.Type.Bleichenbacher, value);
+        }
         #endregion
+
 
         public void AddCustomAttribute(string name, string value)
         {

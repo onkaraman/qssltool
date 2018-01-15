@@ -28,7 +28,8 @@
             TLSCompression,
             ServerHostName,
             CustomAttribute,
-            _3DES
+            _3DES,
+            Bleichenbacher
         }
 
         private Type _attribute;

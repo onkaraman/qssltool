@@ -30,7 +30,7 @@ namespace QSSLTool.FileWriters.Concretes
             _path = path;
             _hosts = hosts;
             _customAttributeCount = _hosts[0].CustomAttributes.Count;
-        
+
             _excelPackage = new ExcelPackage();
             _sheet = _excelPackage.Workbook.Worksheets.Add("A");
             _sheet.View.ShowGridLines = true;
@@ -53,44 +53,46 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         private void addHeaders()
         {
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "URL", 32, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Ranking", 10, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "IP", 14, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Protocol", 10, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Fingerprint certificate", 30, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "RC4 in use?", 15, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Expiration", 17, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Warning expiration", 22, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Protocol versions", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Beast vulnerability", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Forward secrecy", 35, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Heartbleed vulnerability", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Signature algorithm", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Poodle vulnerable", 25, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Extended validation", 23, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
-                "OpenSSL CCS Vulnerable", 23, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                "OpenSSL CCS vulnerability", 23, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "HTTP Server signature", 35, ExcelColumnAdresser.Static.Index);
-            addCell(ExcelColumnAdresser.Static.NextIndexed(1), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "Server host name", 30, ExcelColumnAdresser.Static.Index);
             addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 "3DES Cipher Presence", 25, ExcelColumnAdresser.Static.Index);
+            addCell(ExcelColumnAdresser.Static.NextIndexed(1),
+                "Bleichenbacher vulnerability", 28, ExcelColumnAdresser.Static.Index);
 
             _lastParsedColumn = ExcelColumnAdresser.Static.Latest;
             addCustomHeaders();
@@ -101,7 +103,7 @@ namespace QSSLTool.FileWriters.Concretes
         /// </summary>
         private void addCustomHeaders()
         {
-            foreach(HostEntryAttribute hea in _hosts[0].CustomAttributes)
+            foreach (HostEntryAttribute hea in _hosts[0].CustomAttributes)
             {
                 addCell(ExcelColumnAdresser.Static.NextIndexed(1),
                 hea.CustomName, 25, ExcelColumnAdresser.Static.Index);
@@ -211,29 +213,29 @@ namespace QSSLTool.FileWriters.Concretes
 
             ExcelColumnAdresser.Static.Reset();
 
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.URL.ToString(), detemineCellColoring(entry.URL));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.Ranking.ToString(), detemineCellColoring(entry.Ranking));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.IP.ToString(), detemineCellColoring(entry.IP));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.Protocol.ToString(), detemineCellColoring(entry.Protocol));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.FingerPrintCert.ToString(), detemineCellColoring(entry.FingerPrintCert));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.RC4.ToString(), detemineCellColoring(entry.RC4));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.Expiration.ToString(), detemineCellColoring(entry.Expiration));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.WarningExpiration.ToString(), detemineCellColoring(entry.WarningExpiration, entry));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ProtocolVersions.ToString(), detemineCellColoring(entry.ProtocolVersions));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.BeastVulnerable.ToString(), detemineCellColoring(entry.BeastVulnerable));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.ForwardSecrecy.ToString(), detemineCellColoring(entry.ForwardSecrecy));
-            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.Heartbleed.ToString(), detemineCellColoring(entry.Heartbleed));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry.SignatureAlgorithm.ToString(), detemineCellColoring(entry.SignatureAlgorithm));
@@ -249,10 +251,12 @@ namespace QSSLTool.FileWriters.Concretes
                 entry.ServerHostname.ToString(), detemineCellColoring(entry.ServerHostname));
             addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                 entry._3DES.ToString(), detemineCellColoring(entry._3DES));
+            addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
+                entry.Bleichenbacher.ToString(), detemineCellColoring(entry.Bleichenbacher));
 
             foreach (HostEntryAttribute hea in entry.CustomAttributes)
             {
-                addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor), 
+                addCell(ExcelColumnAdresser.Static.NextIndexed(_cursor),
                     hea.ToString(), detemineCellColoring(entry.CustomAttributes[0]));
             }
             _cursor += 1;
@@ -329,6 +333,11 @@ namespace QSSLTool.FileWriters.Concretes
             else if (s.Attribute == HostEntryAttribute.Type._3DES)
             {
                 if (s.ToString().Contains("True")) return coloring.negative;
+                else return coloring.positive;
+            }
+            else if (s.Attribute == HostEntryAttribute.Type.Bleichenbacher)
+            {
+                if (s.ToString().Contains("vulnerable")) return coloring.negative;
                 else return coloring.positive;
             }
             return coloring.none;
