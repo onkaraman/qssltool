@@ -1,14 +1,76 @@
 ## QSSL Tool
 An automated Qualys SSL Checker-Client (vulnerability scanner) for non-commercial mass queries.
 
-Last edited on 24.05.2016.
-
 **Requirements**    
 .NET Framework 4.5.2
 
-**Download**
+### > Developer manual
+_Last edit on 19.06.2018_
+This manual will go through the most important parts of the code.
 
-You can download the precompiled version directly from my OneDrive folder [right here](https://onedrive.live.com/redir?resid=141F81505A5B6387!87936&authkey=!AMeFSMDfV0Zo3SQ&ithint=folder%2czip). I will update this folder every time a new version is done.
+### 00. The main class
+
+All initial operations and event handlers happen at `MainWindow.xaml.cs`.
+The constructor calls all methods to prepare the workflow. To get to know the code, I suggest starting there.
+
+### 01. The API
+
+I have downloaded the API lib from the official repo for C# [from here](https://ashleypoole.co.uk/ssllwrapper/)
+and edited it to make use of the newest features of the original API from Qualys itself.
+
+***Example: Adding the Bleichenbacher vuln. test***
+First I got at raw view of the API respnse [per HTTP](https://api.ssllabs.com/api/v3/analyze?host=www.google.com&all=on).
+There I saw that each endpoint now has a attribute called 'Bleichenbacher' at the Details-Object.
+
+So I extended the locally forked repo's `Details.cs` to contain a getter/setter for that field.
+The API library is mainly just classes of getters/setters so the only "hard task" is to find out where things are.
+
+### 02. The ParserDelegator
+
+When using the software, the user is able to parse an already existing file (for instance an Excel-File).
+Once the click event handler `OpenFileButtonClick()` is triggered it just delegates the filename to the `ParserDelegator`.
+
+The `ParserDelegator` in turn checks for the file extension. If it is .xls the `ExcelFileParser` will be initialized
+internally. Here, you can extend the delegator for other filetypes such as .csv or .txt.
+
+From the outside the `MainWindow.xaml.cs` will just call `ParserDelegator.GetHostEntries()` and expect a list
+of parsed `HostEntry`s. That list will be called once the parsing starts at MainWindow's `StartButtonClick`.
+
+### 03. The ExcelFileParser
+
+This class is inheriting from the `FileParser` class which itself contains basic file op-methods and fields.
+Also, this class is making use of the Excel parser [ExcelDataReader](https://github.com/ExcelDataReader/ExcelDataReader).
+
+Basically, this class' `parse()` method will go through the user-opened Excel file and check for the indices of the columns
+which are to be re-checked by the next qualys analysis.
+
+After the indices have been gathered, `HostEntry` objects will be created according to the data of the user .xls file.
+
+### 04. HostEntry
+
+This class serves as a container of information around a single endpoint (website) of an analysis.
+It also has setters which behave according to the respective values. For instance, `SetForwardSecrecy()` expects
+an `int` as the only parameter. Yet the internal value for the "forward secrecy" will be different from the passed `int`.
+In this case, it will be human readable string.
+
+### 05. The SSLAnalyzer
+
+This class does the core-operations of the software. First it will take the HostEntries and the APIService itself in its
+constructor. After calling its `Start()` method, the member method `analyze()` will be called in a seperate thread.
+
+
+### 06. The analysis workflow
+
+__01. StartButtonClick()__
+The user starts the analysis by clicking the start button. This method inside the main class will first get 
+
+
+
+
+
+### > User manual
+_Last edit on 24.05.2016_
+**Download**
 
 **Content**
 1. Quick guide

@@ -23,6 +23,10 @@ namespace QSSLTool.FileParsers
             entries = new List<HostEntry>();
         }
 
+        /// <summary>
+        /// The inheriting class will use the opened file to initialize 
+        /// the respective parser. This method serves as a pre-stage to the parsing itself.
+        /// </summary>
         protected abstract void prepareFile();
 
         public static Extension GetFileExtension(string path)

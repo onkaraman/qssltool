@@ -196,7 +196,7 @@ namespace QSSLTool.FileWriters.Concretes
         {
             foreach (HostEntry he in _hosts)
             {
-                if (he.AppliesToFilters()) addRow(he);
+                if (he.AppliesToFilters() && he.Ranking != null) addRow(he);
                 else _filteredOut += 1;
             }
         }
@@ -337,7 +337,7 @@ namespace QSSLTool.FileWriters.Concretes
             }
             else if (s.Attribute == HostEntryAttribute.Type.Bleichenbacher)
             {
-                if (s.ToString().Contains("vulnerable")) return coloring.negative;
+                if (s.ToString().Contains("vulnerable") && !s.ToString().Contains("not")) return coloring.negative;
                 else return coloring.positive;
             }
             return coloring.none;
