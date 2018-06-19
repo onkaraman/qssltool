@@ -183,7 +183,7 @@ namespace QSSLTool.Queries
         {
             _done += 1;
             // This will be set to true in order to make sure that the estimation
-            // gets only calculated at the right moments.
+            // gets only calculated after a single analysis is complete.
             _updateEstimate = true;
             if (OnAnalyzeProgressed != null) OnAnalyzeProgressed();
         }

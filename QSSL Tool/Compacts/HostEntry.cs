@@ -430,7 +430,7 @@ namespace QSSLTool.Compacts
             if ((before == null || before.ToString().Length <= 1)
                 && now.ToString().Length >= 1) return string.Format("Discovered as {0}", now);
             else if (before.ToString().Length >= 1 && now.ToString().Length >= 1
-                && !before.Equals(now)) return string.Format("Detection from {0} to {1}", before, now);
+                && !before.Equals(now)) return string.Format("Changed from {0} to {1}", before, now);
             else if (before.Equals(now)) return string.Format("Unchanged: {0}", now);
             return "Assessment failed";
         }

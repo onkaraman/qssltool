@@ -53,19 +53,49 @@ It also has setters which behave according to the respective values. For instanc
 an `int` as the only parameter. Yet the internal value for the "forward secrecy" will be different from the passed `int`.
 In this case, it will be human readable string.
 
+The HostEntry-Class also has a method called `CheckDifferences()`, which takes another HostEntry to check
+whether attributes between these two objects are different. If an attribute is, it will be prefixed with a human
+understandable string, such as _Poodle Vuln.: Changed from A to B_.
+
 ### 05. The SSLAnalyzer
 
 This class does the core-operations of the software. First it will take the HostEntries and the APIService itself in its
-constructor. After calling its `Start()` method, the member method `analyze()` will be called in a seperate thread.
+constructor. After calling its `Start()` method from the outside, the member method `analyze()` 
+will be called in a seperate thread to lighten the burden for UI-Animations.
+
+__The analyze() method__
+Every HostEntry will go through the loop to be analyzed by its URL. The actual settings of the analyses can be edited
+in the settings window, yet attributes like the `_waitInterval` are hard-coded.
+
+After a single analysis in the loop is complete, the member method `extractInfoFromAnalysis` will be called. 
+This method will, as the name says, extract all gathered information into a `HostEntry`-Object and add that
+newly created `HostEntry`-Object into a list of analyzed entries.
 
 
 ### 06. The analysis workflow
 
+
 __01. StartButtonClick()__
+
 The user starts the analysis by clicking the start button. This method inside the main class will first get 
+the parsed HostEntries from the `ExcelFileParser` (Hint: When analyzing a single URL, `AnalyzeButtonClick()` will be
+called) and afterwards start the `SSLAnalyzer` itself.
+
+__02. OnAnalyzeProgressed()__
+
+Every time a single URL has been analyzed, this event handler will be called. Inside this handler,
+the UI output as well as internal statistics will be updated.
+
+__03. OnAnalyzeComplete()__
+
+Once the analysis is complete, this event handler will be called to enable the export.
 
 
+### 07. ExcelWriter
 
+This class is, as the name suggests, responsible for the export of the whole analysis.
+It is rendering on a row-by-row basis (see the order of method calls in constructor). Also,
+it will color each cell in a row by its value (good or bad).
 
 
 ### > User manual
